@@ -1,0 +1,16 @@
+.task-card {
+  padding: 20px;
+  border-top: 1px solid black;
+}
+
+.task-card__container {
+  padding: 20px;
+  border-radius: 60px;
+  background-color: blanchedalmond;
+}
+
+.task-card__settings-btn {
+  position: absolute;
+  left: 135px;
+  font-size: 24px;
+}

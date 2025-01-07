@@ -1,0 +1,7 @@
+.board-options {
+  position: absolute;
+  top: 100px;
+  width: 100vw;
+  height: 50vh;
+  background-color: blanchedalmond;
+}

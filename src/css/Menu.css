@@ -1,0 +1,5 @@
+.menu {
+  display: flex;
+  gap: 20px;
+  background-color: blanchedalmond;
+}

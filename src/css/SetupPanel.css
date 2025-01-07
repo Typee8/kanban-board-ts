@@ -1,0 +1,8 @@
+* {
+  list-style: none;
+}
+
+.setup-panel__container {
+  display: flex;
+  gap: 20px;
+}
