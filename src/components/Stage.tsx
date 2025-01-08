@@ -16,7 +16,7 @@ export default function Stage({ data }) {
   const [stageFormShown, setStageFormShown] = useState(false);
 
   const { title, tasksList } = data;
-  const tasks = tasksList.map((data) => <TaskCard data={data} />);
+  const tasks = tasksList.map((data) => <TaskCard key={data.ID} data={data} />);
   return (
     <StageStyled className="stage">
       <SettingsBtn
