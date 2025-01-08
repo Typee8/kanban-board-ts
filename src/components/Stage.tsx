@@ -1,8 +1,8 @@
+import { useState } from "react";
+import styled from "styled-components";
 import TaskCard from "./TaskCard";
 import SettingsBtn from "./buttons/SettingsBtn";
 import StageForm from "./forms/StageForm";
-import { useState } from "react";
-import styled from "styled-components";
 
 const StageStyled = styled.li`
   position: relative;

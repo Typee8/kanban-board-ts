@@ -1,20 +1,25 @@
 import { useState } from "react";
+import styled from "styled-components";
 import Board from "./Board";
 import BoardSettings from "./BoardSettings";
 import MenuBoardPanel from "./MenuBoardPanel";
-import "../css/BoardPanel.css";
+
+const BoardPanelStyled = styled.div`
+  width: 100vw;
+  height: 60vh;
+`;
 
 export default function BoardPanel() {
   const [boardSettingShown, setBoardSettingShown] = useState(false);
 
   return (
-    <div className="board-panel">
+    <BoardPanelStyled>
       <MenuBoardPanel
         boardSettingShown={boardSettingShown}
         setBoardSettingShown={setBoardSettingShown}
       />
       <Board />
       {boardSettingShown ? <BoardSettings /> : null}
-    </div>
+    </BoardPanelStyled>
   );
 }

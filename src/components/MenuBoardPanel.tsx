@@ -1,15 +1,20 @@
 import { NavLink } from "react-router";
-import "../css/Menu.css";
+import styled from "styled-components";
+
+const MenuBoardPanelStyled = styled.ul`
+  display: flex;
+  gap: 20px;
+`;
 
 export default function MenuBoardPanel({
   boardSettingShown,
   setBoardSettingShown,
 }) {
   return (
-    <ul className="menu">
-      <li className="menu__item">save</li>
-      <li className="menu__item">invite</li>
-      <li className="menu__item">
+    <MenuBoardPanelStyled>
+      <li>save</li>
+      <li>invite</li>
+      <li>
         <NavLink to="/">setup panel</NavLink>
       </li>
       <li
@@ -18,10 +23,9 @@ export default function MenuBoardPanel({
             ? setBoardSettingShown(false)
             : setBoardSettingShown(true);
         }}
-        className="menu__item"
       >
         board options
       </li>
-    </ul>
+    </MenuBoardPanelStyled>
   );
 }

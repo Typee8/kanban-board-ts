@@ -1,12 +1,21 @@
 import { NavLink } from "react-router";
-import "../css/BoardCard.css";
+import styled from "styled-components";
+
+const BoardCardStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 100px;
+  background-color: blanchedalmond;
+`;
 
 export default function BoardCard() {
   return (
     <NavLink to="/board-panel">
-      <div className="setup-panel__board-card">
+      <BoardCardStyled>
         <div>Name of Kanban Board</div>
-      </div>
+      </BoardCardStyled>
     </NavLink>
   );
 }

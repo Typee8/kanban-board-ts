@@ -1,7 +1,7 @@
+import { useSelector } from "react-redux";
 import Stage from "./Stage";
 import NewBoardElements from "./NewBoardElements";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 
 const BoardStyled = styled.ul`
   display: flex;

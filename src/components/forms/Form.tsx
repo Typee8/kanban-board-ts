@@ -1,5 +1,6 @@
 import CloseBtn from "../buttons/CloseBtn";
 import styled from "styled-components";
+
 const FormStyled = styled.form`
   z-index: 999;
   position: absolute;

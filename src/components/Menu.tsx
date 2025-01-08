@@ -1,21 +1,27 @@
 import { NavLink } from "react-router";
-import "../css/Menu.css";
+import styled from "styled-components";
+
+const MenuStyled = styled.ul`
+  display: flex;
+  gap: 20px;
+  background-color: blanchedalmond;
+`;
 
 export default function Menu() {
   return (
-    <ul className="menu">
-      <li className="menu__item">
+    <MenuStyled>
+      <li>
         <NavLink to="/">setup panel</NavLink>
       </li>
-      <li className="menu__item">
+      <li>
         <NavLink to="/account-manager">account</NavLink>
       </li>
-      <li className="menu__item">
+      <li>
         <NavLink to="/team">team</NavLink>
       </li>
-      <li className="menu__item">
+      <li>
         <NavLink to="/login-screen">log off</NavLink>
       </li>
-    </ul>
+    </MenuStyled>
   );
 }

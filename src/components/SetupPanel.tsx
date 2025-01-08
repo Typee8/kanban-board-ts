@@ -1,17 +1,22 @@
 import Menu from "./Menu";
 import BoardCard from "./BoardCard";
-import "../css/SetupPanel.css";
+import styled from "styled-components";
+
+const SetupPanelStyled = styled.main`
+  display: flex;
+  flex-direction: column;
+`;
 
 export default function SetupPanel() {
   return (
-    <main className="setup-panel">
+    <SetupPanelStyled>
       <Menu />
-      <div className="setup-panel__container">
+      <div>
         <BoardCard />
         <div>
           <button>+</button>
         </div>
       </div>
-    </main>
+    </SetupPanelStyled>
   );
 }
