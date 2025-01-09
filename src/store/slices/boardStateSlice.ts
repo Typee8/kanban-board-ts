@@ -5,7 +5,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const boardStateSlice = createSlice({
   name: "boardState",
   initialState: [
-    { title: "Queue", id: 1, tasksList: [] },
+    { title: "Queue", id: "first", tasksList: [] },
+    { title: "Done", id: "last", tasksList: [] },
     {
       title: "Shopping",
       id: 2,
@@ -108,17 +109,21 @@ const boardStateSlice = createSlice({
         },
       ],
     },
-    { title: "Done", id: 4, tasksList: [] },
   ],
   reducers: {
     addNewTask: (state, action) => {
-      console.log(state);
       state.forEach((stage) => {
-        return stage.id === 1 ? stage.tasksList.push(action.payload) : null;
+        return stage.id === "first"
+          ? stage.tasksList.push(action.payload)
+          : null;
       });
+    },
+    addNewStage: (state, action) => {
+      const newState = [...state, action.payload];
+      return (state = newState);
     },
   },
 });
 
-export const { addNewTask } = boardStateSlice.actions;
+export const { addNewTask, addNewStage } = boardStateSlice.actions;
 export default boardStateSlice.reducer;

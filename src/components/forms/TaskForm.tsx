@@ -3,7 +3,6 @@ import Form from "./Form";
 import TextArea from "../inputs/TextArea";
 import Input from "../inputs/Input";
 import { useForm } from "react-hook-form";
-import { FC } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { addNewTask } from "../../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
@@ -28,7 +27,6 @@ export default function TaskForm({
   setTaskFormShown,
 }: {
   taskFormShown: boolean;
-  setTaskFormShown: FC;
 }) {
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
@@ -36,7 +34,6 @@ export default function TaskForm({
   if (taskFormShown) {
     const onSubmit = (data, evt) => {
       evt.preventDefault();
-      console.log(`onSubmit launched!`);
       const newTask = data;
       newTask.id = uuidv4();
       dispatch(addNewTask(newTask));
