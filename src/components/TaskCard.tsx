@@ -8,11 +8,15 @@ const TaskCardStyled = styled.li`
   border-top: 1px solid black;
 `;
 
+TaskCardStyled.displayName = "TaskCardStyled";
+
 const TaskCardContainerStyled = styled.div`
   padding: 20px;
   border-radius: 60px;
   background-color: blanchedalmond;
 `;
+
+TaskCardContainerStyled.displayName = "TaskCardContainerStyled";
 
 export default function TaskCard({ data }) {
   const [taskFormShown, setTaskFormShown] = useState(false);

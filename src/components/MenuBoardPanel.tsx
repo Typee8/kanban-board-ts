@@ -6,6 +6,8 @@ const MenuBoardPanelStyled = styled.ul`
   gap: 20px;
 `;
 
+MenuBoardPanelStyled.displayName = "MenuBoardPanelStyled";
+
 export default function MenuBoardPanel({
   boardSettingShown,
   setBoardSettingShown,

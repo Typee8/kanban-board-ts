@@ -7,6 +7,8 @@ const SetupPanelStyled = styled.main`
   flex-direction: column;
 `;
 
+SetupPanelStyled.displayName = "SetupPanelStyled";
+
 export default function SetupPanel() {
   return (
     <SetupPanelStyled>

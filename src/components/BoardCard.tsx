@@ -10,6 +10,8 @@ const BoardCardStyled = styled.div`
   background-color: blanchedalmond;
 `;
 
+BoardCardStyled.displayName = "BoardCardStyled";
+
 export default function BoardCard() {
   return (
     <NavLink to="/board-panel">

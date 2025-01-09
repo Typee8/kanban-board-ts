@@ -9,6 +9,8 @@ const NewBoardElementsStyled = styled.li`
   flex-direction: "column";
 `;
 
+NewBoardElementsStyled.displayName = "NewBoardElementsStyled";
+
 export default function NewBoardElements() {
   const [stageFormShown, setStageFormShown] = useState(false);
   const [taskFormShown, setTaskFormShown] = useState(false);

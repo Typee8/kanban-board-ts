@@ -8,6 +8,8 @@ const BoardSettingStyled = styled.ul`
   background-color: blanchedalmond;
 `;
 
+BoardSettingStyled.displayName = "BoardSettingStyled";
+
 export default function BoardSettings() {
   return (
     <BoardSettingStyled>

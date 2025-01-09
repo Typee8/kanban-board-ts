@@ -12,6 +12,8 @@ const FormStyled = styled.form`
   border-radius: 40px;
 `;
 
+FormStyled.displayName = "FormStyled";
+
 export default function Form({
   children,
   className,

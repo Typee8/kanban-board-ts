@@ -1,16 +1,18 @@
+// @ts-nocheck
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const boardStateSlice = createSlice({
   name: "boardState",
   initialState: [
-    { title: "Queue", ID: 1, tasksList: [] },
+    { title: "Queue", id: 1, tasksList: [] },
     {
       title: "Shopping",
-      ID: 2,
+      id: 2,
       tasksList: [
         {
           title: "Go shopping",
-          ID: 1,
+          id: 1,
           description: "You should pick some grocery at your nearest location.",
           attachments: [
             "https://www.biedronka.pl/pl?gad_source=1&gclid=Cj0KCQiAi_G5BhDXARIsAN5SX7olAg3_W6NQuZf3IK-H8p9rU9kqCOFKbyQJfLgBjPWSzXDuu1d_rcsaAoxkEALw_wcB",
@@ -23,7 +25,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Plan a Weekend Getaway",
-          ID: 2,
+          id: 2,
           description:
             "Research and plan a short trip to a nearby destination for relaxation.",
           attachments: [
@@ -37,7 +39,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Team Presentation Preparation",
-          ID: 3,
+          id: 3,
           description:
             "Prepare slides and rehearse for the upcoming quarterly review meeting.",
           attachments: [
@@ -53,11 +55,11 @@ const boardStateSlice = createSlice({
     },
     {
       title: "Cooking",
-      ID: 3,
+      id: 3,
       tasksList: [
         {
           title: "Prepare a meal",
-          ID: 1,
+          id: 1,
           description: "Take cabbage, take some meat. Combine.",
           attachments: [
             "https://www.biedronka.pl/pl?gad_source=1&gclid=Cj0KCQiAi_G5BhDXARIsAN5SX7olAg3_W6NQuZf3IK-H8p9rU9kqCOFKbyQJfLgBjPWSzXDuu1d_rcsaAoxkEALw_wcB",
@@ -70,7 +72,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Fix the Leaky Faucet",
-          ID: 2,
+          id: 2,
           description:
             "Identify the cause of the leak and replace any necessary parts to stop the dripping.",
           attachments: ["https://www.homedepot.com/", "https://www.lowes.com/"],
@@ -81,7 +83,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Write a Blog Post on Sustainability",
-          ID: 3,
+          id: 3,
           description:
             "Draft and publish a blog post about the benefits of adopting sustainable practices in daily life.",
           attachments: ["https://www.greenpeace.org/", "https://www.nrdc.org/"],
@@ -92,7 +94,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Organize Office Holiday Party",
-          ID: 4,
+          id: 4,
           description:
             "Coordinate decorations, catering, and activities for the office holiday celebration.",
           attachments: [
@@ -106,8 +108,17 @@ const boardStateSlice = createSlice({
         },
       ],
     },
-    { title: "Done", ID: 4, tasksList: [] },
+    { title: "Done", id: 4, tasksList: [] },
   ],
+  reducers: {
+    addNewTask: (state, action) => {
+      console.log(state);
+      state.forEach((stage) => {
+        return stage.id === 1 ? stage.tasksList.push(action.payload) : null;
+      });
+    },
+  },
 });
 
+export const { addNewTask } = boardStateSlice.actions;
 export default boardStateSlice.reducer;

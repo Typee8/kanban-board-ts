@@ -9,6 +9,8 @@ const BoardPanelStyled = styled.div`
   height: 60vh;
 `;
 
+BoardPanelStyled.displayName = "BoardPanelStyled";
+
 export default function BoardPanel() {
   const [boardSettingShown, setBoardSettingShown] = useState(false);
 

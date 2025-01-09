@@ -7,6 +7,8 @@ const MenuStyled = styled.ul`
   background-color: blanchedalmond;
 `;
 
+MenuStyled.displayName = "MenuStyled";
+
 export default function Menu() {
   return (
     <MenuStyled>
