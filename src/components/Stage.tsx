@@ -2,7 +2,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import TaskCard from "./TaskCard";
 import SettingsBtn from "./buttons/SettingsBtn";
-import StageForm from "./forms/StageForm";
+import StageSettings from "./StageSettings";
 
 const StageStyled = styled.li`
   position: relative;
@@ -15,7 +15,7 @@ const StageStyled = styled.li`
 StageStyled.displayName = "StageStyled";
 
 export default function Stage({ data }) {
-  const [stageFormShown, setStageFormShown] = useState(false);
+  const [stageSettingsShown, setStageSettingsShown] = useState(false);
 
   const { title, tasksList } = data;
   const tasks = tasksList.map((data) => <TaskCard key={data.id} data={data} />);
@@ -23,13 +23,14 @@ export default function Stage({ data }) {
     <StageStyled className="stage">
       <SettingsBtn
         className="stage__settings"
-        onClick={() => setStageFormShown(true)}
+        onClick={() => setStageSettingsShown(true)}
       />
       <h2 className="stage__title">{title}</h2>
       <ul className="stage__tasks">{tasks}</ul>
-      <StageForm
-        stageFormShown={stageFormShown}
-        setStageFormShown={() => setStageFormShown(false)}
+      <StageSettings
+        data={data}
+        stageSettingsShown={stageSettingsShown}
+        setStageSettingsShown={() => setStageSettingsShown(false)}
       />
     </StageStyled>
   );

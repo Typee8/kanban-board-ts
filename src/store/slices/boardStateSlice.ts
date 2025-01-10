@@ -122,8 +122,21 @@ const boardStateSlice = createSlice({
       const newState = [...state, action.payload];
       return (state = newState);
     },
+    updateStage: (state, action) => {
+      let updateStageIndex = null;
+
+      state.forEach((stage) =>
+        stage.id === action.payload.id
+          ? (updateStageIndex = state.indexOf(stage))
+          : null
+      );
+
+      console.log(updateStageIndex);
+
+      state[updateStageIndex] = action.payload;
+    },
   },
 });
 
-export const { addNewTask, addNewStage } = boardStateSlice.actions;
+export const { addNewTask, addNewStage, updateStage } = boardStateSlice.actions;
 export default boardStateSlice.reducer;
