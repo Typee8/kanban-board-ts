@@ -32,6 +32,7 @@ export default function TaskSettings({
       const newTask = { ...data, ...inputData };
       console.log(newTask.id);
       dispatch(updateTask({ newTask, stageId }));
+      setTaskSettingsShown(false);
     };
 
     return (

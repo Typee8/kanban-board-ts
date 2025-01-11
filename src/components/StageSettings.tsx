@@ -23,6 +23,7 @@ export default function StageSettings({
       evt.preventDefault();
       const newStage = { ...data, ...inputData };
       dispatch(updateStage(newStage));
+      setStageSettingsShown(false);
     };
 
     return (
