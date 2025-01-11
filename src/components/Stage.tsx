@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import TaskCard from "./TaskCard";
+import Task from "./Task";
 import SettingsBtn from "./buttons/SettingsBtn";
 import StageSettings from "./StageSettings";
 
@@ -14,11 +14,13 @@ const StageStyled = styled.li`
 
 StageStyled.displayName = "StageStyled";
 
-export default function Stage({ data }) {
+export default function Stage({ stageData }) {
   const [stageSettingsShown, setStageSettingsShown] = useState(false);
 
-  const { title, tasksList } = data;
-  const tasks = tasksList.map((data) => <TaskCard key={data.id} data={data} />);
+  const { title, tasksList } = stageData;
+  const tasks = tasksList.map((data) => (
+    <Task key={data.id} stageId={stageData.id} data={data} />
+  ));
   return (
     <StageStyled className="stage">
       <SettingsBtn
@@ -28,7 +30,7 @@ export default function Stage({ data }) {
       <h2 className="stage__title">{title}</h2>
       <ul className="stage__tasks">{tasks}</ul>
       <StageSettings
-        data={data}
+        data={stageData}
         stageSettingsShown={stageSettingsShown}
         setStageSettingsShown={() => setStageSettingsShown(false)}
       />

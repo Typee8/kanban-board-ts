@@ -131,12 +131,31 @@ const boardStateSlice = createSlice({
           : null
       );
 
-      console.log(updateStageIndex);
-
       state[updateStageIndex] = action.payload;
+    },
+    updateTask: (state, action) => {
+      let stageIndex;
+
+      state.forEach((stage) =>
+        stage.id === action.payload.stageId
+          ? (stageIndex = state.indexOf(stage))
+          : null
+      );
+
+      const { tasksList } = state[stageIndex];
+      let updateTaskIndex;
+
+      tasksList.forEach((task) =>
+        task.id === action.payload.newTask.id
+          ? (updateTaskIndex = tasksList.indexOf(task))
+          : null
+      );
+
+      state[stageIndex].tasksList[updateTaskIndex] = action.payload.newTask;
     },
   },
 });
 
-export const { addNewTask, addNewStage, updateStage } = boardStateSlice.actions;
+export const { addNewTask, addNewStage, updateStage, updateTask } =
+  boardStateSlice.actions;
 export default boardStateSlice.reducer;

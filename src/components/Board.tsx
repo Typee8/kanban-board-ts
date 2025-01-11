@@ -37,7 +37,9 @@ export default function Board() {
   const boardState = useSelector((state) => state.boardState);
   const stagesOrder = orderStages(boardState);
 
-  const stages = stagesOrder.map((data) => <Stage key={data.id} data={data} />);
+  const stages = stagesOrder.map((data) => (
+    <Stage key={data.id} stageData={data} />
+  ));
 
   return (
     <BoardStyled>
