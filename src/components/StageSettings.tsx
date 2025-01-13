@@ -23,7 +23,7 @@ export default function StageSettings({
     const onSubmit = (inputData, evt) => {
       evt.preventDefault();
       const newStage = { ...data, ...inputData };
-      dispatch(updateStage(newStage));
+      dispatch(updateStage({ newStage, stageId: data.id }));
       setStageSettingsShown(false);
     };
 

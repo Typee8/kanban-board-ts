@@ -32,14 +32,13 @@ export default function TaskSettings({
       evt.preventDefault();
       const newTask = { ...data, ...inputData };
       console.log(newTask.id);
-      dispatch(updateTask({ newTask, stageId }));
+      dispatch(updateTask({ task: newTask, taskId: data.id, stageId }));
       setTaskSettingsShown(false);
     };
 
     const onRemoveBtnClick = (evt) => {
       evt.preventDefault();
-      const newTask = data;
-      dispatch(removeTask({ newTask, stageId }));
+      dispatch(removeTask({ taskId: data.id, stageId }));
       setTaskSettingsShown(false);
     };
 

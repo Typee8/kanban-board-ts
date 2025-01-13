@@ -1,30 +1,25 @@
 // @ts-nocheck
 
 import { createSlice } from "@reduxjs/toolkit";
-import { act } from "react";
 
-function findStageIndex(state, action) {
+function findStageIndex(state, stageId) {
   let stageIndex;
   state.forEach((stage) =>
-    stage.id === action.payload.stageId
-      ? (stageIndex = state.indexOf(stage))
-      : null
+    stage.id === stageId ? (stageIndex = state.indexOf(stage)) : null
   );
-  return { stageIndex };
+
+  console.log(stageIndex);
+  return stageIndex;
 }
 
-function findTaskIndex(state, action) {
-  const { stageIndex } = findStageIndex(state, action);
+function findTaskIndex(state, taskId, stageId) {
+  const stageIndex = findStageIndex(state, stageId);
   let taskIndex;
-
   const { tasksList } = state[stageIndex];
   tasksList.forEach((task) =>
-    task.id === action.payload.newTask.id
-      ? (taskIndex = tasksList.indexOf(task))
-      : null
+    task.id === taskId ? (taskIndex = tasksList.indexOf(task)) : null
   );
-
-  return { taskIndex };
+  return taskIndex;
 }
 
 const boardStateSlice = createSlice({
@@ -144,13 +139,15 @@ const boardStateSlice = createSlice({
       });
     },
     updateTask: (state, action) => {
-      const { stageIndex } = findStageIndex(state, action);
-      const { taskIndex } = findTaskIndex(state, action);
-      state[stageIndex]["tasksList"][taskIndex] = action.payload.newTask;
+      const { taskId, stageId, task } = action.payload;
+      const stageIndex = findStageIndex(state, stageId);
+      const taskIndex = findTaskIndex(state, taskId, stageId);
+      state[stageIndex]["tasksList"][taskIndex] = task;
     },
     removeTask: (state, action) => {
-      const { stageIndex } = findStageIndex(state, action);
-      const { taskIndex } = findTaskIndex(state, action);
+      const { taskId, stageId } = action.payload;
+      const stageIndex = findStageIndex(state, stageId);
+      const taskIndex = findTaskIndex(state, taskId, stageId);
       state[stageIndex]["tasksList"].splice(taskIndex, 1);
     },
     addNewStage: (state, action) => {
@@ -158,12 +155,14 @@ const boardStateSlice = createSlice({
       return (state = newState);
     },
     updateStage: (state, action) => {
-      const { stageIndex } = findStageIndex(state, action);
+      const { stageId, newStage } = action.payload;
+      const stageIndex = findStageIndex(state, stageId);
 
-      state[stageIndex] = action.payload;
+      state[stageIndex] = newStage;
     },
     removeStage: (state, action) => {
-      const { stageIndex } = findStageIndex(state, action);
+      const { stageId } = action.payload;
+      const stageIndex = findStageIndex(state, stageId);
 
       state.splice(stageIndex, 1);
     },
