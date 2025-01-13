@@ -3,6 +3,7 @@ import Input from "./inputs/Input";
 import { useForm } from "react-hook-form";
 import { updateStage } from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
+import RemoveBtn from "./buttons/RemoveBtn";
 
 export default function StageSettings({
   data,
@@ -32,6 +33,7 @@ export default function StageSettings({
         closeForm={setStageSettingsShown}
         onSubmit={handleSubmit(onSubmit)}
       >
+        <RemoveBtn />
         <Input title="title" register={register("title")} />
       </Form>
     );

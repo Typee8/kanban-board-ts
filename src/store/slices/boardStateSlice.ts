@@ -2,6 +2,25 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
+function indexesToFindTask(state, action) {
+  let stageIndex;
+  let taskIndex;
+
+  state.forEach((stage) =>
+    stage.id === action.payload.stageId
+      ? (stageIndex = state.indexOf(stage))
+      : null
+  );
+  const { tasksList } = state[stageIndex];
+  tasksList.forEach((task) =>
+    task.id === action.payload.newTask.id
+      ? (taskIndex = tasksList.indexOf(task))
+      : null
+  );
+
+  return { stageIndex, taskIndex };
+}
+
 const boardStateSlice = createSlice({
   name: "boardState",
   initialState: [
@@ -118,6 +137,14 @@ const boardStateSlice = createSlice({
           : null;
       });
     },
+    updateTask: (state, action) => {
+      const { stageIndex, taskIndex } = indexesToFindTask(state, action);
+      state[stageIndex]["tasksList"][taskIndex] = action.payload.newTask;
+    },
+    removeTask: (state, action) => {
+      const { stageIndex, taskIndex } = indexesToFindTask(state, action);
+      state[stageIndex]["tasksList"].splice(taskIndex, 1);
+    },
     addNewStage: (state, action) => {
       const newState = [...state, action.payload];
       return (state = newState);
@@ -133,29 +160,9 @@ const boardStateSlice = createSlice({
 
       state[updateStageIndex] = action.payload;
     },
-    updateTask: (state, action) => {
-      let stageIndex;
-
-      state.forEach((stage) =>
-        stage.id === action.payload.stageId
-          ? (stageIndex = state.indexOf(stage))
-          : null
-      );
-
-      const { tasksList } = state[stageIndex];
-      let updateTaskIndex;
-
-      tasksList.forEach((task) =>
-        task.id === action.payload.newTask.id
-          ? (updateTaskIndex = tasksList.indexOf(task))
-          : null
-      );
-
-      state[stageIndex].tasksList[updateTaskIndex] = action.payload.newTask;
-    },
   },
 });
 
-export const { addNewTask, addNewStage, updateStage, updateTask } =
+export const { addNewTask, updateTask, removeTask, addNewStage, updateStage } =
   boardStateSlice.actions;
 export default boardStateSlice.reducer;

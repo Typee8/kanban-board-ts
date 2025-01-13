@@ -3,7 +3,8 @@ import TextArea from "./inputs/TextArea";
 import Input from "./inputs/Input";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { updateTask } from "../store/slices/boardStateSlice";
+import { updateTask, removeTask } from "../store/slices/boardStateSlice";
+import RemoveBtn from "./buttons/RemoveBtn";
 
 export default function TaskSettings({
   stageId,
@@ -35,11 +36,19 @@ export default function TaskSettings({
       setTaskSettingsShown(false);
     };
 
+    const onRemoveBtnClick = (evt) => {
+      evt.preventDefault();
+      const newTask = data;
+      dispatch(removeTask({ newTask, stageId }));
+      setTaskSettingsShown(false);
+    };
+
     return (
       <TaskFormStyled
         closeForm={setTaskSettingsShown}
         onSubmit={handleSubmit(onSubmit)}
       >
+        <RemoveBtn onClick={onRemoveBtnClick} />
         <Input title="title" register={register("title")} />
         <TextArea title="description" register={register("description")} />
         <TextArea title="attachments" register={register("attachments")} />
