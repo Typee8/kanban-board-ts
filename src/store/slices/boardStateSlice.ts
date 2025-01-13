@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { createSlice } from "@reduxjs/toolkit";
+import { act } from "react";
 
 function findStageIndex(state, action) {
   let stageIndex;
@@ -161,9 +162,20 @@ const boardStateSlice = createSlice({
 
       state[stageIndex] = action.payload;
     },
+    removeStage: (state, action) => {
+      const { stageIndex } = findStageIndex(state, action);
+
+      state.splice(stageIndex, 1);
+    },
   },
 });
 
-export const { addNewTask, updateTask, removeTask, addNewStage, updateStage } =
-  boardStateSlice.actions;
+export const {
+  addNewTask,
+  updateTask,
+  removeTask,
+  addNewStage,
+  updateStage,
+  removeStage,
+} = boardStateSlice.actions;
 export default boardStateSlice.reducer;

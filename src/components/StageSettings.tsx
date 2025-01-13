@@ -1,7 +1,7 @@
 import Form from "./forms/Form";
 import Input from "./inputs/Input";
 import { useForm } from "react-hook-form";
-import { updateStage } from "../store/slices/boardStateSlice";
+import { updateStage, removeStage } from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
 import RemoveBtn from "./buttons/RemoveBtn";
 
@@ -27,13 +27,19 @@ export default function StageSettings({
       setStageSettingsShown(false);
     };
 
+    const onRemoveBtnClick = (evt) => {
+      evt.preventDefault();
+      dispatch(removeStage({ stageId: data.id }));
+      setStageSettingsShown(false);
+    };
+
     return (
       <Form
         title="something"
         closeForm={setStageSettingsShown}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <RemoveBtn />
+        <RemoveBtn onClick={onRemoveBtnClick} />
         <Input title="title" register={register("title")} />
       </Form>
     );
