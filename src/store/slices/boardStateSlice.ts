@@ -2,15 +2,20 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-function indexesToFindTask(state, action) {
+function findStageIndex(state, action) {
   let stageIndex;
-  let taskIndex;
-
   state.forEach((stage) =>
     stage.id === action.payload.stageId
       ? (stageIndex = state.indexOf(stage))
       : null
   );
+  return { stageIndex };
+}
+
+function findTaskIndex(state, action) {
+  const { stageIndex } = findStageIndex(state, action);
+  let taskIndex;
+
   const { tasksList } = state[stageIndex];
   tasksList.forEach((task) =>
     task.id === action.payload.newTask.id
@@ -18,7 +23,7 @@ function indexesToFindTask(state, action) {
       : null
   );
 
-  return { stageIndex, taskIndex };
+  return { taskIndex };
 }
 
 const boardStateSlice = createSlice({
@@ -138,11 +143,13 @@ const boardStateSlice = createSlice({
       });
     },
     updateTask: (state, action) => {
-      const { stageIndex, taskIndex } = indexesToFindTask(state, action);
+      const { stageIndex } = findStageIndex(state, action);
+      const { taskIndex } = findTaskIndex(state, action);
       state[stageIndex]["tasksList"][taskIndex] = action.payload.newTask;
     },
     removeTask: (state, action) => {
-      const { stageIndex, taskIndex } = indexesToFindTask(state, action);
+      const { stageIndex } = findStageIndex(state, action);
+      const { taskIndex } = findTaskIndex(state, action);
       state[stageIndex]["tasksList"].splice(taskIndex, 1);
     },
     addNewStage: (state, action) => {
@@ -150,15 +157,9 @@ const boardStateSlice = createSlice({
       return (state = newState);
     },
     updateStage: (state, action) => {
-      let updateStageIndex = null;
+      const { stageIndex } = findStageIndex(state, action);
 
-      state.forEach((stage) =>
-        stage.id === action.payload.id
-          ? (updateStageIndex = state.indexOf(stage))
-          : null
-      );
-
-      state[updateStageIndex] = action.payload;
+      state[stageIndex] = action.payload;
     },
   },
 });
