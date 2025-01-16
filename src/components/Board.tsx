@@ -1,4 +1,6 @@
 import { useSelector } from "react-redux";
+import { DndProvider } from "react-dnd-multi-backend";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import styled from "styled-components";
 import Stage from "./Stage";
 import NewBoardElements from "./NewBoardElements";
@@ -42,9 +44,11 @@ export default function Board() {
   ));
 
   return (
-    <BoardStyled>
-      <NewBoardElements />
-      {stages}
-    </BoardStyled>
+    <DndProvider options={HTML5toTouch}>
+      <BoardStyled>
+        <NewBoardElements />
+        {stages}
+      </BoardStyled>
+    </DndProvider>
   );
 }

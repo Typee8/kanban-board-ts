@@ -150,6 +150,17 @@ const boardStateSlice = createSlice({
       const taskIndex = findTaskIndex(state, taskId, stageId);
       state[stageIndex]["tasksList"].splice(taskIndex, 1);
     },
+    moveTask: (state, action) => {
+      console.log(`moveTask launched!`);
+      const { taskId, currentStageId, newStageId } = action.payload;
+      const currentStageIndex = findStageIndex(state, currentStageId);
+      const taskIndex = findTaskIndex(state, taskId, currentStageId);
+      const task = state[currentStageIndex]["tasksList"][taskIndex];
+      const newStageIndex = findStageIndex(state, newStageId);
+      state[currentStageIndex]["tasksList"].splice(taskIndex, 1);
+      state[newStageIndex]["tasksList"].push(task);
+      console.log(`moveTask: task:${task}`);
+    },
     addNewStage: (state, action) => {
       const newState = [...state, action.payload];
       return (state = newState);
@@ -173,6 +184,7 @@ export const {
   addNewTask,
   updateTask,
   removeTask,
+  moveTask,
   addNewStage,
   updateStage,
   removeStage,
