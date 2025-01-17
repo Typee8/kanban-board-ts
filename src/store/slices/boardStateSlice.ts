@@ -8,7 +8,6 @@ function findStageIndex(state, stageId) {
     stage.id === stageId ? (stageIndex = state.indexOf(stage)) : null
   );
 
-  console.log(stageIndex);
   return stageIndex;
 }
 
@@ -26,14 +25,13 @@ const boardStateSlice = createSlice({
   name: "boardState",
   initialState: [
     { title: "Queue", id: "first", tasksList: [] },
-    { title: "Done", id: "last", tasksList: [] },
     {
       title: "Shopping",
       id: 2,
       tasksList: [
         {
           title: "Go shopping",
-          id: 1,
+          id: 8,
           description: "You should pick some grocery at your nearest location.",
           attachments: [
             "https://www.biedronka.pl/pl?gad_source=1&gclid=Cj0KCQiAi_G5BhDXARIsAN5SX7olAg3_W6NQuZf3IK-H8p9rU9kqCOFKbyQJfLgBjPWSzXDuu1d_rcsaAoxkEALw_wcB",
@@ -46,7 +44,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Plan a Weekend Getaway",
-          id: 2,
+          id: 9,
           description:
             "Research and plan a short trip to a nearby destination for relaxation.",
           attachments: [
@@ -60,7 +58,7 @@ const boardStateSlice = createSlice({
         },
         {
           title: "Team Presentation Preparation",
-          id: 3,
+          id: 10,
           description:
             "Prepare slides and rehearse for the upcoming quarterly review meeting.",
           attachments: [
@@ -129,6 +127,7 @@ const boardStateSlice = createSlice({
         },
       ],
     },
+    { title: "Done", id: "last", tasksList: [] },
   ],
   reducers: {
     addNewTask: (state, action) => {
@@ -151,15 +150,14 @@ const boardStateSlice = createSlice({
       state[stageIndex]["tasksList"].splice(taskIndex, 1);
     },
     moveTask: (state, action) => {
-      console.log(`moveTask launched!`);
-      const { taskId, currentStageId, newStageId } = action.payload;
+      const { taskId, currentStageId, newStageId, closestElementIndex } =
+        action.payload;
       const currentStageIndex = findStageIndex(state, currentStageId);
       const taskIndex = findTaskIndex(state, taskId, currentStageId);
       const task = state[currentStageIndex]["tasksList"][taskIndex];
       const newStageIndex = findStageIndex(state, newStageId);
       state[currentStageIndex]["tasksList"].splice(taskIndex, 1);
-      state[newStageIndex]["tasksList"].push(task);
-      console.log(`moveTask: task:${task}`);
+      state[newStageIndex]["tasksList"].splice(task, 0, closestElementIndex);
     },
     addNewStage: (state, action) => {
       const newState = [...state, action.payload];

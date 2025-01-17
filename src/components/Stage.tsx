@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { moveTask } from "../store/slices/boardStateSlice";
 import styled from "styled-components";
@@ -19,31 +19,83 @@ StageStyled.displayName = "StageStyled";
 
 export default function Stage({ stageData }) {
   const [stageSettingsShown, setStageSettingsShown] = useState(false);
+  const stageRef = useRef();
   const dispatch = useDispatch();
-  const [{ isOver }, drop] = useDrop(
+  const [, drop] = useDrop(
     () => ({
       accept: "task",
-      drop: (draggedItem) => {
-        const currentStageId = draggedItem.stageId;
-        const { taskId } = draggedItem;
-        onTaskDrop(taskId, currentStageId, stageData.id);
+      drop: (draggedItem, monitor) => {
+        // get dragged item position
+        const draggedItemPosition = monitor.getClientOffset();
+        const draggedItemY = draggedItemPosition.y;
+        console.log(draggedItemY);
+        // get the middle position of every child element
+        const stageChildrenList = Array.from(
+          stageRef.current.querySelectorAll("li")
+        );
+        const childrenPositionList = stageChildrenList.map((ele) => {
+          const elementPosition = ele.getBoundingClientRect();
+          const elementVerticalMiddle =
+            elementPosition.top + elementPosition.height / 2;
+          return elementVerticalMiddle;
+        });
+        // find the one which is the closest to the dragged item
+        const positionComparisonList = childrenPositionList.map((ele) =>
+          Math.abs(ele - draggedItemY)
+        );
+
+        const closestElementValue = Math.min(...positionComparisonList);
+        console.log(`closestElementValue: ${closestElementValue}`);
+        const closestElementIndex =
+          positionComparisonList.indexOf(closestElementValue);
+        console.log(closestElementIndex);
+
+        return dispatch(
+          moveTask({
+            taskId: draggedItem.taskId,
+            currentStageId: draggedItem.stageId,
+            newStageId: stageData.id,
+            closestElementIndex,
+          })
+        );
       },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-      }),
+      hover: (item, monitor) => {
+        // get dragged item position
+        const draggedItemPosition = monitor.getClientOffset();
+        const draggedItemY = draggedItemPosition.y;
+        console.log(draggedItemY);
+        // get the middle position of every child element
+        const stageChildrenList = Array.from(
+          stageRef.current.querySelectorAll("li")
+        );
+        const childrenPositionList = stageChildrenList.map((ele) => {
+          const elementPosition = ele.getBoundingClientRect();
+          const elementVerticalMiddle =
+            elementPosition.top + elementPosition.height / 2;
+          return elementVerticalMiddle;
+        });
+        // find the one which is the closest to the dragged item
+        const positionComparisonList = childrenPositionList.map((ele) =>
+          Math.abs(ele - draggedItemY)
+        );
+
+        const closestElementValue = Math.min(...positionComparisonList);
+        console.log(`closestElementValue: ${closestElementValue}`);
+        const closestElement =
+          positionComparisonList.indexOf(closestElementValue);
+        console.log(closestElement);
+      },
     }),
     []
   );
 
+  const stageRefsCombined = (node) => {
+    stageRef.current = node;
+    drop(node);
+  };
+  //(node) => drag(drop(node))
+
   function onTaskDrop(taskId, currentStageId, newStageId) {
-    console.log(
-      `OnTaskDrop: taskId:${taskId} currentStageId:${currentStageId} newStageId:${newStageId}`
-    );
-    // current stage id, taskid
-    // stage id where the task is being moved
-    // DONE!
-    // moveTask() from Slice
-    console.log(`OnTaskDrop launched!`);
     dispatch(moveTask({ taskId, currentStageId, newStageId }));
   }
 
@@ -52,7 +104,7 @@ export default function Stage({ stageData }) {
     <Task key={data.id} stageId={stageData.id} data={data} />
   ));
   return (
-    <StageStyled ref={drop} className="stage">
+    <StageStyled ref={stageRefsCombined} className="stage">
       <SettingsBtn
         className="stage__settings"
         onClick={() => setStageSettingsShown(true)}
