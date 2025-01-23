@@ -17,92 +17,173 @@ const StageStyled = styled.li`
 
 StageStyled.displayName = "StageStyled";
 
+function getClosestTaskIndex(stageRef, monitor) {
+  const draggedItemPosition = monitor.getClientOffset();
+  const draggedItemY = draggedItemPosition.y;
+
+  const stageChildrenList = Array.from(stageRef.current.querySelectorAll("li"));
+  const childrenPositionList = stageChildrenList.map((ele) => {
+    const elePosition = ele.getBoundingClientRect();
+    const eleMiddleY = elePosition.top + elePosition.height / 2;
+    return eleMiddleY;
+  });
+
+  const distanceList = childrenPositionList.map((ele) =>
+    Math.abs(ele - draggedItemY)
+  );
+  const closestEleValue = Math.min(...distanceList);
+  const closestEleIndex = distanceList.indexOf(closestEleValue);
+
+  return closestEleIndex;
+}
+
+function assignTasks(stageData, isOver, draggedItem, closestEleIndex) {
+  console.log("assignTasks() launched");
+  const { tasksList } = stageData;
+  const tasksListCopy = JSON.parse(JSON.stringify(tasksList));
+  if (isOver === false) {
+    console.log("launched");
+    const tasks = tasksListCopy.map((data) => (
+      <Task key={data.id} stageId={stageData.id} data={data} />
+    ));
+    console.log(`tasks inside the map() ${tasks}`);
+    return tasks;
+  }
+  console.log(`Is draggedItem present?: ${draggedItem}`);
+  const tasks = tasksListCopy.map((data) => {
+    if (
+      stageData.id === draggedItem.stageId &&
+      task.id === draggedItem.taskId
+    ) {
+      return (
+        <Task
+          key={data.id}
+          stageId={stageData.id}
+          data={data}
+          isVisible={false}
+        />
+      );
+    }
+
+    return <Task key={data.id} stageId={stageData.id} data={data} />;
+  });
+
+  tasks.splice(
+    closestEleIndex,
+    0,
+    <Task
+      key={draggedItem.taskId}
+      stageId={stageData.id}
+      data={draggedItem.taskData}
+    />
+  );
+  return tasks;
+}
+
 export default function Stage({ stageData }) {
   const [stageSettingsShown, setStageSettingsShown] = useState(false);
+  const [tasksPreviewList, setTasksPreviewList] = useState(stageData.tasksList);
+  const [closestEleIndex, setClosestEleIndex] = useState();
+
   const stageRef = useRef();
   const dispatch = useDispatch();
-  const [, drop] = useDrop(
+  const [{ isOver, draggedItem }, drop] = useDrop(
     () => ({
       accept: "task",
       drop: (draggedItem, monitor) => {
-        // get dragged item position
-        const draggedItemPosition = monitor.getClientOffset();
-        const draggedItemY = draggedItemPosition.y;
-        console.log(draggedItemY);
-        // get the middle position of every child element
-        const stageChildrenList = Array.from(
-          stageRef.current.querySelectorAll("li")
-        );
-        const childrenPositionList = stageChildrenList.map((ele) => {
-          const elementPosition = ele.getBoundingClientRect();
-          const elementVerticalMiddle =
-            elementPosition.top + elementPosition.height / 2;
-          return elementVerticalMiddle;
-        });
-        // find the one which is the closest to the dragged item
-        const positionComparisonList = childrenPositionList.map((ele) =>
-          Math.abs(ele - draggedItemY)
-        );
-
-        const closestElementValue = Math.min(...positionComparisonList);
-        console.log(`closestElementValue: ${closestElementValue}`);
-        const closestElementIndex =
-          positionComparisonList.indexOf(closestElementValue);
-        console.log(closestElementIndex);
-
-        return dispatch(
+        const { closestEleIndex } = getClosestTaskIndex(stageRef, monitor);
+        dispatch(
           moveTask({
             taskId: draggedItem.taskId,
             currentStageId: draggedItem.stageId,
             newStageId: stageData.id,
-            closestElementIndex,
+            closestEleIndex,
           })
         );
+        console.log(`Task moved!`);
       },
-      hover: (item, monitor) => {
-        // get dragged item position
-        const draggedItemPosition = monitor.getClientOffset();
-        const draggedItemY = draggedItemPosition.y;
-        console.log(draggedItemY);
-        // get the middle position of every child element
-        const stageChildrenList = Array.from(
-          stageRef.current.querySelectorAll("li")
+      hover: (draggedItem, monitor) => {
+        /*         const draggedItemIndex = tasksPreviewList.findIndex(
+          (task) => task.id === draggedItem.taskId
         );
-        const childrenPositionList = stageChildrenList.map((ele) => {
-          const elementPosition = ele.getBoundingClientRect();
-          const elementVerticalMiddle =
-            elementPosition.top + elementPosition.height / 2;
-          return elementVerticalMiddle;
-        });
-        // find the one which is the closest to the dragged item
-        const positionComparisonList = childrenPositionList.map((ele) =>
-          Math.abs(ele - draggedItemY)
-        );
+        const newTasksList = JSON.parse(JSON.stringify(tasksPreviewList));
+        if (stageData.id === draggedItem.stageId)
+          newTasksList.splice(draggedItemIndex, 1);
 
-        const closestElementValue = Math.min(...positionComparisonList);
-        console.log(`closestElementValue: ${closestElementValue}`);
-        const closestElement =
-          positionComparisonList.indexOf(closestElementValue);
-        console.log(closestElement);
+        if (draggedItemIndex >= 0) newTasksList.splice(draggedItemIndex, 1);
+        const { closestEleIndex } = getClosestTaskIndex(stageRef, monitor);
+        newTasksList.splice(closestEleIndex, 0, draggedItem.taskData);
+        setTasksPreviewList(newTasksList); */
+
+        setClosestEleIndex(getClosestTaskIndex(stageRef, monitor));
       },
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+        item: monitor.getItem(),
+      }),
     }),
     []
   );
+
+  const tasks = assignTasks(stageData, isOver, draggedItem, closestEleIndex);
+
+  console.log(tasks);
+  /* 
+  if (isOver) {
+    const { tasksList } = stageData;
+    const draggedItemIndex = tasksList.findIndex(
+      (task) => task.id === draggedItem.taskId
+    );
+    if (draggedItemIndex < 0) return null;
+    const newTasksList = JSON.parse(JSON.stringify(tasksList));
+    const newTasksJSX = tasksList.map((data) => (
+      <Task key={data.id} stageId={stageData.id} data={data} />
+    ));
+
+    if (stageData.id === draggedItem.stageId)
+      newTasksList.splice(draggedItemIndex, 1);
+  } */
 
   const stageRefsCombined = (node) => {
     stageRef.current = node;
     drop(node);
   };
-  //(node) => drag(drop(node))
-
-  function onTaskDrop(taskId, currentStageId, newStageId) {
-    dispatch(moveTask({ taskId, currentStageId, newStageId }));
-  }
 
   const { title, tasksList } = stageData;
-  const tasks = tasksList.map((data) => (
+  /*   const tasks = tasksList.map((data) => (
     <Task key={data.id} stageId={stageData.id} data={data} />
   ));
+ */
+  /*   const tasksPreview = tasksPreviewList.map((data) => (
+    <Task key={data.id} stageId={stageData.id} data={data} />
+  )); */
+  /* 
+  const tasksWithPreview = tasks;
+  tasksWithPreview.splice(closestEleIndex, 0, item.taskRef); */
+
+  /* 
+  
+  idea about hover animation!
+
+  new return of tasks which doesn't update redux state!
+  
+  if isOver
+  then return tasksPreview!
+
+  create new array of Tasks
+
+
+  */
+
+  //create new array of tasks
+
+  /* 
+  
+  newTasksArray <=== tasks from redux store
+
+
+  */
+
   return (
     <StageStyled ref={stageRefsCombined} className="stage">
       <SettingsBtn
