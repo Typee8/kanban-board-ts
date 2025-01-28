@@ -7,7 +7,11 @@ import TaskSettings from "./TaskSettings";
 const TaskStyled = styled.li`
   padding: 20px;
   border-top: 1px solid black;
-  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
+  opacity: ${(props) => {
+    if (props.$isDragging) return 0;
+    if (props.$isPreviewed) return 0.4;
+    return 1;
+  }};
 `;
 
 TaskStyled.displayName = "TaskStyled";
@@ -20,7 +24,12 @@ const TaskContainerStyled = styled.div`
 
 TaskContainerStyled.displayName = "TaskContainerStyled";
 
-export default function Task({ stageId, data, isVisible = true }) {
+export default function Task({
+  stageId,
+  data,
+  className,
+  isPreviewed = false,
+}) {
   const [taskSettingsShown, setTaskSettingsShown] = useState(false);
   const taskRef = useRef();
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -29,6 +38,7 @@ export default function Task({ stageId, data, isVisible = true }) {
       stageId,
       taskId: data.id,
       taskData: data,
+      taskRef,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -42,7 +52,12 @@ export default function Task({ stageId, data, isVisible = true }) {
   };
 
   return (
-    <TaskStyled $isVisible={isVisible} ref={taskRefsCombined}>
+    <TaskStyled
+      $isDragging={isDragging}
+      $isPreviewed={isPreviewed}
+      ref={taskRefsCombined}
+      className={className}
+    >
       <SettingsBtn onClick={() => setTaskSettingsShown(true)} />
       <TaskContainerStyled>
         <h2>{title}</h2>

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useDrop } from "react-dnd";
 import { moveTask } from "../store/slices/boardStateSlice";
 import styled from "styled-components";
@@ -21,69 +21,46 @@ function getClosestTaskIndex(stageRef, monitor) {
   const draggedItemPosition = monitor.getClientOffset();
   const draggedItemY = draggedItemPosition.y;
 
-  const stageChildrenList = Array.from(stageRef.current.querySelectorAll("li"));
-  const childrenPositionList = stageChildrenList.map((ele) => {
-    const elePosition = ele.getBoundingClientRect();
-    const eleMiddleY = elePosition.top + elePosition.height / 2;
-    return eleMiddleY;
+  const tasksList = Array.from(
+    stageRef.current.querySelectorAll("li:not(.task--dragged)")
+  );
+  const tasksPositionList = tasksList.map((task) => {
+    const taskPosition = task.getBoundingClientRect();
+    const taskMiddleY = taskPosition.top + taskPosition.height / 2;
+    return taskMiddleY;
   });
 
-  const distanceList = childrenPositionList.map((ele) =>
-    Math.abs(ele - draggedItemY)
+  const tasksContainer = stageRef.current.querySelector(".stage__tasks");
+  const tasksContainerPosition = tasksContainer.getBoundingClientRect();
+
+  const allElementsPositionList = [
+    ...tasksPositionList,
+    tasksContainerPosition.top,
+    tasksContainerPosition.bottom,
+  ];
+
+  const distanceList = allElementsPositionList.map((task) =>
+    Math.abs(task - draggedItemY)
   );
   const closestEleValue = Math.min(...distanceList);
+
   const closestEleIndex = distanceList.indexOf(closestEleValue);
+
+  if (closestEleIndex === distanceList.length - 2) {
+    return 0;
+  }
+  if (closestEleIndex === distanceList.length - 1) {
+    return distanceList.length - 1;
+  }
 
   return closestEleIndex;
 }
 
-function assignTasks(stageData, isOver, draggedItem, closestEleIndex) {
-  console.log("assignTasks() launched");
-  const { tasksList } = stageData;
-  const tasksListCopy = JSON.parse(JSON.stringify(tasksList));
-  if (isOver === false) {
-    console.log("launched");
-    const tasks = tasksListCopy.map((data) => (
-      <Task key={data.id} stageId={stageData.id} data={data} />
-    ));
-    console.log(`tasks inside the map() ${tasks}`);
-    return tasks;
-  }
-  console.log(`Is draggedItem present?: ${draggedItem}`);
-  const tasks = tasksListCopy.map((data) => {
-    if (
-      stageData.id === draggedItem.stageId &&
-      task.id === draggedItem.taskId
-    ) {
-      return (
-        <Task
-          key={data.id}
-          stageId={stageData.id}
-          data={data}
-          isVisible={false}
-        />
-      );
-    }
-
-    return <Task key={data.id} stageId={stageData.id} data={data} />;
-  });
-
-  tasks.splice(
-    closestEleIndex,
-    0,
-    <Task
-      key={draggedItem.taskId}
-      stageId={stageData.id}
-      data={draggedItem.taskData}
-    />
-  );
-  return tasks;
-}
-
 export default function Stage({ stageData }) {
   const [stageSettingsShown, setStageSettingsShown] = useState(false);
-  const [tasksPreviewList, setTasksPreviewList] = useState(stageData.tasksList);
-  const [closestEleIndex, setClosestEleIndex] = useState();
+  const [mousePositionY, setMousePositionY] = useState(false);
+  const [closestToDraggedItemIndex, setClosestToDraggedItemIndex] = useState();
+  /*   const [tasksPreview, setTasksPreview] = useState(stageData.tasksList); */
 
   const stageRef = useRef();
   const dispatch = useDispatch();
@@ -91,7 +68,7 @@ export default function Stage({ stageData }) {
     () => ({
       accept: "task",
       drop: (draggedItem, monitor) => {
-        const { closestEleIndex } = getClosestTaskIndex(stageRef, monitor);
+        const closestEleIndex = getClosestTaskIndex(stageRef, monitor);
         dispatch(
           moveTask({
             taskId: draggedItem.taskId,
@@ -103,46 +80,52 @@ export default function Stage({ stageData }) {
         console.log(`Task moved!`);
       },
       hover: (draggedItem, monitor) => {
-        /*         const draggedItemIndex = tasksPreviewList.findIndex(
-          (task) => task.id === draggedItem.taskId
+        setClosestToDraggedItemIndex(getClosestTaskIndex(stageRef, monitor));
+
+        /* 
+        const { tasksList } = stageData;
+        const tasksListCopy = JSON.parse(JSON.stringify(tasksList));
+        const tasks = tasksListCopy.map((data) => {
+          let key = data.id;
+
+          return <Task key={key} stageId={stageData.id} data={data} />;
+        });
+
+        if (!monitor.isOver()) {
+          setTasksPreview(tasks);
+          return;
+        }
+
+        const closestEleIndex = getClosestTaskIndex(stageRef, monitor);
+        const draggedItemPreviewData = JSON.parse(
+          JSON.stringify(draggedItem.taskData)
         );
-        const newTasksList = JSON.parse(JSON.stringify(tasksPreviewList));
-        if (stageData.id === draggedItem.stageId)
-          newTasksList.splice(draggedItemIndex, 1);
+        draggedItemPreviewData.id = "dragged";
 
-        if (draggedItemIndex >= 0) newTasksList.splice(draggedItemIndex, 1);
-        const { closestEleIndex } = getClosestTaskIndex(stageRef, monitor);
-        newTasksList.splice(closestEleIndex, 0, draggedItem.taskData);
-        setTasksPreviewList(newTasksList); */
+        if (tasksListCopy[closestEleIndex].id === draggedItem.taskId) {
+          setTasksPreview(tasks);
+        } else {
+          tasks.splice(
+            closestEleIndex,
+            0,
+            <Task
+              key={`${draggedItem.taskId}--dragged`}
+              stageId={stageData.id}
+              data={draggedItemPreviewData}
+              className="task--dragged"
+            />
+          );
 
-        setClosestEleIndex(getClosestTaskIndex(stageRef, monitor));
+          setTasksPreview(tasks);
+        } */
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
-        item: monitor.getItem(),
+        draggedItem: monitor.getItem(),
       }),
     }),
     []
   );
-
-  const tasks = assignTasks(stageData, isOver, draggedItem, closestEleIndex);
-
-  console.log(tasks);
-  /* 
-  if (isOver) {
-    const { tasksList } = stageData;
-    const draggedItemIndex = tasksList.findIndex(
-      (task) => task.id === draggedItem.taskId
-    );
-    if (draggedItemIndex < 0) return null;
-    const newTasksList = JSON.parse(JSON.stringify(tasksList));
-    const newTasksJSX = tasksList.map((data) => (
-      <Task key={data.id} stageId={stageData.id} data={data} />
-    ));
-
-    if (stageData.id === draggedItem.stageId)
-      newTasksList.splice(draggedItemIndex, 1);
-  } */
 
   const stageRefsCombined = (node) => {
     stageRef.current = node;
@@ -150,39 +133,27 @@ export default function Stage({ stageData }) {
   };
 
   const { title, tasksList } = stageData;
-  /*   const tasks = tasksList.map((data) => (
+  const tasks = tasksList.map((data) => (
     <Task key={data.id} stageId={stageData.id} data={data} />
   ));
- */
-  /*   const tasksPreview = tasksPreviewList.map((data) => (
-    <Task key={data.id} stageId={stageData.id} data={data} />
-  )); */
-  /* 
-  const tasksWithPreview = tasks;
-  tasksWithPreview.splice(closestEleIndex, 0, item.taskRef); */
 
-  /* 
-  
-  idea about hover animation!
+  const tasksPreview = [];
 
-  new return of tasks which doesn't update redux state!
-  
-  if isOver
-  then return tasksPreview!
+  if (isOver) {
+    tasksPreview.push(...tasks);
 
-  create new array of Tasks
-
-
-  */
-
-  //create new array of tasks
-
-  /* 
-  
-  newTasksArray <=== tasks from redux store
-
-
-  */
+    tasksPreview.splice(
+      closestToDraggedItemIndex,
+      0,
+      <Task
+        key={`${draggedItem.taskId}--dragged`}
+        stageId={stageData.id}
+        data={draggedItem.taskData}
+        className="task--dragged"
+        isPreviewed={true}
+      />
+    );
+  }
 
   return (
     <StageStyled ref={stageRefsCombined} className="stage">
@@ -191,7 +162,7 @@ export default function Stage({ stageData }) {
         onClick={() => setStageSettingsShown(true)}
       />
       <h2 className="stage__title">{title}</h2>
-      <ul className="stage__tasks">{tasks}</ul>
+      <ul className="stage__tasks">{isOver ? tasksPreview : tasks}</ul>
       <StageSettings
         data={stageData}
         stageSettingsShown={stageSettingsShown}
