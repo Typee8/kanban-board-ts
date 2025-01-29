@@ -14,23 +14,26 @@ export default function StageForm({
   const { register, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
-  if (stageFormShown) {
-    const onSubmit = (data, evt) => {
-      evt.preventDefault();
-      const newStage = data;
-      newStage.id = uuidv4();
-      newStage.tasksList = [];
-      dispatch(addNewStage(newStage));
-    };
+  if (stageFormShown === false) return;
 
-    return (
-      <Form
-        title="something"
-        closeForm={setStageFormShown}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Input title="title" register={register("title")} />
-      </Form>
-    );
-  }
+  return (
+    <Form
+      title="something"
+      closeForm={setStageFormShown}
+      onSubmit={handleSubmit((data, evt) => {
+        onSubmit(data, evt, dispatch);
+        setStageFormShown(false);
+      })}
+    >
+      <Input title="title" register={register("title")} />
+    </Form>
+  );
+}
+
+function onSubmit(data, evt, dispatch) {
+  evt.preventDefault();
+  const newStage = data;
+  newStage.id = uuidv4();
+  newStage.tasksList = [];
+  dispatch(addNewStage(newStage));
 }

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import styled from "styled-components";
 import Board from "./Board";
 import BoardSettings from "./BoardSettings";
 import MenuBoardPanel from "./MenuBoardPanel";
+import { useState } from "react";
 
 const BoardPanelStyled = styled.div`
   width: 100vw;

@@ -1,14 +1,14 @@
 import TaskFormStyled from "./styled/TaskFormStyled";
 import TextArea from "./inputs/TextArea";
 import Input from "./inputs/Input";
+import RemoveBtn from "./buttons/RemoveBtn";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/slices/boardStateSlice";
-import RemoveBtn from "./buttons/RemoveBtn";
 
 export default function TaskSettings({
   stageId,
-  data,
+  taskData,
   taskSettingsShown,
   setTaskSettingsShown,
 }: {
@@ -16,13 +16,13 @@ export default function TaskSettings({
 }) {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      title: data.title,
-      description: data.description,
-      attachments: data.attachments,
-      taskType: data.taskType,
-      deadline: data.deadline,
-      priority: data.priority,
-      assignedPerson: data.assignedPerson,
+      title: taskData.title,
+      description: taskData.description,
+      attachments: taskData.attachments,
+      taskType: taskData.taskType,
+      deadline: taskData.deadline,
+      priority: taskData.priority,
+      assignedPerson: taskData.assignedPerson,
     },
   });
   const dispatch = useDispatch();
@@ -30,15 +30,15 @@ export default function TaskSettings({
   if (taskSettingsShown) {
     const onSubmit = (inputData, evt) => {
       evt.preventDefault();
-      const newTask = { ...data, ...inputData };
+      const newTask = { ...taskData, ...inputData };
       console.log(newTask.id);
-      dispatch(updateTask({ task: newTask, taskId: data.id, stageId }));
+      dispatch(updateTask({ task: newTask, taskId: taskData.id, stageId }));
       setTaskSettingsShown(false);
     };
 
     const onRemoveBtnClick = (evt) => {
       evt.preventDefault();
-      dispatch(removeTask({ taskId: data.id, stageId }));
+      dispatch(removeTask({ taskId: taskData.id, stageId }));
       setTaskSettingsShown(false);
     };
 

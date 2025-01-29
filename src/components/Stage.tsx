@@ -72,7 +72,7 @@ export default function Stage({ stageData }) {
       <h2 className="stage__title">{title}</h2>
       <ul className="stage__tasks">{tasks}</ul>
       <StageSettings
-        data={stageData}
+        stageData={stageData}
         stageSettingsShown={stageSettingsShown}
         setStageSettingsShown={() => setStageSettingsShown(false)}
       />
@@ -131,7 +131,7 @@ function getTasksJSX(
   const tasksJSX = [];
 
   tasksList.forEach((task) => {
-    const taskJSX = <Task key={task.id} stageId={stageId} data={task} />;
+    const taskJSX = <Task key={task.id} stageId={stageId} taskData={task} />;
     tasksJSX.push(taskJSX);
   });
 
@@ -142,7 +142,7 @@ function getTasksJSX(
       <Task
         key={`${draggedItem.taskId}--dragged`}
         stageId={stageId}
-        data={draggedItem.taskData}
+        taskData={draggedItem.taskData}
         className="task--dragged"
         isPreviewed={true}
       />

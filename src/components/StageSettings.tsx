@@ -1,12 +1,12 @@
 import Form from "./forms/Form";
 import Input from "./inputs/Input";
+import RemoveBtn from "./buttons/RemoveBtn";
 import { useForm } from "react-hook-form";
 import { updateStage, removeStage } from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
-import RemoveBtn from "./buttons/RemoveBtn";
 
 export default function StageSettings({
-  data,
+  stageData,
   stageSettingsShown,
   setStageSettingsShown,
 }: {
@@ -14,34 +14,36 @@ export default function StageSettings({
 }) {
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      title: data.title,
+      title: stageData.title,
     },
   });
   const dispatch = useDispatch();
 
-  if (stageSettingsShown) {
-    const onSubmit = (inputData, evt) => {
-      evt.preventDefault();
-      const newStage = { ...data, ...inputData };
-      dispatch(updateStage({ newStage, stageId: data.id }));
-      setStageSettingsShown(false);
-    };
+  if (stageSettingsShown === false) return;
 
-    const onRemoveBtnClick = (evt) => {
-      evt.preventDefault();
-      dispatch(removeStage({ stageId: data.id }));
-      setStageSettingsShown(false);
-    };
+  return (
+    <Form
+      title="something"
+      closeForm={setStageSettingsShown}
+      onSubmit={handleSubmit((inputData, evt) => {
+        evt.preventDefault();
+        onSubmit(inputData, dispatch);
+        setStageSettingsShown(false);
+      })}
+    >
+      <RemoveBtn
+        onClick={(evt) => {
+          evt.preventDefault();
+          dispatch(removeStage({ stageId: stageData.id }));
+          setStageSettingsShown(false);
+        }}
+      />
+      <Input title="title" register={register("title")} />
+    </Form>
+  );
+}
 
-    return (
-      <Form
-        title="something"
-        closeForm={setStageSettingsShown}
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <RemoveBtn onClick={onRemoveBtnClick} />
-        <Input title="title" register={register("title")} />
-      </Form>
-    );
-  }
+function onSubmit(inputData, dispatch) {
+  const newStage = { ...stageData, ...inputData };
+  dispatch(updateStage({ newStage, stageId: stageData.id }));
 }

@@ -1,8 +1,8 @@
-import { useState } from "react";
 import AddBtn from "./buttons/AddBtn";
 import TaskForm from "./forms/TaskForm";
 import StageForm from "./forms/StageForm";
 import styled from "styled-components";
+import { useState } from "react";
 
 const NewBoardElementsStyled = styled.li`
   display: "flex";

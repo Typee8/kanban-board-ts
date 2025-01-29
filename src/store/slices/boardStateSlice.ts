@@ -2,25 +2,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-function findStageIndex(state, stageId) {
-  let stageIndex;
-  state.forEach((stage) =>
-    stage.id === stageId ? (stageIndex = state.indexOf(stage)) : null
-  );
-
-  return stageIndex;
-}
-
-function findTaskIndex(state, taskId, stageId) {
-  const stageIndex = findStageIndex(state, stageId);
-  let taskIndex;
-  const { tasksList } = state[stageIndex];
-  tasksList.forEach((task) =>
-    task.id === taskId ? (taskIndex = tasksList.indexOf(task)) : null
-  );
-  return taskIndex;
-}
-
 const boardStateSlice = createSlice({
   name: "boardState",
   initialState: [
@@ -188,3 +169,22 @@ export const {
   removeStage,
 } = boardStateSlice.actions;
 export default boardStateSlice.reducer;
+
+function findStageIndex(state, stageId) {
+  let stageIndex;
+  state.forEach((stage) =>
+    stage.id === stageId ? (stageIndex = state.indexOf(stage)) : null
+  );
+
+  return stageIndex;
+}
+
+function findTaskIndex(state, taskId, stageId) {
+  const stageIndex = findStageIndex(state, stageId);
+  let taskIndex;
+  const { tasksList } = state[stageIndex];
+  tasksList.forEach((task) =>
+    task.id === taskId ? (taskIndex = tasksList.indexOf(task)) : null
+  );
+  return taskIndex;
+}

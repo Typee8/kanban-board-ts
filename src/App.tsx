@@ -1,10 +1,10 @@
-import { HashRouter as Router, Routes, Route } from "react-router";
 import SetupPanel from "./components/SetupPanel";
 import AccountManager from "./components/AccountManager";
 import Team from "./components/Team";
 import LoginScreen from "./components/LoginScreen";
 import BoardPanel from "./components/BoardPanel";
 import "./css/reset.css";
+import { HashRouter as Router, Routes, Route } from "react-router";
 
 function App() {
   return (

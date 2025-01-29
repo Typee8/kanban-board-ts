@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
-import { DndProvider } from "react-dnd-multi-backend";
-import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import styled from "styled-components";
 import Stage from "./Stage";
 import NewBoardElements from "./NewBoardElements";
+import { useSelector } from "react-redux";
+import { DndProvider } from "react-dnd-multi-backend";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
 
 const BoardStyled = styled.ul`
   display: flex;
