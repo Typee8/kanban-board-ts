@@ -46,10 +46,10 @@ export default function Task({
 
   return (
     <TaskStyled
-      $isDragging={isDragging}
-      $isPreviewed={isPreviewed}
       ref={drag}
       className={className}
+      $isDragging={isDragging}
+      $isPreviewed={isPreviewed}
     >
       <SettingsBtn onClick={() => setTaskSettingsShown(true)} />
       <TaskContainerStyled>

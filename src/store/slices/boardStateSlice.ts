@@ -156,6 +156,17 @@ const boardStateSlice = createSlice({
 
       state.splice(stageIndex, 1);
     },
+    moveStage: (state, action) => {
+      const { stageId, closestStageIndex } = action.payload;
+      console.log(closestStageIndex);
+      const stageIndex = findStageIndex(state, stageId);
+      const newState = JSON.parse(JSON.stringify(state));
+      newState.splice(stageIndex, 1);
+      const stage = state[stageIndex];
+      newState.splice(closestStageIndex, 0, stage);
+
+      return (state = newState);
+    },
   },
 });
 
@@ -167,6 +178,7 @@ export const {
   addNewStage,
   updateStage,
   removeStage,
+  moveStage,
 } = boardStateSlice.actions;
 export default boardStateSlice.reducer;
 

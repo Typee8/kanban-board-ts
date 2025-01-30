@@ -5,19 +5,43 @@ import StageSettings from "./StageSettings";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
 
 const StageStyled = styled.li`
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 20px;
   border: 1px solid black;
+  opacity: ${(props) => {
+    if (props.$isDragging) return 0;
+    if (props.$isPreviewed) return 0.4;
+    return 1;
+  }};
 `;
 
 StageStyled.displayName = "StageStyled";
 
-export default function Stage({ stageData }) {
+const StageContainerStyled = styled.ul`
+  padding: 20px;
+`;
+
+StageContainerStyled.displayName = "StageContainerStyled";
+
+const StageTasksStyled = styled.ul`
+  padding: 20px;
+`;
+
+StageTasksStyled.displayName = "StageTasksStyled";
+
+/* 
+Info the Stage should provide:
+
+- number of workers
+- tasks limit
+
+*/
+
+export default function Stage({ stageData, isPreviewed = false }) {
   const [stageSettingsShown, setStageSettingsShown] = useState(false);
   const [closestToDraggedTaskIndex, setClosestToDraggedTaskIndex] = useState();
   const stageRef = useRef();
@@ -28,6 +52,7 @@ export default function Stage({ stageData }) {
       accept: "task",
       drop: (draggedItem, monitor) => {
         const closestEleIndex = getClosestTaskIndex(stageRef, monitor);
+
         dispatch(
           moveTask({
             taskId: draggedItem.taskId,
@@ -48,6 +73,17 @@ export default function Stage({ stageData }) {
     []
   );
 
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "stage",
+    item: {
+      stageId: stageData.id,
+      stageData,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   const stageRefsCombined = (node) => {
     stageRef.current = node;
     drop(node);
@@ -64,18 +100,25 @@ export default function Stage({ stageData }) {
   );
 
   return (
-    <StageStyled ref={stageRefsCombined} className="stage">
-      <SettingsBtn
-        className="stage__settings"
-        onClick={() => setStageSettingsShown(true)}
-      />
-      <h2 className="stage__title">{title}</h2>
-      <ul className="stage__tasks">{tasks}</ul>
-      <StageSettings
-        stageData={stageData}
-        stageSettingsShown={stageSettingsShown}
-        setStageSettingsShown={() => setStageSettingsShown(false)}
-      />
+    <StageStyled
+      ref={stageRefsCombined}
+      className="stage"
+      $isDragging={isDragging}
+      $isPreviewed={isPreviewed}
+    >
+      <StageContainerStyled ref={drag}>
+        <StageSettings
+          stageData={stageData}
+          stageSettingsShown={stageSettingsShown}
+          setStageSettingsShown={() => setStageSettingsShown(false)}
+        />
+        <SettingsBtn
+          className="stage__settings"
+          onClick={() => setStageSettingsShown(true)}
+        />
+        <h2 className="stage__title">{title}</h2>
+      </StageContainerStyled>
+      <StageTasksStyled className="stage__tasks">{tasks}</StageTasksStyled>
     </StageStyled>
   );
 }

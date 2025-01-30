@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Board from "./Board";
 import BoardSettings from "./BoardSettings";
 import MenuBoardPanel from "./MenuBoardPanel";
+import { DndProvider } from "react-dnd-multi-backend";
+import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useState } from "react";
 
 const BoardPanelStyled = styled.div`
@@ -15,13 +17,15 @@ export default function BoardPanel() {
   const [boardSettingShown, setBoardSettingShown] = useState(false);
 
   return (
-    <BoardPanelStyled>
-      <MenuBoardPanel
-        boardSettingShown={boardSettingShown}
-        setBoardSettingShown={setBoardSettingShown}
-      />
-      <Board />
-      {boardSettingShown ? <BoardSettings /> : null}
-    </BoardPanelStyled>
+    <DndProvider options={HTML5toTouch}>
+      <BoardPanelStyled>
+        <MenuBoardPanel
+          boardSettingShown={boardSettingShown}
+          setBoardSettingShown={setBoardSettingShown}
+        />
+        <Board />
+        {boardSettingShown ? <BoardSettings /> : null}
+      </BoardPanelStyled>
+    </DndProvider>
   );
 }
