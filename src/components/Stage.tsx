@@ -41,7 +41,7 @@ Info the Stage should provide:
 
 */
 
-export default function Stage({ stageData, isPreviewed = false }) {
+export default function Stage({ stageData, className, isPreviewed = false }) {
   const [stageSettingsShown, setStageSettingsShown] = useState(false);
   const [closestToDraggedTaskIndex, setClosestToDraggedTaskIndex] = useState();
   const stageRef = useRef();
@@ -78,13 +78,14 @@ export default function Stage({ stageData, isPreviewed = false }) {
     item: {
       stageId: stageData.id,
       stageData,
+      stageRef,
     },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
   }));
 
-  const stageRefsCombined = (node) => {
+  const combineRefs = (node) => {
     stageRef.current = node;
     drop(node);
   };
@@ -101,8 +102,8 @@ export default function Stage({ stageData, isPreviewed = false }) {
 
   return (
     <StageStyled
-      ref={stageRefsCombined}
-      className="stage"
+      ref={combineRefs}
+      className={className}
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
