@@ -96,16 +96,8 @@ export default function Board() {
 }
 
 function getClosestStageIndex(mousePositionX, stagesPositions) {
-  const stagesMiddleXList = stagesPositions.map((position) => {
-    const stageMiddleX = position.left + position.width / 2;
-
-    return stageMiddleX;
-  });
-
-  console.log(stagesPositions);
-
-  const distanceList = stagesMiddleXList.map((x) =>
-    Math.abs(x - mousePositionX)
+  const distanceList = stagesPositions.map((x) =>
+    Math.abs(x.right - mousePositionX)
   );
   const closestStageIndex = distanceList.indexOf(Math.min(...distanceList));
 
