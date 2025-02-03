@@ -28,10 +28,9 @@ export default function TaskForm({
       <Input title="title" register={register("title")} />
       <TextArea title="description" register={register("description")} />
       <TextArea title="attachments" register={register("attachments")} />
-      <Input title="taskType" register={register("taskType")} />
       <Input title="deadline" register={register("deadline")} />
       <Input title="priority" register={register("priority")} />
-      <Input title="assignedPerson" register={register("assignedPerson")} />
+      <Input title="assignee" register={register("assignee")} />
     </TaskFormStyled>
   );
 }

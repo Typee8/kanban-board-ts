@@ -70,7 +70,7 @@ export default function Board() {
       console.log(closestStageIndex);
 
       stages.splice(
-        closestStageIndex + 1,
+        closestStageIndex,
         0,
         <Stage
           key={`${draggedItem.stageId}--dragged`}

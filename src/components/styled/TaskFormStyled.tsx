@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Form from "../forms/Form";
+import Form from "./FormStyled";
 
 const TaskFormStyled = styled(Form)`
   z-index: 999;
@@ -7,7 +7,7 @@ const TaskFormStyled = styled(Form)`
   top: 200px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: start;
   gap: 20px;
   width: 800px;
   height: 800px;

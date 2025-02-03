@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import SettingsBtn from "./buttons/SettingsBtn";
-import TaskSettings from "./TaskSettings";
+import TaskDetails from "./TaskDetails";
 import { useState } from "react";
 import { useDrag } from "react-dnd";
 
@@ -30,7 +30,7 @@ export default function Task({
   className,
   isPreviewed = false,
 }) {
-  const [taskSettingsShown, setTaskSettingsShown] = useState(false);
+  const [taskDetailsShown, setTaskDetailsShown] = useState(false);
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: {
@@ -51,15 +51,15 @@ export default function Task({
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
-      <SettingsBtn onClick={() => setTaskSettingsShown(true)} />
+      <SettingsBtn onClick={() => setTaskDetailsShown(true)} />
       <TaskContainerStyled>
         <h2>{title}</h2>
       </TaskContainerStyled>
-      <TaskSettings
+      <TaskDetails
         stageId={stageId}
         taskData={taskData}
-        taskSettingsShown={taskSettingsShown}
-        setTaskSettingsShown={() => setTaskSettingsShown(false)}
+        taskDetailsShown={taskDetailsShown}
+        setTaskDetailsShown={() => setTaskDetailsShown(false)}
       />
     </TaskStyled>
   );

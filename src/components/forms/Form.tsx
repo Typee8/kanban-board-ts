@@ -1,35 +1,36 @@
+import { ReactNode } from "react";
 import CloseBtn from "../buttons/CloseBtn";
-import styled from "styled-components";
-
-const FormStyled = styled.form`
-  z-index: 999;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 40px;
-  gap: 20px;
-  background-color: blanchedalmond;
-  border-radius: 40px;
-`;
+import FormStyled from "../styled/FormStyled";
 
 FormStyled.displayName = "FormStyled";
+
+type FormProps = {
+  children: ReactNode;
+  className?: string;
+  title?: string | boolean;
+  onSubmit: () => (event: React.FormEvent<HTMLFormElement>) => void;
+  closeForm?: React.Dispatch<React.SetStateAction<boolean>> | boolean;
+};
 
 export default function Form({
   children,
   className,
-  title,
+  title = false,
   onSubmit,
-  closeForm,
-}) {
+  closeForm = false,
+}: FormProps) {
   return (
     <FormStyled className={className} onSubmit={onSubmit}>
-      <CloseBtn
-        onClick={(evt) => {
-          evt.preventDefault();
-          closeForm();
-        }}
-      />
-      <h3>{title}</h3>
+      {closeForm ? (
+        <CloseBtn
+          onClick={(evt) => {
+            evt.preventDefault();
+            closeForm();
+          }}
+        />
+      ) : null}
+
+      {title ? <h3>{title}</h3> : null}
       {children}
       <input type="submit" />
     </FormStyled>
