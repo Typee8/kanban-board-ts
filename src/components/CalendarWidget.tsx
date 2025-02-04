@@ -1,4 +1,4 @@
-import { DayPicker } from "react-day-picker";
+import { DayPicker, DateRange, OnSelectHandler } from "react-day-picker";
 import styled from "styled-components";
 import "react-day-picker/style.css";
 import CloseBtn from "./buttons/CloseBtn";
@@ -7,9 +7,9 @@ import { Dispatch, SetStateAction } from "react";
 type CalendarWidgetProps = {
   calendarWidgetShown: boolean;
   setCalendarWidgetShown: [boolean, Dispatch<SetStateAction<boolean>>];
-  mode: string;
-  selected: string;
-  onSelect: (name: string, value: string) => void;
+  mode: "multiple" | "single" | "range";
+  selected: DateRange;
+  handleOnSelect: OnSelectHandler<DateRange>;
 };
 
 const CalendarWidgetStyled = styled.div`
@@ -35,12 +35,17 @@ export default function CalendarWidget({
   setCalendarWidgetShown,
   mode,
   selected,
-  onSelect,
+  handleOnSelect,
 }: CalendarWidgetProps) {
   return calendarWidgetShown ? (
     <CalendarWidgetStyled>
       <CloseBtnStyled onClick={() => setCalendarWidgetShown(false)} />
-      <DayPicker mode={mode} selected={selected} onSelect={onSelect} />
+      <DayPicker
+        mode={mode}
+        required={true}
+        selected={selected}
+        onSelect={handleOnSelect}
+      />
     </CalendarWidgetStyled>
   ) : null;
 }

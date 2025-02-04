@@ -68,7 +68,7 @@ export default function TaskDetails({
       dispatch(removeTask({ taskId: taskData.id, stageId }));
       setTaskDetailsShown(false);
     };
-    console.log({ ...register("priority") });
+
     return (
       <TaskFormStyled onSubmit={handleSubmit(onSubmit)}>
         <TaskDetailsToolbarStyled>
@@ -84,8 +84,8 @@ export default function TaskDetails({
             calendarWidgetShown={calendarWidgetShown}
             setCalendarWidgetShown={setCalendarWidgetShown}
             mode="single"
-            selected={() => getValues("deadline")}
-            onSelect={(value) =>
+            selected={getValues("deadline")}
+            handleOnSelect={(value) =>
               setValue("deadline", moment(value).format("L"))
             }
           />
