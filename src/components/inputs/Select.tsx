@@ -1,30 +1,45 @@
 import { v4 as uuidv4 } from "uuid";
+import { UseFormRegisterReturn } from "react-hook-form";
+import { forwardRef } from "react";
 
 type SelectProps = {
   className?: string;
   title?: string;
-  register: any;
+  register: UseFormRegisterReturn;
   optionsList: string[];
+  onBlur?: (event: React.FocusEvent<HTMLSelectElement>) => void;
 };
 
-export default function Select({
-  className,
-  title,
-  register,
-  optionsList,
-}: SelectProps) {
-  const id = uuidv4();
+const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  ({ className, title, register, optionsList, onBlur }, ref) => {
+    const id = uuidv4();
 
-  const optionsJSX = optionsList.map((ele: string) => (
-    <option key={ele}>{ele}</option>
-  ));
+    const { ref: registerRef, ...restOfRegister } = register;
 
-  return (
-    <>
-      {title ? <label htmlFor={id}>{title}</label> : null}
-      <select id={id} className={className} {...register}>
-        {optionsJSX}
-      </select>
-    </>
-  );
-}
+    const combineRefs = (node) => {
+      if (ref) ref.current = node;
+      registerRef(node);
+    };
+
+    const optionsJSX = optionsList.map((ele: string) => (
+      <option key={ele}>{ele}</option>
+    ));
+
+    return (
+      <>
+        {title ? <label htmlFor={id}>{title}</label> : null}
+        <select
+          ref={combineRefs}
+          id={id}
+          className={className}
+          {...restOfRegister}
+          onBlur={onBlur}
+        >
+          {optionsJSX}
+        </select>
+      </>
+    );
+  }
+);
+
+export default Select;

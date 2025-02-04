@@ -20,7 +20,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/20/2024",
           priority: "high",
-          assignee: "Paweł",
+          assignee: ["Paweł"],
         },
         {
           title: "Plan a Weekend Getaway",
@@ -33,7 +33,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/25/2024",
           priority: "medium",
-          assignee: "Anna",
+          assignee: ["Anna"],
         },
         {
           title: "Team Presentation Preparation",
@@ -46,7 +46,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/30/2024",
           priority: "critical",
-          assignee: "John",
+          assignee: ["John"],
         },
       ],
     },
@@ -64,7 +64,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/20/2024",
           priority: "high",
-          assignee: "Paweł",
+          assignee: ["Paweł"],
         },
         {
           title: "Fix the Leaky Faucet",
@@ -74,7 +74,7 @@ const boardStateSlice = createSlice({
           attachments: ["https://www.homedepot.com/", "https://www.lowes.com/"],
           deadline: "11/22/2024",
           priority: "high",
-          assignee: "Mike",
+          assignee: ["Mike"],
         },
         {
           title: "Write a Blog Post on Sustainability",
@@ -84,7 +84,7 @@ const boardStateSlice = createSlice({
           attachments: ["https://www.greenpeace.org/", "https://www.nrdc.org/"],
           deadline: "12/01/2024",
           priority: "medium",
-          assignee: "Sophia",
+          assignee: ["Sophia"],
         },
         {
           title: "Organize Office Holiday Party",
@@ -97,7 +97,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "12/15/2024",
           priority: "low",
-          assignee: "Emily",
+          assignee: ["Emily"],
         },
       ],
     },
