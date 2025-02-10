@@ -20,7 +20,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/20/2024",
           priority: "high",
-          assignee: ["Paweł"],
+          assigneesList: [{ name: "John" }, { name: "Mark" }],
         },
         {
           title: "Plan a Weekend Getaway",
@@ -33,7 +33,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/25/2024",
           priority: "medium",
-          assignee: ["Anna"],
+          assigneesList: [{ name: "Dorothy" }],
         },
         {
           title: "Team Presentation Preparation",
@@ -46,7 +46,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/30/2024",
           priority: "critical",
-          assignee: ["John"],
+          assigneesList: [{ name: "John" }, { name: "Dorothy" }],
         },
       ],
     },
@@ -64,7 +64,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "11/20/2024",
           priority: "high",
-          assignee: ["Paweł"],
+          assigneesList: [{ name: "Mark" }],
         },
         {
           title: "Fix the Leaky Faucet",
@@ -74,7 +74,7 @@ const boardStateSlice = createSlice({
           attachments: ["https://www.homedepot.com/", "https://www.lowes.com/"],
           deadline: "11/22/2024",
           priority: "high",
-          assignee: ["Mike"],
+          assigneesList: [{ name: "Judy" }, { name: "Mark" }],
         },
         {
           title: "Write a Blog Post on Sustainability",
@@ -84,7 +84,7 @@ const boardStateSlice = createSlice({
           attachments: ["https://www.greenpeace.org/", "https://www.nrdc.org/"],
           deadline: "12/01/2024",
           priority: "medium",
-          assignee: ["Sophia"],
+          assigneesList: [{ name: "Mishelle" }, { name: "Judy" }],
         },
         {
           title: "Organize Office Holiday Party",
@@ -97,7 +97,7 @@ const boardStateSlice = createSlice({
           ],
           deadline: "12/15/2024",
           priority: "low",
-          assignee: ["Emily"],
+          assigneesList: [{ name: "Nicolaus" }, { name: "Mark" }],
         },
       ],
     },

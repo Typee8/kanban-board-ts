@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 type inputProps = {
   className?: string;
   title?: string;
-  inputType?: string;
+  type?: string;
   register: any;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -12,7 +12,7 @@ type inputProps = {
 export default function Input({
   className,
   title,
-  inputType,
+  type,
   register,
   onFocus,
   onBlur,
@@ -23,7 +23,7 @@ export default function Input({
       <label htmlFor={id}>{title}</label>
       <input
         id={id}
-        type={inputType}
+        type={type}
         className={className}
         {...register}
         onFocus={onFocus}

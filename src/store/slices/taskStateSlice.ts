@@ -9,3 +9,6 @@ const taskStateSlice = createSlice({
 });
 
 export default taskStateSlice.reducer;
+
+// new slice for every task
+//

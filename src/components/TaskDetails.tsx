@@ -13,6 +13,7 @@ import Select from "./inputs/Select";
 import moment from "moment";
 import CalendarWidget from "./CalendarWidget";
 import AddBtn from "./buttons/AddBtn";
+import TaskAssigneePanel from "../TaskAssigneePanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -67,20 +68,22 @@ export default function TaskDetails({
   setTaskDetailsShown,
 }: TaskDetailsProps) {
   const [calendarWidgetShown, setCalendarWidgetShown] = useState(false);
-  const [assigneeSelectShown, setAssigneeSelectShown] = useState(false);
-  const [assigneeAddBtnShown, setAssigneeAddBtnShown] = useState(true);
+  /*   const [assigneeSelectShown, setAssigneeSelectShown] = useState(false);
+  const [assigneeAddBtnShown, setAssigneeAddBtnShown] = useState(true); */
   const selectRef = useRef();
 
-  const { register, handleSubmit, getValues, setValue } = useForm({
-    defaultValues: {
-      title: taskData.title,
-      description: taskData.description,
-      attachments: taskData.attachments,
-      deadline: taskData.deadline,
-      priority: taskData.priority,
-      assignee: "",
-    },
-  });
+  const { register, handleSubmit, getValues, setValue, control, setFocus } =
+    useForm({
+      defaultValues: {
+        title: taskData.title,
+        description: taskData.description,
+        attachments: taskData.attachments,
+        deadline: taskData.deadline,
+        priority: taskData.priority,
+        assigneesList: taskData.assigneesList,
+      },
+    });
+
   const dispatch = useDispatch();
 
   if (taskDetailsShown) {
@@ -98,7 +101,7 @@ export default function TaskDetails({
       setTaskDetailsShown(false);
     };
 
-    const assigneeList = taskData.assignee.map((assignee) => (
+    const assigneeList = taskData.assigneesList.map((assignee) => (
       <li key={assignee}>{assignee}</li>
     ));
 
@@ -106,7 +109,12 @@ export default function TaskDetails({
       <TaskFormStyled onSubmit={handleSubmit(onSubmit)}>
         <TaskDetailsToolbarStyled>
           <RemoveBtn onClick={onRemoveBtnClick}>Delete Task</RemoveBtn>
-          <CloseBtn />
+          <CloseBtn
+            onClick={(evt) => {
+              evt.preventDefault();
+              setTaskDetailsShown(false);
+            }}
+          />
         </TaskDetailsToolbarStyled>
 
         <TaskDetailsTitleStyled register={register("title")} />
@@ -134,7 +142,7 @@ export default function TaskDetails({
           register={register("priority")}
           optionsList={["low", "medium", "high"]}
         />
-        <div className="task__assignee">
+        {/*         <div className="task__assignee">
           <ul>
             assignee
             {assigneeList}
@@ -151,10 +159,9 @@ export default function TaskDetails({
           >
             <Select
               register={register("assignee")}
-              /*               ref={selectRef} */
+
               optionsList={assignee.map((ele) => ele.name)}
             />
-            {/*      <AddBtn onClick={save assignee to the state} /> */}
           </TaskAssigneeSelect>
 
           <AddBtnStyled
@@ -168,7 +175,15 @@ export default function TaskDetails({
               selectRef.current.focus();
             }}
           />
-        </div>
+        </div> */}
+        <TaskAssigneePanel
+          availableAssigneeList={assignee.map((ele) => ele.name)}
+          taskRegister={register}
+          getTaskFormValues={getValues}
+          taskFormControl={control}
+          setFocus={setFocus}
+        />
+        <input type="submit" />
       </TaskFormStyled>
     );
   }
