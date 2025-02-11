@@ -23,8 +23,6 @@ function Select({
     <option key={ele}>{ele}</option>
   ));
 
-  console.log(register);
-
   return (
     <>
       {title ? <label htmlFor={id}>{title}</label> : null}

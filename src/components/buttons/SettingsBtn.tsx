@@ -6,7 +6,7 @@ export default function SettingsBtn({
   onClick: React.MouseEvent<HTMLButtonElement, MouseEvent>;
 }) {
   return (
-    <button className={className} onClick={onClick}>
+    <button type="button" className={className} onClick={onClick}>
       &#9881;
     </button>
   );

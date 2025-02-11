@@ -6,7 +6,7 @@ export default function CloseBtn({
   onClick?;
 }) {
   return (
-    <button className={className} onClick={onClick}>
+    <button type="button" className={className} onClick={onClick}>
       X
     </button>
   );
