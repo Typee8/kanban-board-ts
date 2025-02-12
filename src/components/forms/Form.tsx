@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import CloseBtn from "../buttons/CloseBtn";
+import ButtonStyled from "../styled/ButtonStyled";
 import FormStyled from "../styled/FormStyled";
 
 FormStyled.displayName = "FormStyled";
@@ -22,12 +22,14 @@ export default function Form({
   return (
     <FormStyled className={className} onSubmit={onSubmit}>
       {closeForm ? (
-        <CloseBtn
+        <ButtonStyled
           onClick={(evt) => {
             evt.preventDefault();
             closeForm();
           }}
-        />
+        >
+          X
+        </ButtonStyled>
       ) : null}
 
       {title ? <h3>{title}</h3> : null}

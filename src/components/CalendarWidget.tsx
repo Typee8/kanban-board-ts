@@ -1,7 +1,7 @@
 import { DayPicker, DateRange, OnSelectHandler } from "react-day-picker";
 import styled from "styled-components";
 import "react-day-picker/style.css";
-import CloseBtn from "./buttons/CloseBtn";
+import ButtonStyled from "./styled/ButtonStyled";
 import { Dispatch, SetStateAction } from "react";
 
 type CalendarWidgetProps = {
@@ -24,7 +24,7 @@ const CalendarWidgetStyled = styled.div`
 
 CalendarWidgetStyled.displayName = "CalendarWidgetStyled";
 
-const CloseBtnStyled = styled(CloseBtn)`
+const CloseBtnStyled = styled(ButtonStyled)`
   align-self: flex-end;
 `;
 
@@ -39,7 +39,9 @@ export default function CalendarWidget({
 }: CalendarWidgetProps) {
   return calendarWidgetShown ? (
     <CalendarWidgetStyled>
-      <CloseBtnStyled onClick={() => setCalendarWidgetShown(false)} />
+      <CloseBtnStyled onClick={() => setCalendarWidgetShown(false)}>
+        X
+      </CloseBtnStyled>
       <DayPicker
         mode={mode}
         required={true}

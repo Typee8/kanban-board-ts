@@ -2,19 +2,16 @@ import TaskFormStyled from "./styled/TaskFormStyled";
 import TextArea from "./inputs/TextArea";
 import Input from "./inputs/Input";
 import RemoveBtn from "./buttons/RemoveBtn";
-import assignee from "../assets/assignee__placeholder__data";
-import CloseBtn from "./buttons/CloseBtn";
-import { Dispatch, SetStateAction, useState, useRef } from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import ButtonStyled from "./styled/ButtonStyled";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/slices/boardStateSlice";
 import styled from "styled-components";
 import Select from "./inputs/Select";
 import moment from "moment";
 import CalendarWidget from "./CalendarWidget";
-import AddBtn from "./buttons/AddBtn";
-import TaskAssigneePanel from "../TaskAssigneePanel";
-import TaskAssigneeParentPanel from "./TaskAssigneeParentPanel";
+import TaskAssigneePanel from "./TaskAssigneePanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -38,30 +35,6 @@ const TaskDetailsCalendarContainer = styled.div`
   flex-direction: column;
 `;
 
-const SelectStyled = styled(Select)`
-  position: absolute;
-  ${({ $isShown }) => `
-  pointer-events: ${$isShown ? "initial" : "none"};
-  opacity: ${$isShown ? 1 : 0};
-`}
-`;
-
-const TaskAssigneeSelect = styled.div`
-  position: absolute;
-  ${({ $isShown }) => `
-  pointer-events: ${$isShown ? "initial" : "none"};
-  opacity: ${$isShown ? 1 : 0};
-`}
-`;
-
-const AddBtnStyled = styled(AddBtn)`
-  position: absolute;
-  ${({ $isShown }) => `
-  pointer-events: ${$isShown ? "initial" : "none"};
-  opacity: ${$isShown ? 1 : 0};
-`}
-`;
-
 export default function TaskDetails({
   stageId,
   taskData,
@@ -69,9 +42,6 @@ export default function TaskDetails({
   setTaskDetailsShown,
 }: TaskDetailsProps) {
   const [calendarWidgetShown, setCalendarWidgetShown] = useState(false);
-  /*   const [assigneeSelectShown, setAssigneeSelectShown] = useState(false);
-  const [assigneeAddBtnShown, setAssigneeAddBtnShown] = useState(true); */
-  const selectRef = useRef();
 
   const { register, handleSubmit, getValues, setValue, control } = useForm({
     defaultValues: {
@@ -101,20 +71,22 @@ export default function TaskDetails({
       setTaskDetailsShown(false);
     };
 
-    const assigneeList = taskData.assigneesList.map((assignee) => (
-      <li key={assignee}>{assignee}</li>
-    ));
-
     return (
       <TaskFormStyled onSubmit={handleSubmit(onSubmit)}>
         <TaskDetailsToolbarStyled>
-          <RemoveBtn onClick={onRemoveBtnClick}>Delete Task</RemoveBtn>
-          <CloseBtn
-            onClick={(evt) => {
-              evt.preventDefault();
-              setTaskDetailsShown(false);
-            }}
-          />
+          <li>
+            <RemoveBtn onClick={onRemoveBtnClick}>Delete Task</RemoveBtn>
+          </li>
+          <li>
+            <ButtonStyled
+              $isShown={true}
+              onClick={() => {
+                setTaskDetailsShown(false);
+              }}
+            >
+              X
+            </ButtonStyled>
+          </li>
         </TaskDetailsToolbarStyled>
 
         <TaskDetailsTitleStyled register={register("title")} />
@@ -143,11 +115,10 @@ export default function TaskDetails({
           optionsList={["low", "medium", "high"]}
         />
 
-        <TaskAssigneeParentPanel
+        <TaskAssigneePanel
           taskRegister={register}
           taskFormControl={control}
           getTaskFormValues={getValues}
-          availableAssigneeList={assignee.map((ele) => ele.name)}
         />
 
         <input type="submit" />
