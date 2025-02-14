@@ -21,6 +21,14 @@ const boardStateSlice = createSlice({
           deadline: "11/20/2024",
           priority: "high",
           assigneesList: [{ name: "John" }, { name: "Mark" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
         {
           title: "Plan a Weekend Getaway",
@@ -34,6 +42,14 @@ const boardStateSlice = createSlice({
           deadline: "11/25/2024",
           priority: "medium",
           assigneesList: [{ name: "Dorothy" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
         {
           title: "Team Presentation Preparation",
@@ -47,6 +63,14 @@ const boardStateSlice = createSlice({
           deadline: "11/30/2024",
           priority: "critical",
           assigneesList: [{ name: "John" }, { name: "Dorothy" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
       ],
     },
@@ -65,6 +89,14 @@ const boardStateSlice = createSlice({
           deadline: "11/20/2024",
           priority: "high",
           assigneesList: [{ name: "Mark" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
         {
           title: "Fix the Leaky Faucet",
@@ -75,6 +107,14 @@ const boardStateSlice = createSlice({
           deadline: "11/22/2024",
           priority: "high",
           assigneesList: [{ name: "Judy" }, { name: "Mark" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
         {
           title: "Write a Blog Post on Sustainability",
@@ -85,6 +125,14 @@ const boardStateSlice = createSlice({
           deadline: "12/01/2024",
           priority: "medium",
           assigneesList: [{ name: "Mishelle" }, { name: "Judy" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
         {
           title: "Organize Office Holiday Party",
@@ -98,6 +146,14 @@ const boardStateSlice = createSlice({
           deadline: "12/15/2024",
           priority: "low",
           assigneesList: [{ name: "Nicolaus" }, { name: "Mark" }],
+          commentsList: [
+            {
+              user: "Anna",
+              hour: "12:00",
+              date: "01/12/2024",
+              comment: "Written comment lorem ipsum and so on.",
+            },
+          ],
         },
       ],
     },

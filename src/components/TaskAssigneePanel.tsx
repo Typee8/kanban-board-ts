@@ -10,8 +10,8 @@ import AddTaskAssignee from "./AddTaskAssignee";
 
 type TaskAssigneePanelProps = {
   taskRegister: UseFormRegister<FieldValues>;
-  taskFormControl: any;
-  getTaskFormValues: any;
+  taskFormControl: object;
+  getTaskFormValues: () => object;
 };
 
 export default function TaskAssigneePanel({

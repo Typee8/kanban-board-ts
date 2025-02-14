@@ -12,7 +12,7 @@ export default function TextArea({
   const id = uuidv4();
   return (
     <>
-      <label htmlFor={id}>{title}</label>
+      {title ? <label htmlFor={id}>{title}</label> : null}
       <textarea id={id} className={className} {...register} />
     </>
   );

@@ -12,6 +12,7 @@ import Select from "./inputs/Select";
 import moment from "moment";
 import CalendarWidget from "./CalendarWidget";
 import TaskAssigneePanel from "./TaskAssigneePanel";
+import TaskCommentsPanel from "./TaskCommentsPanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -51,6 +52,7 @@ export default function TaskDetails({
       deadline: taskData.deadline,
       priority: taskData.priority,
       assigneesList: taskData.assigneesList,
+      commentsList: taskData.commentsList,
     },
   });
 
@@ -120,6 +122,8 @@ export default function TaskDetails({
           taskFormControl={control}
           getTaskFormValues={getValues}
         />
+
+        <TaskCommentsPanel taskFormControl={control} />
 
         <input type="submit" />
       </TaskFormStyled>

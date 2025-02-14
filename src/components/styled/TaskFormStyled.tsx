@@ -10,7 +10,6 @@ const TaskFormStyled = styled(Form)`
   align-items: start;
   gap: 20px;
   width: 800px;
-  height: 800px;
   padding: 20px 60px;
   border-radius: 60px;
   background-color: blanchedalmond;
