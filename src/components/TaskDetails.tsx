@@ -4,7 +4,7 @@ import Input from "./inputs/Input";
 import RemoveBtn from "./buttons/RemoveBtn";
 import ButtonStyled from "./styled/ButtonStyled";
 import { Dispatch, SetStateAction, useState } from "react";
-import { get, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/slices/boardStateSlice";
 import styled from "styled-components";
@@ -14,6 +14,7 @@ import CalendarWidget from "./CalendarWidget";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
 import TaskTitlePanel from "./TaskTitlePanel";
+import TaskDescriptionPanel from "./TaskDescriptionPanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -91,8 +92,11 @@ export default function TaskDetails({
           getTitle={() => getValues("title")}
           taskRegister={register("title")}
         />
+        <TaskDescriptionPanel
+          getDescription={() => getValues("description")}
+          taskRegister={register("description")}
+        />
 
-        <TextArea title="description" register={register("description")} />
         <TextArea title="attachments" register={register("attachments")} />
         <TaskDetailsCalendarContainer>
           <CalendarWidget
