@@ -1,8 +1,8 @@
-import InputStyled from "./styled/InputStyled";
-import { useRef, useState } from "react";
+import { useState, useRef } from "react";
+import SelectStyled from "./styled/SelectStyled";
 import styled from "styled-components";
 
-const TaskTitleStyled = styled.div`
+const TaskPriorityStyled = styled.div`
   display: ${(props) => (props.$isShown ? "initial" : "none")};
   font-size: 18px;
   transition: all 0.3s ease;
@@ -12,34 +12,39 @@ const TaskTitleStyled = styled.div`
   }
 `;
 
-export default function TaskTitlePanel({ getTitle, taskRegister }) {
+export default function TaskPriorityPanel({
+  getPriority,
+  optionsList,
+  taskRegister,
+}) {
   const [editState, setEditState] = useState(false);
-  const inputRef = useRef();
+  const selectRef = useRef();
 
   const { ref, ...restOfRegister } = taskRegister;
 
   const combineRefs = (node) => {
-    inputRef.current = node;
+    selectRef.current = node;
     ref(node);
   };
 
   return (
     <div>
-      <TaskTitleStyled
+      <TaskPriorityStyled
         $isShown={!editState}
         onClick={() => {
           if (!editState) {
             setEditState(true);
-            setTimeout(() => inputRef.current.focus(), 0);
+            setTimeout(() => selectRef.current.focus(), 0);
           }
         }}
       >
-        {getTitle()}
-      </TaskTitleStyled>
-      <InputStyled
+        {getPriority()}
+      </TaskPriorityStyled>
+      <SelectStyled
         $isShown={editState}
         ref={combineRefs}
         register={restOfRegister}
+        optionsList={optionsList}
         onBlur={() => setEditState(false)}
       />
     </div>

@@ -13,6 +13,7 @@ import TaskCommentsPanel from "./TaskCommentsPanel";
 import TaskTitlePanel from "./TaskTitlePanel";
 import TaskDescriptionPanel from "./TaskDescriptionPanel";
 import TaskDeadlinePanel from "./TaskDeadlinePanel";
+import TaskPriorityPanel from "./TaskPriorityPanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -96,34 +97,24 @@ export default function TaskDetails({
         />
 
         <TextArea title="attachments" register={register("attachments")} />
+
         <TaskDeadlinePanel
           getDate={() => getValues("deadline")}
           setDate={(newValue) => setValue("deadline", newValue)}
           taskRegister={register("deadline")}
         />
 
-        {/*         <TaskDetailsCalendarContainer>
-          <CalendarWidget
-            calendarWidgetShown={calendarWidgetShown}
-            setCalendarWidgetShown={setCalendarWidgetShown}
-            mode="single"
-            selected={getValues("deadline")}
-            handleOnSelect={(value) =>
-              setValue("deadline", moment(value).format("L"))
-            }
-          />
-          <Input
-            title="deadline"
-            onFocus={() => setCalendarWidgetShown(true)}
-            register={register("deadline")}
-          />
-        </TaskDetailsCalendarContainer> */}
+        <TaskPriorityPanel
+          getPriority={() => getValues("priority")}
+          taskRegister={register("priority")}
+          optionsList={["low", "medium", "high"]}
+        />
 
-        <Select
+        {/*         <Select
           title="priority"
           register={register("priority")}
           optionsList={["low", "medium", "high"]}
-        />
+        /> */}
 
         <TaskAssigneePanel
           taskRegister={register}
