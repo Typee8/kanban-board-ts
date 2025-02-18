@@ -27,10 +27,8 @@ export default function TaskDescriptionPanel({ getDescription, taskRegister }) {
     <div>
       <TaskDescriptionStyled
         onClick={() => {
-          if (!editState) {
-            setEditState(true);
-            setTimeout(() => textAreaRef.current.focus(), 0);
-          }
+          setEditState(true);
+          setTimeout(() => textAreaRef.current.focus(), 0);
         }}
         $isShown={!editState}
       >

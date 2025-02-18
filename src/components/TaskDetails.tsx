@@ -1,6 +1,5 @@
 import TaskFormStyled from "./styled/TaskFormStyled";
 import TextArea from "./inputs/TextArea";
-import Input from "./inputs/Input";
 import RemoveBtn from "./buttons/RemoveBtn";
 import ButtonStyled from "./styled/ButtonStyled";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -9,12 +8,11 @@ import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/slices/boardStateSlice";
 import styled from "styled-components";
 import Select from "./inputs/Select";
-import moment from "moment";
-import CalendarWidget from "./CalendarWidget";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
 import TaskTitlePanel from "./TaskTitlePanel";
 import TaskDescriptionPanel from "./TaskDescriptionPanel";
+import TaskDeadlinePanel from "./TaskDeadlinePanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -98,7 +96,13 @@ export default function TaskDetails({
         />
 
         <TextArea title="attachments" register={register("attachments")} />
-        <TaskDetailsCalendarContainer>
+        <TaskDeadlinePanel
+          getDate={() => getValues("deadline")}
+          setDate={(newValue) => setValue("deadline", newValue)}
+          taskRegister={register("deadline")}
+        />
+
+        {/*         <TaskDetailsCalendarContainer>
           <CalendarWidget
             calendarWidgetShown={calendarWidgetShown}
             setCalendarWidgetShown={setCalendarWidgetShown}
@@ -113,7 +117,7 @@ export default function TaskDetails({
             onFocus={() => setCalendarWidgetShown(true)}
             register={register("deadline")}
           />
-        </TaskDetailsCalendarContainer>
+        </TaskDetailsCalendarContainer> */}
 
         <Select
           title="priority"
