@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, forwardRef } from "react";
 type ButtonProps = {
   $isShown?: boolean;
   className?: string;
@@ -6,10 +6,14 @@ type ButtonProps = {
   children?: ReactNode;
 };
 
-export default function Button({ className, onClick, children }: ButtonProps) {
-  return (
-    <button type="button" className={className} onClick={onClick}>
-      {children}
-    </button>
-  );
-}
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, onClick, children }, ref) => {
+    return (
+      <button ref={ref} type="button" className={className} onClick={onClick}>
+        {children}
+      </button>
+    );
+  }
+);
+
+export default Button;

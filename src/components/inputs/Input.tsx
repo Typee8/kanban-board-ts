@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
+import { forwardRef } from "react";
 
-type inputProps = {
+type InputProps = {
+  $isShown?: boolean;
   className?: string;
   title?: string;
   type?: string;
@@ -9,26 +11,24 @@ type inputProps = {
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 
-export default function Input({
-  className,
-  title,
-  type,
-  register,
-  onFocus,
-  onBlur,
-}: inputProps) {
-  const id = uuidv4();
-  return (
-    <>
-      <label htmlFor={id}>{title}</label>
-      <input
-        id={id}
-        type={type}
-        className={className}
-        {...register}
-        onFocus={onFocus}
-        onBlur={onBlur}
-      />
-    </>
-  );
-}
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  ({ className, title, type, register, onFocus, onBlur }, ref) => {
+    const id = uuidv4();
+    return (
+      <>
+        <label htmlFor={id}>{title}</label>
+        <input
+          id={id}
+          ref={ref}
+          type={type}
+          className={className}
+          {...register}
+          onFocus={onFocus}
+          onBlur={onBlur}
+        />
+      </>
+    );
+  }
+);
+
+export default Input;

@@ -1,5 +1,5 @@
 import { useFieldArray, useForm } from "react-hook-form";
-import TaskComments from "./TaskComments";
+import TaskComment from "./TaskComment";
 import TextArea from "./inputs/TextArea";
 import styled from "styled-components";
 import ButtonStyled from "./styled/ButtonStyled";
@@ -22,7 +22,7 @@ export default function TaskCommentsPanel({
 }: {
   taskFormControl: object;
 }) {
-  const { fields, append } = useFieldArray({
+  const { fields, append, update } = useFieldArray({
     name: "commentsList",
     control: taskFormControl,
   });
@@ -33,8 +33,17 @@ export default function TaskCommentsPanel({
     <div>
       <TaskCommentsContainerStyled>
         <h2>Comments:</h2>
-        {fields.map((field) => {
-          return <TaskComments key={field.id} commentData={field} />;
+        {fields.map((field, index) => {
+          return (
+            <TaskComment
+              key={field.id}
+              commentData={field}
+              commentUpdate={(editedComment) => {
+                field.comment = editedComment;
+                update(index, field);
+              }}
+            />
+          );
         })}
       </TaskCommentsContainerStyled>
 

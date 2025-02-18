@@ -12,7 +12,7 @@ type SelectProps = {
   onBlur?: (event: React.FocusEvent<HTMLSelectElement>) => void;
 };
 
-const Select = forwardRef<HTMLDivElement, SelectProps>(
+const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, title, register, optionsList, onBlur }, ref) => {
     const id = uuidv4();
 
