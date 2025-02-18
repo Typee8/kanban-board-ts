@@ -4,7 +4,7 @@ import Input from "./inputs/Input";
 import RemoveBtn from "./buttons/RemoveBtn";
 import ButtonStyled from "./styled/ButtonStyled";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useForm } from "react-hook-form";
+import { get, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/slices/boardStateSlice";
 import styled from "styled-components";
@@ -13,6 +13,7 @@ import moment from "moment";
 import CalendarWidget from "./CalendarWidget";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
+import TaskTitlePanel from "./TaskTitlePanel";
 
 type TaskDetailsProps = {
   stageId: string;
@@ -24,10 +25,6 @@ type TaskDetailsProps = {
 const TaskDetailsToolbarStyled = styled.ul`
   position: absolute;
   right: 40px;
-`;
-
-const TaskDetailsTitleStyled = styled(Input)`
-  font-size: 18px;
 `;
 
 const TaskDetailsCalendarContainer = styled.div`
@@ -81,7 +78,6 @@ export default function TaskDetails({
           </li>
           <li>
             <ButtonStyled
-              $isShown={true}
               onClick={() => {
                 setTaskDetailsShown(false);
               }}
@@ -91,7 +87,11 @@ export default function TaskDetails({
           </li>
         </TaskDetailsToolbarStyled>
 
-        <TaskDetailsTitleStyled register={register("title")} />
+        <TaskTitlePanel
+          getTitle={() => getValues("title")}
+          taskRegister={register("title")}
+        />
+
         <TextArea title="description" register={register("description")} />
         <TextArea title="attachments" register={register("attachments")} />
         <TaskDetailsCalendarContainer>
