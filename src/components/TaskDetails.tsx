@@ -3,7 +3,11 @@ import TextArea from "./inputs/TextArea";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { updateTask, removeTask } from "../store/slices/boardStateSlice";
+import {
+  updateTask,
+  removeTask,
+  addNewTask,
+} from "../store/slices/boardStateSlice";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
 import TaskTitlePanel from "./TaskTitlePanel";
@@ -12,29 +16,43 @@ import TaskDeadlinePanel from "./TaskDeadlinePanel";
 import TaskPriorityPanel from "./TaskPriorityPanel";
 import TaskDetailsLeavePanel from "./TaskDetailsLeavePanel";
 import TaskDetailsToolbar from "./TaskDetailsToolbar";
+import ButtonStyled from "./styled/ButtonStyled";
+import styled from "styled-components";
 
 type TaskDetailsProps = {
-  stageId: string;
+  stageId?: string;
+  taskData?: any;
   taskDetailsShown: boolean;
   setTaskDetailsShown: Dispatch<SetStateAction<boolean>>;
-  taskData?: any;
 };
 
+const CloseBtnStyled = styled(ButtonStyled)`
+  position: absolute;
+  align-self: flex-end;
+`;
+
+CloseBtnStyled.displayName = "CloseBtnStyled";
+
 export default function TaskDetails({
-  stageId,
+  stageId = "firstStage",
   taskData,
   taskDetailsShown,
   setTaskDetailsShown,
 }: TaskDetailsProps) {
-  const formDefaultValues = {
-    title: taskData.title,
-    description: taskData.description,
-    attachments: taskData.attachments,
-    deadline: taskData.deadline,
-    priority: taskData.priority,
-    assigneesList: taskData.assigneesList,
-    commentsList: taskData.commentsList,
-  };
+  const newTask = taskData ? false : true;
+
+  const formDefaultValues = newTask
+    ? {}
+    : {
+        title: taskData.title,
+        description: taskData.description,
+        attachments: taskData.attachments,
+        deadline: taskData.deadline,
+        priority: taskData.priority,
+        assigneesList: taskData.assigneesList,
+        commentsList: taskData.commentsList,
+      };
+
   const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
     useState(false);
 
@@ -56,10 +74,15 @@ export default function TaskDetails({
   if (taskDetailsShown) {
     const onSubmit = (inputData, evt) => {
       evt.preventDefault();
-      const newTask = { ...taskData, ...inputData };
-      dispatch(updateTask({ task: newTask, taskId: taskData.id, stageId }));
-      setTaskDetailsShown(false);
-      setTaskDetailsLeavePanelShown(false);
+
+      if (newTask) {
+        dispatch(addNewTask(inputData));
+      } else {
+        const newTask = { ...taskData, ...inputData };
+        dispatch(updateTask({ task: newTask, taskId: taskData.id, stageId }));
+        setTaskDetailsShown(false);
+        setTaskDetailsLeavePanelShown(false);
+      }
     };
 
     return (
@@ -70,16 +93,28 @@ export default function TaskDetails({
           closeTaskDetails={() => setTaskDetailsShown(false)}
           resetTaskForm={() => reset(formDefaultValues)}
         />
-        {console.log(isDirty)}
-        {console.log(formDefaultValues)}
-        <TaskDetailsToolbar
-          isTaskFormDirty={isDirty}
-          removeTask={() =>
-            dispatch(removeTask({ taskId: taskData.id, stageId }))
-          }
-          showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
-          hideTaskDetails={() => setTaskDetailsShown(false)}
-        />
+
+        {newTask ? (
+          <CloseBtnStyled
+            onClick={() => {
+              setTaskDetailsShown(false);
+              reset();
+            }}
+          >
+            X
+          </CloseBtnStyled>
+        ) : (
+          <TaskDetailsToolbar
+            isTaskFormDirty={isDirty}
+            removeTask={() =>
+              dispatch(removeTask({ taskId: taskData.id, stageId }))
+            }
+            showTaskDetailsLeavePanel={() =>
+              setTaskDetailsLeavePanelShown(true)
+            }
+            hideTaskDetails={() => setTaskDetailsShown(false)}
+          />
+        )}
 
         <TaskTitlePanel
           getTitle={() => getValues("title")}
@@ -110,7 +145,7 @@ export default function TaskDetails({
           getTaskFormValues={getValues}
         />
 
-        <TaskCommentsPanel taskFormControl={control} />
+        {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
 
         <input type="submit" />
       </TaskFormStyled>

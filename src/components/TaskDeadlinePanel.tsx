@@ -59,7 +59,7 @@ export default function TaskDeadlinePanel({ getDate, setDate, taskRegister }) {
           setTimeout(() => inputRef.current.focus(), 0);
         }}
       >
-        {getDate()}
+        {getDate() ? getDate() : "Date"}
       </TaskDeadlineStyled>
       <DayPickerStyled
         $isShown={editState}

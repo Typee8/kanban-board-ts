@@ -32,7 +32,7 @@ export default function TaskDescriptionPanel({ getDescription, taskRegister }) {
         }}
         $isShown={!editState}
       >
-        {getDescription()}
+        {getDescription() ? getDescription() : "Description"}
       </TaskDescriptionStyled>
       <TextAreaStyled
         $isShown={editState}

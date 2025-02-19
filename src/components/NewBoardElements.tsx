@@ -1,5 +1,5 @@
 import AddBtn from "./buttons/AddBtn";
-import TaskForm from "./forms/TaskForm";
+import TaskDetails from "./TaskDetails";
 import StageForm from "./forms/StageForm";
 import styled from "styled-components";
 import { useState } from "react";
@@ -13,19 +13,20 @@ NewBoardElementsStyled.displayName = "NewBoardElementsStyled";
 
 export default function NewBoardElements() {
   const [stageFormShown, setStageFormShown] = useState(false);
-  const [taskFormShown, setTaskFormShown] = useState(false);
+  const [taskDetailsShown, setTaskDetailsShown] = useState(false);
 
   return (
     <NewBoardElementsStyled>
       <AddBtn onClick={() => setStageFormShown(true)} />
-      <AddBtn onClick={() => setTaskFormShown(true)} />
+      <AddBtn onClick={() => setTaskDetailsShown(true)} />
       <StageForm
         stageFormShown={stageFormShown}
         setStageFormShown={() => setStageFormShown(false)}
       />
-      <TaskForm
-        taskFormShown={taskFormShown}
-        setTaskFormShown={() => setTaskFormShown(false)}
+
+      <TaskDetails
+        taskDetailsShown={taskDetailsShown}
+        setTaskDetailsShown={() => setTaskDetailsShown(false)}
       />
     </NewBoardElementsStyled>
   );

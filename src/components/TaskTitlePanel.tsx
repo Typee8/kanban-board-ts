@@ -34,7 +34,7 @@ export default function TaskTitlePanel({ getTitle, taskRegister }) {
           }
         }}
       >
-        {getTitle()}
+        {getTitle() ? getTitle() : "Task Title"}
       </TaskTitleStyled>
       <InputStyled
         $isShown={editState}
