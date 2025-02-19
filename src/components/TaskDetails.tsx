@@ -37,6 +37,7 @@ export default function TaskDetails({
   };
   const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
     useState(false);
+
   const {
     formState: { isDirty },
     register,
@@ -69,7 +70,8 @@ export default function TaskDetails({
           closeTaskDetails={() => setTaskDetailsShown(false)}
           resetTaskForm={() => reset(formDefaultValues)}
         />
-
+        {console.log(isDirty)}
+        {console.log(formDefaultValues)}
         <TaskDetailsToolbar
           isTaskFormDirty={isDirty}
           removeTask={() =>

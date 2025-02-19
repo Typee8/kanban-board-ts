@@ -39,7 +39,7 @@ export default function TaskComment({
   const [editState, setEditState] = useState(false);
   const inputRef = useRef();
   const taskCommentRef = useRef();
-  const { register, getValues } = useForm({
+  const { register, getValues, reset } = useForm({
     defaultValues: {
       comment,
     },
@@ -52,6 +52,7 @@ export default function TaskComment({
         taskCommentRef.current &&
         !taskCommentRef.current.contains(evt.target)
       ) {
+        reset();
         setEditState(false);
       }
     });
