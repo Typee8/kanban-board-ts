@@ -16,7 +16,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const id = uuidv4();
     return (
       <>
-        <label htmlFor={id}>{title}</label>
+        {title ? <label htmlFor={id}>{title}</label> : null}
         <input
           id={id}
           ref={ref}
