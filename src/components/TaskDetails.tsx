@@ -1,12 +1,9 @@
 import TaskFormStyled from "./styled/TaskFormStyled";
 import TextArea from "./inputs/TextArea";
-import RemoveBtn from "./buttons/RemoveBtn";
-import ButtonStyled from "./styled/ButtonStyled";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updateTask, removeTask } from "../store/slices/boardStateSlice";
-import styled from "styled-components";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
 import TaskTitlePanel from "./TaskTitlePanel";
@@ -14,18 +11,14 @@ import TaskDescriptionPanel from "./TaskDescriptionPanel";
 import TaskDeadlinePanel from "./TaskDeadlinePanel";
 import TaskPriorityPanel from "./TaskPriorityPanel";
 import TaskDetailsLeavePanel from "./TaskDetailsLeavePanel";
+import TaskDetailsToolbar from "./TaskDetailsToolbar";
 
 type TaskDetailsProps = {
   stageId: string;
   taskDetailsShown: boolean;
-  setTaskDetailsShown: [boolean, Dispatch<SetStateAction<boolean>>];
+  setTaskDetailsShown: Dispatch<SetStateAction<boolean>>;
   taskData?: any;
 };
-
-const TaskDetailsToolbarStyled = styled.ul`
-  position: absolute;
-  right: 40px;
-`;
 
 export default function TaskDetails({
   stageId,
@@ -68,11 +61,6 @@ export default function TaskDetails({
       setTaskDetailsLeavePanelShown(false);
     };
 
-    const onRemoveBtnClick = (evt) => {
-      evt.preventDefault();
-      dispatch(removeTask({ taskId: taskData.id, stageId }));
-    };
-
     return (
       <TaskFormStyled onSubmit={handleSubmit(onSubmit)}>
         <TaskDetailsLeavePanel
@@ -81,24 +69,15 @@ export default function TaskDetails({
           closeTaskDetails={() => setTaskDetailsShown(false)}
           resetTaskForm={() => reset(formDefaultValues)}
         />
-        <TaskDetailsToolbarStyled>
-          <li>
-            <RemoveBtn onClick={onRemoveBtnClick}>Delete Task</RemoveBtn>
-          </li>
-          <li>
-            <ButtonStyled
-              onClick={() => {
-                if (isDirty) {
-                  setTaskDetailsLeavePanelShown(true);
-                } else {
-                  setTaskDetailsShown(false);
-                }
-              }}
-            >
-              X
-            </ButtonStyled>
-          </li>
-        </TaskDetailsToolbarStyled>
+
+        <TaskDetailsToolbar
+          isTaskFormDirty={isDirty}
+          removeTask={() =>
+            dispatch(removeTask({ taskId: taskData.id, stageId }))
+          }
+          showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
+          hideTaskDetails={() => setTaskDetailsShown(false)}
+        />
 
         <TaskTitlePanel
           getTitle={() => getValues("title")}
