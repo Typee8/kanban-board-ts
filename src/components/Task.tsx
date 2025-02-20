@@ -16,7 +16,7 @@ const TaskStyled = styled.li`
 
 TaskStyled.displayName = "TaskStyled";
 
-const TaskContainerStyled = styled.div`
+const TaskContainerStyled = styled.ul`
   padding: 20px;
   border-radius: 60px;
   background-color: blanchedalmond;
@@ -42,7 +42,7 @@ export default function Task({
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  const { title } = taskData;
+  const { title, deadline, assigneesList, isDone } = taskData;
 
   return (
     <TaskStyled
@@ -53,7 +53,10 @@ export default function Task({
     >
       <SettingsBtn onClick={() => setTaskDetailsShown(true)} />
       <TaskContainerStyled>
-        <h2>{title}</h2>
+        <li>{title}</li>
+        <li>{deadline}</li>
+        <li>{assigneesList.length}</li>
+        <li>Is task complete?: {isDone.toString()}</li>
       </TaskContainerStyled>
       <TaskDetails
         stageId={stageId}
