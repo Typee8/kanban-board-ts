@@ -51,6 +51,7 @@ export default function TaskDetails({
         priority: taskData.priority,
         assigneesList: taskData.assigneesList,
         commentsList: taskData.commentsList,
+        isDone: taskData.isDone,
       };
 
   const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
@@ -63,6 +64,7 @@ export default function TaskDetails({
     getValues,
     setValue,
     control,
+    watch,
     reset,
   } = useForm({
     defaultValues: formDefaultValues,
@@ -113,6 +115,10 @@ export default function TaskDetails({
               setTaskDetailsLeavePanelShown(true)
             }
             hideTaskDetails={() => setTaskDetailsShown(false)}
+            isTaskDone={() => watch("isDone")}
+            setTaskDone={(newValue: boolean) =>
+              setValue("isDone", newValue, { shouldDirty: true })
+            }
           />
         )}
 

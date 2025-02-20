@@ -11,9 +11,22 @@ export default function TaskDetailsToolbar({
   removeTask,
   showTaskDetailsLeavePanel,
   hideTaskDetails,
+  isTaskDone,
+  setTaskDone,
 }) {
   return (
     <TaskDetailsToolbarStyled>
+      <li>
+        {isTaskDone() ? (
+          <ButtonStyled onClick={() => setTaskDone(false)}>
+            Mark as incomplete
+          </ButtonStyled>
+        ) : (
+          <ButtonStyled onClick={() => setTaskDone(true)}>
+            Mark as complete
+          </ButtonStyled>
+        )}
+      </li>
       <li>
         <ButtonStyled onClick={removeTask}>Delete Task</ButtonStyled>
       </li>

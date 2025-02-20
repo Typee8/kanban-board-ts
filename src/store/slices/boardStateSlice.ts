@@ -29,6 +29,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
         {
           title: "Plan a Weekend Getaway",
@@ -50,6 +51,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
         {
           title: "Team Presentation Preparation",
@@ -71,6 +73,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
       ],
     },
@@ -97,6 +100,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
         {
           title: "Fix the Leaky Faucet",
@@ -115,6 +119,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
         {
           title: "Write a Blog Post on Sustainability",
@@ -133,6 +138,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
         {
           title: "Organize Office Holiday Party",
@@ -154,6 +160,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
+          isDone: false,
         },
       ],
     },
