@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Task from "./Task";
 import SettingsBtn from "./buttons/SettingsBtn";
-import StageSettings from "./StageSettings";
+import StageDetails from "./StageDetails";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
@@ -33,16 +33,8 @@ const StageTasksStyled = styled.ul`
 
 StageTasksStyled.displayName = "StageTasksStyled";
 
-/* 
-Info the Stage should provide:
-
-- number of workers
-- tasks limit
-
-*/
-
 export default function Stage({ stageData, className, isPreviewed = false }) {
-  const [stageSettingsShown, setStageSettingsShown] = useState(false);
+  const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [closestToDraggedTaskIndex, setClosestToDraggedTaskIndex] = useState();
   const stageRef = useRef();
   const dispatch = useDispatch();
@@ -108,14 +100,14 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
       $isPreviewed={isPreviewed}
     >
       <StageContainerStyled ref={drag}>
-        <StageSettings
+        <StageDetails
           stageData={stageData}
-          stageSettingsShown={stageSettingsShown}
-          setStageSettingsShown={() => setStageSettingsShown(false)}
+          stageDetailsShown={stageDetailsShown}
+          setStageDetailsShown={() => setStageDetailsShown(false)}
         />
         <SettingsBtn
           className="stage__settings"
-          onClick={() => setStageSettingsShown(true)}
+          onClick={() => setStageDetailsShown(true)}
         />
         <h2 className="stage__title">{title}</h2>
       </StageContainerStyled>

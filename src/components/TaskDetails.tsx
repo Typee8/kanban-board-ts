@@ -1,4 +1,4 @@
-import TaskFormStyled from "./styled/TaskFormStyled";
+import Form from "./forms/Form";
 import TextArea from "./inputs/TextArea";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -89,7 +89,7 @@ export default function TaskDetails({
     };
 
     return (
-      <TaskFormStyled onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <TaskDetailsLeavePanel
           isShown={taskDetailsLeavePanelShown}
           setIsShown={setTaskDetailsLeavePanelShown}
@@ -155,7 +155,7 @@ export default function TaskDetails({
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
 
         <input type="submit" />
-      </TaskFormStyled>
+      </Form>
     );
   }
 }

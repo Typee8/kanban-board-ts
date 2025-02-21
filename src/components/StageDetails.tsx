@@ -1,16 +1,21 @@
 import Form from "./forms/Form";
 import Input from "./inputs/Input";
-import RemoveBtn from "./buttons/RemoveBtn";
+import ButtonStyled from "./styled/ButtonStyled";
 import { useForm } from "react-hook-form";
 import { updateStage, removeStage } from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
+import styled from "styled-components";
 
-export default function StageSettings({
+const StageDetailsCloseBtnStyled = styled(ButtonStyled)`
+  align-self: flex-end;
+`;
+
+export default function StageDetails({
   stageData,
-  stageSettingsShown,
-  setStageSettingsShown,
+  stageDetailsShown,
+  setStageDetailsShown,
 }: {
-  stageSettingsShown: boolean;
+  stageDetailsShown: boolean;
 }) {
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -19,25 +24,20 @@ export default function StageSettings({
   });
   const dispatch = useDispatch();
 
-  if (stageSettingsShown === false) return;
+  if (stageDetailsShown === false) return;
 
   return (
     <Form
-      title="something"
-      closeForm={setStageSettingsShown}
+      closeForm={() => {
+        dispatch(removeStage({ stageId: stageData.id }));
+        setStageDetailsShown(false);
+      }}
       onSubmit={handleSubmit((inputData, evt) => {
         evt.preventDefault();
         onSubmit(inputData, dispatch);
-        setStageSettingsShown(false);
+        setStageDetailsShown(false);
       })}
     >
-      <RemoveBtn
-        onClick={(evt) => {
-          evt.preventDefault();
-          dispatch(removeStage({ stageId: stageData.id }));
-          setStageSettingsShown(false);
-        }}
-      />
       <Input title="title" register={register("title")} />
     </Form>
   );
