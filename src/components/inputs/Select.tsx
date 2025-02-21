@@ -7,7 +7,7 @@ type SelectProps = {
   className?: string;
   title?: string;
   defaultValue?: string;
-  register: UseFormRegisterReturn;
+  register: Omit<UseFormRegisterReturn<string>, "ref">;
   optionsList: string[];
   onBlur?: (event: React.FocusEvent<HTMLSelectElement>) => void;
 };

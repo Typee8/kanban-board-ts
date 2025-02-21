@@ -6,6 +6,7 @@ const TaskDescriptionStyled = styled.div`
   display: ${(props) => (props.$isShown ? "initial" : "none")};
   font-size: 18px;
   transition: all 0.3s ease;
+
   &:hover {
     background-color: #9c9c9c;
     transform: scale(1.05);

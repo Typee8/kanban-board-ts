@@ -1,60 +1,34 @@
-import { useState, useRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import SelectStyled from "./styled/SelectStyled";
 import ButtonStyled from "./styled/ButtonStyled";
+import SelectFluid from "./inputs/SelectFluid";
+import styled from "styled-components";
 
 type TaskAssigneeProps = {
-  getName: () => string;
+  getValue: () => string;
   availableAssignees: string[];
-  register: UseFormRegisterReturn;
+  register: UseFormRegisterReturn<string>;
 };
+
+const TaskAssigneeStyled = styled.li`
+  display: flex;
+`;
 
 export default function TaskAssignee({
   removeAssignee,
-  getName,
+  getValue,
   availableAssignees,
   register,
 }: TaskAssigneeProps) {
-  const [selectBtnShown, setSelectBtnShown] = useState(true);
-  const [selectShown, setSelectShown] = useState(false);
-
-  const selectRef = useRef();
-
-  const { ref: registerRef, ...restOfRegister } = register;
-
-  const combineRefs = (node) => {
-    selectRef.current = node;
-    registerRef(node);
-  };
+  console.log(register);
 
   return (
-    <li>
-      <ButtonStyled
-        $isShown={selectBtnShown}
-        onClick={() => {
-          setTimeout(() => selectRef.current.focus(), 0);
-          setSelectBtnShown(false);
-          setSelectShown(true);
-        }}
-      >
-        {getName()}
-      </ButtonStyled>
-
-      <SelectStyled
-        ref={combineRefs}
-        $isShown={selectShown}
-        register={restOfRegister}
-        optionsList={availableAssignees}
-        onBlur={(evt) => {
-          evt.preventDefault();
-          setSelectBtnShown(true);
-          setSelectShown(false);
-        }}
+    <TaskAssigneeStyled>
+      <SelectFluid
+        getSelectValue={getValue}
+        selectOptions={availableAssignees}
+        register={register}
       />
-
-      <ButtonStyled $isShown={selectBtnShown} onClick={removeAssignee}>
-        X
-      </ButtonStyled>
-    </li>
+      <ButtonStyled onClick={removeAssignee}>X</ButtonStyled>
+    </TaskAssigneeStyled>
   );
 }

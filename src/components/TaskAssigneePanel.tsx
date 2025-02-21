@@ -4,14 +4,16 @@ import {
   useFieldArray,
   UseFormRegister,
   FieldValues,
+  UseFormGetValues,
 } from "react-hook-form";
 import TaskAssignee from "./TaskAssignee";
 import AddTaskAssignee from "./AddTaskAssignee";
+import SelectFluid from "./inputs/SelectFluid";
 
 type TaskAssigneePanelProps = {
   taskRegister: UseFormRegister<FieldValues>;
   taskFormControl: object;
-  getTaskFormValues: () => object;
+  getTaskFormValues: () => UseFormGetValues<FieldValues>;
 };
 
 export default function TaskAssigneePanel({
@@ -28,12 +30,15 @@ export default function TaskAssigneePanel({
 
   return (
     <ul>
+      {/*       <li>
+        <SelectFluid optionsList={["one", "two", "three"]} />
+      </li> */}
       {fields.map((field, index) => {
         return (
           <TaskAssignee
             key={field.id}
             removeAssignee={() => remove(index)}
-            getName={() => getTaskFormValues(`assigneesList.${index}.name`)}
+            getValue={() => getTaskFormValues(`assigneesList.${index}.name`)}
             availableAssignees={assignee.map((ele) => ele.name)}
             register={taskRegister(`assigneesList.${index}.name`)}
           />
