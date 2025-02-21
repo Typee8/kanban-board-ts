@@ -49,7 +49,7 @@ export default function TaskDetails({
         attachments: taskData.attachments,
         deadline: taskData.deadline,
         priority: taskData.priority,
-        assigneesLimit: taskData.assigneesLimit,
+        assigneesLimit: taskData.assigneesLimit ? taskData.assigneesLimit : "4",
         assigneesList: taskData.assigneesList,
         commentsList: taskData.commentsList,
         isDone: taskData.isDone,

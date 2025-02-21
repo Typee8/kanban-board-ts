@@ -30,9 +30,16 @@ export default function TaskAssigneePanel({
 
   return (
     <ul>
-      {/*       <li>
-        <SelectFluid optionsList={["one", "two", "three"]} />
-      </li> */}
+      <li>
+        <div>Assignee limit:</div>
+        <SelectFluid
+          getSelectValue={() => getTaskFormValues("assigneesLimit")}
+          selectOptions={Array.from({ length: 10 }, (_, i) =>
+            (i + 1).toString()
+          )}
+          register={taskRegister("assigneesLimit")}
+        />
+      </li>
       {fields.map((field, index) => {
         return (
           <TaskAssignee

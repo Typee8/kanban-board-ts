@@ -42,7 +42,7 @@ export default function Task({
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  const { title, deadline, assigneesList, isDone } = taskData;
+  const { title, deadline, assigneesList, assigneesLimit, isDone } = taskData;
 
   return (
     <TaskStyled
@@ -55,7 +55,11 @@ export default function Task({
       <TaskContainerStyled>
         <li>{title}</li>
         <li>{deadline}</li>
-        <li>{assigneesList.length}</li>
+        {assigneesLimit ? (
+          <li>{`${assigneesList.length} / ${assigneesLimit}`}</li>
+        ) : (
+          <li>{assigneesList.length}</li>
+        )}
         <li>Is task complete?: {isDone.toString()}</li>
       </TaskContainerStyled>
       <TaskDetails
