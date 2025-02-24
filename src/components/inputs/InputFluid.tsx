@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { UseFormRegisterReturn } from "react-hook-form";
 
 type InputFluidProps = {
-  getSelectValue: () => string;
+  getInputValue: () => string;
   register: UseFormRegisterReturn<string>;
 };
 
@@ -28,7 +28,7 @@ InputFluid.btn = InputFluidBtn;
 InputFluid.input = InputStyled;
 
 export default function InputFluid({
-  getSelectValue,
+  getInputValue,
   register,
 }: InputFluidProps) {
   const [editState, setEditState] = useState(false);
@@ -51,7 +51,7 @@ export default function InputFluid({
           setEditState(true);
         }}
       >
-        {getSelectValue()}
+        {getInputValue()}
       </InputFluidBtn>
 
       <InputStyled

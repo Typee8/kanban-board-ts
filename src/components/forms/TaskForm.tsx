@@ -27,7 +27,7 @@ export default function TaskForm({
     >
       <Input title="title" register={register("title")} />
       <TextArea title="description" register={register("description")} />
-      <TextArea title="attachments" register={register("attachments")} />
+      <TextArea title="links" register={register("links")} />
       <Input title="deadline" register={register("deadline")} />
       <Input title="priority" register={register("priority")} />
       <Input title="assignee" register={register("assignee")} />

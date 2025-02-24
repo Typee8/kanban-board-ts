@@ -1,5 +1,4 @@
 import Form from "./forms/Form";
-import TextArea from "./inputs/TextArea";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -17,6 +16,7 @@ import TaskPriorityPanel from "./TaskPriorityPanel";
 import TaskDetailsLeavePanel from "./TaskDetailsLeavePanel";
 import TaskDetailsToolbar from "./TaskDetailsToolbar";
 import ButtonStyled from "./styled/ButtonStyled";
+import TaskLinksPanel from "./TaskLinksPanel";
 import styled from "styled-components";
 
 type TaskDetailsProps = {
@@ -46,7 +46,7 @@ export default function TaskDetails({
     : {
         title: taskData.title,
         description: taskData.description,
-        attachments: taskData.attachments,
+        links: taskData.links,
         deadline: taskData.deadline,
         priority: taskData.priority,
         assigneesLimit: taskData.assigneesLimit ? taskData.assigneesLimit : "4",
@@ -130,7 +130,11 @@ export default function TaskDetails({
           taskRegister={register("description")}
         />
 
-        {/*         <TextArea title="attachments" register={register("attachments")} /> */}
+        <TaskLinksPanel
+          taskRegister={register}
+          taskFormControl={control}
+          getTaskFormValues={getValues}
+        />
 
         <TaskDeadlinePanel
           getDate={() => getValues("deadline")}

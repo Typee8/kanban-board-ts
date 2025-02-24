@@ -40,17 +40,15 @@ export default function TaskAssigneePanel({
           register={taskRegister("assigneesLimit")}
         />
       </li>
-      {fields.map((field, index) => {
-        return (
-          <TaskAssignee
-            key={field.id}
-            removeAssignee={() => remove(index)}
-            getValue={() => getTaskFormValues(`assigneesList.${index}.name`)}
-            availableAssignees={assignee.map((ele) => ele.name)}
-            register={taskRegister(`assigneesList.${index}.name`)}
-          />
-        );
-      })}
+      {fields.map((field, index) => (
+        <TaskAssignee
+          key={field.id}
+          removeAssignee={() => remove(index)}
+          getValue={() => getTaskFormValues(`assigneesList.${index}.name`)}
+          availableAssignees={assignee.map((ele) => ele.name)}
+          register={taskRegister(`assigneesList.${index}.name`)}
+        />
+      ))}
       <AddTaskAssignee
         addAssignee={() => append({ name: getValues("newAssignee") })}
         availableAssignees={assignee.map((ele) => ele.name)}

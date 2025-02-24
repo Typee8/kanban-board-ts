@@ -19,8 +19,6 @@ export default function TaskAssignee({
   availableAssignees,
   register,
 }: TaskAssigneeProps) {
-  console.log(register);
-
   return (
     <TaskAssigneeStyled>
       <SelectFluid
