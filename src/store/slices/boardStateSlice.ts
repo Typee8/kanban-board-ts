@@ -29,7 +29,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
         {
           title: "Plan a Weekend Getaway",
@@ -51,7 +51,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
         {
           title: "Team Presentation Preparation",
@@ -73,7 +73,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
       ],
     },
@@ -100,7 +100,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
         {
           title: "Fix the Leaky Faucet",
@@ -119,7 +119,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
         {
           title: "Write a Blog Post on Sustainability",
@@ -138,7 +138,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
         {
           title: "Organize Office Holiday Party",
@@ -160,7 +160,7 @@ const boardStateSlice = createSlice({
               comment: "Written comment lorem ipsum and so on.",
             },
           ],
-          isDone: false,
+          status: "in progress",
         },
       ],
     },

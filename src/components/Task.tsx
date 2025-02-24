@@ -42,7 +42,7 @@ export default function Task({
       isDragging: !!monitor.isDragging(),
     }),
   }));
-  const { title, deadline, assigneesList, assigneesLimit, isDone } = taskData;
+  const { title, deadline, assigneesList, assigneesLimit, status } = taskData;
 
   return (
     <TaskStyled
@@ -60,7 +60,7 @@ export default function Task({
         ) : (
           <li>{assigneesList.length}</li>
         )}
-        <li>Is task complete?: {isDone.toString()}</li>
+        <li>Task status {status}</li>
       </TaskContainerStyled>
       <TaskDetails
         stageId={stageId}

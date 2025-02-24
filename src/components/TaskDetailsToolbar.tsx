@@ -1,5 +1,6 @@
-import ButtonStyled from "./styled/ButtonStyled";
 import styled from "styled-components";
+import ButtonStyled from "./styled/ButtonStyled";
+import SelectFluid from "./inputs/SelectFluid";
 
 const TaskDetailsToolbarStyled = styled.ul`
   position: absolute;
@@ -11,21 +12,17 @@ export default function TaskDetailsToolbar({
   removeTask,
   showTaskDetailsLeavePanel,
   hideTaskDetails,
-  isTaskDone,
-  setTaskDone,
+  getTaskStatus,
+  taskStatusRegister,
 }) {
   return (
     <TaskDetailsToolbarStyled>
       <li>
-        {isTaskDone() ? (
-          <ButtonStyled onClick={() => setTaskDone(false)}>
-            Mark as incomplete
-          </ButtonStyled>
-        ) : (
-          <ButtonStyled onClick={() => setTaskDone(true)}>
-            Mark as complete
-          </ButtonStyled>
-        )}
+        <SelectFluid
+          getSelectValue={getTaskStatus}
+          register={taskStatusRegister}
+          selectOptions={["in progress", "needs review", "done"]}
+        />
       </li>
       <li>
         <ButtonStyled onClick={removeTask}>Delete Task</ButtonStyled>

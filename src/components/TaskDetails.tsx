@@ -52,7 +52,7 @@ export default function TaskDetails({
         assigneesLimit: taskData.assigneesLimit ? taskData.assigneesLimit : "4",
         assigneesList: taskData.assigneesList,
         commentsList: taskData.commentsList,
-        isDone: taskData.isDone,
+        status: taskData.status,
       };
 
   const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
@@ -116,10 +116,8 @@ export default function TaskDetails({
               setTaskDetailsLeavePanelShown(true)
             }
             hideTaskDetails={() => setTaskDetailsShown(false)}
-            isTaskDone={() => watch("isDone")}
-            setTaskDone={(newValue: boolean) =>
-              setValue("isDone", newValue, { shouldDirty: true })
-            }
+            getTaskStatus={() => watch("status")}
+            taskStatusRegister={register("status")}
           />
         )}
 
@@ -153,8 +151,6 @@ export default function TaskDetails({
         />
 
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
-
-        <input type="submit" />
       </Form>
     );
   }
