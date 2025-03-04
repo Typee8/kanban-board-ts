@@ -5,8 +5,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const boardStateSlice = createSlice({
   name: "boardState",
   initialState: [
-    { title: "Queue", id: "firstStage", tasksList: [] },
-    {
+    { title: "Queue", id: "firstStage", tasksLimit: "10", tasksList: [] },
+    /* {
       title: "Shopping",
       id: "36847c62-8df1-4711-87ee-71107ad1e0ca",
       tasksList: [
@@ -160,7 +160,7 @@ const boardStateSlice = createSlice({
           status: "in progress",
         },
       ],
-    },
+    }, */
     { title: "Done", id: "lastStage", tasksList: [] },
   ],
   reducers: {
