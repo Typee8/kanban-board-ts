@@ -92,6 +92,8 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
     closestToDraggedTaskIndex
   );
 
+  console.log(tasks);
+
   return (
     <StageStyled
       ref={combineRefs}
@@ -111,7 +113,9 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         />
         <h2 className="stage__title">{title}</h2>
       </StageContainerStyled>
-      <StageTasksStyled className="stage__tasks">{tasks}</StageTasksStyled>
+      {tasks.length > 0 ? (
+        <StageTasksStyled className="stage__tasks">{tasks}</StageTasksStyled>
+      ) : null}
     </StageStyled>
   );
 }
@@ -160,7 +164,7 @@ function getClosestTaskIndex(stageRef, monitor) {
 function getTasksJSX(
   isTaskDragged,
   stageId,
-  tasksList,
+  tasksList = [],
   draggedItem,
   closestToDraggedTaskIndex
 ) {

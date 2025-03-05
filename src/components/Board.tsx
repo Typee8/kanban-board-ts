@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Stage from "./Stage";
 import NewBoardElements from "./NewBoardElements";
-import { useDispatch, useSelector } from "react-redux";
 import { moveStage } from "../store/slices/boardStateSlice";
 import { useEffect, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
@@ -14,8 +13,7 @@ const BoardStyled = styled.ul`
 
 BoardStyled.displayName = "BoardStyled";
 
-export default function Board() {
-  const boardState = useSelector((state) => state.boardState);
+export default function Board({ boardData }) {
   const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stagesPositions, setStagesPositions] = useState([]);
@@ -23,8 +21,6 @@ export default function Board() {
   useEffect(() => {
     setStagesPositions(getStagesPositions(boardRef));
   }, []);
-
-  const dispatch = useDispatch();
 
   const [{ isOver, draggedItem }, drop] = useDrop(
     () => ({
@@ -56,7 +52,7 @@ export default function Board() {
     [mousePosition, stagesPositions]
   );
 
-  const stages = boardState.map((data) => (
+  const stages = boardData.map((data) => (
     <Stage key={data.id} stageData={data} className="stage" />
   ));
 
@@ -66,7 +62,7 @@ export default function Board() {
       stagesPositions
     );
 
-    if (boardState[closestStageIndex].id !== draggedItem.stageId) {
+    if (boardData[closestStageIndex].id !== draggedItem.stageId) {
       console.log(closestStageIndex);
 
       stages.splice(
