@@ -3,21 +3,14 @@ import { initializeApp } from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
 
 const app = initializeApp(firebaseConfig);
-const dataLocation = "/tasksList";
 
-export const fetchData = async () => {
+export const fetchData = async (kanbanBoardId) => {
   const db = getDatabase(app);
-  const dbRef = ref(db /* , dataLocation */);
-  /*   let resultArray = []; */
+  const dbRef = ref(db, kanbanBoardId);
 
   try {
     const snapshot = await get(dbRef);
     const result = snapshot.val();
-
-    console.log(result);
-    /*     for (const key in result) {
-      resultArray.push({ ...result[key], id: key });
-    } */
     console.log("Data fetched successfully!");
     return result;
   } catch (error) {
@@ -25,15 +18,27 @@ export const fetchData = async () => {
   }
 };
 
-export const pushData = async (obj) => {
+export const pushData = async (data, kanbanBoardId, index) => {
   const db = getDatabase(app);
-  const dbRef = ref(db /* , dataLocation */);
+  const dbRef = ref(db, `${kanbanBoardId}/${index}/tasksList`);
 
   try {
-    await push(dbRef, obj);
+    await push(dbRef, data);
     console.log("Data pushed successfully!");
   } catch (error) {
     throw new Error(`PUSH - failed, status: ${error}`);
+  }
+};
+
+export const setData = async (data, kanbanBoardId, index) => {
+  const db = getDatabase(app);
+  const dbRef = ref(db, `${kanbanBoardId}/${index}/tasksList`);
+
+  try {
+    await set(dbRef, data);
+    console.log("Data set successfully!");
+  } catch (error) {
+    throw new Error(`SET - failed, status: ${error}`);
   }
 };
 

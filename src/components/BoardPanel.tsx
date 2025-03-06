@@ -20,7 +20,6 @@ export default function BoardPanel() {
 
   const dispatch = useDispatch();
   const { loading, data } = useSelector((state) => state.boardState);
-  console.log(data);
 
   useEffect(() => {
     dispatch(fetchInitialState());

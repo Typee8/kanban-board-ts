@@ -55,11 +55,13 @@ export default function Task({
       <TaskContainerStyled>
         <li>{title}</li>
         <li>{deadline}</li>
-        {assigneesLimit ? (
-          <li>{`${assigneesList.length} / ${assigneesLimit}`}</li>
-        ) : (
-          <li>{assigneesList.length}</li>
-        )}
+        <li>
+          {assigneesList
+            ? `${assigneesList.length} ${
+                assigneesLimit ? `/ ${assigneesLimit}` : ""
+              }`
+            : null}
+        </li>
         <li>Task status {status}</li>
       </TaskContainerStyled>
       <TaskDetails

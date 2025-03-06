@@ -1,55 +1,8 @@
 // @ts-nocheck
 
-import { createSlice } from "@reduxjs/toolkit";
-import { pushData, fetchData } from "../../server/FirebaseAPI";
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
-/* const convertFirebaseData = (obj) => {
-  if (typeof obj !== "object" || obj === null) return obj; // Return non-objects as is
-
-  // Check if the object is array-like (all keys are numbers)
-  const keys = Object.keys(obj);
-  console.log(keys);
-  const isArrayLike =
-    keys.length > 0 && keys.every((key, index) => key == index);
-  console.log(isArrayLike);
-  if (isArrayLike) {
-    return Object.values(obj).map(convertFirebaseData); // Convert object to array and process deeply
-  } else {
-    return obj;
-  }
-  // Recursively process each property
-  return Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, convertFirebaseData(value)])
-  );
-};
-
-// 🔹 Convert the Firebase-like data
-const convertedData = convertFirebaseData();
-setTimeout(() => console.log(convertedData), 2000); */
-
-// if obj
-
-/* // Function to convert Firebase list-like objects to arrays
-const parseFirebaseList = (obj) => {
-  if (typeof obj !== "object" || obj === null) return obj; // Return non-object values as is
-
-  // Check if the object has purely numeric keys
-  const isArrayLike = Object.keys(obj).every((key) => !isNaN(key));
-
-  if (isArrayLike) {
-    return Object.values(obj).map(parseFirebaseList); // Convert to an array and recursively parse
-  }
-
-  // Recursively process child objects
-  return Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, parseFirebaseList(value)])
-  );
-};
-
-// Convert Firebase object to usable structure
-const parsedData = parseFirebaseList(firebaseObject); */
+import { setData, fetchData, setData } from "../../server/FirebaseAPI";
+import { v4 as uuidv4 } from "uuid";
 
 /* pushData([
   { title: "Queue", id: "firstStage", tasksLimit: "10", tasksList: [] },
@@ -211,13 +164,15 @@ const parsedData = parseFirebaseList(firebaseObject); */
   { title: "Done", id: "lastStage", tasksList: [] },
 ]); */
 
-// Async thunk to fetch initial data
+//PH
+const kanbanBoardId = "-OKWxSEcxijNyFJJlDma";
+
 export const fetchInitialState = createAsyncThunk(
   "boardState/fetchInitialState",
   async () => {
     console.log("Fetching!");
-    const result = await fetchData();
-    return Object.values(result)[0];
+    const result = await fetchData(kanbanBoardId);
+    return result;
   }
 );
 
@@ -384,17 +339,25 @@ const boardStateSlice = createSlice({
   ] */,
   reducers: {
     addNewTask: (state, action) => {
-      state.forEach((stage) => {
-        return stage.id === "firstStage"
-          ? stage.tasksList.push(action.payload)
-          : null;
-      });
+      const { data } = state;
+      const pendingStage = data.find((stage) => stage.id === "firstStage");
+      if (!pendingStage) return;
+      const pendingStageIndex = data.indexOf(pendingStage);
+
+      if (
+        !Object.keys(data[pendingStageIndex]).some((key) => key === "tasksList")
+      )
+        data[pendingStageIndex].tasksList = [];
+
+      data[pendingStageIndex].tasksList.push(action.payload);
+      const { tasksList } = data[pendingStageIndex];
+      setData(tasksList, kanbanBoardId, pendingStageIndex);
     },
     updateTask: (state, action) => {
       const { taskId, stageId, task } = action.payload;
-      const stageIndex = findStageIndex(state, stageId);
-      const taskIndex = findTaskIndex(state, taskId, stageId);
-      state[stageIndex]["tasksList"][taskIndex] = task;
+      const stageIndex = findStageIndex(state.data, stageId);
+      const taskIndex = findTaskIndex(state.data, taskId, stageId);
+      state.data[stageIndex]["tasksList"][taskIndex] = task;
     },
     removeTask: (state, action) => {
       const { taskId, stageId } = action.payload;
@@ -443,16 +406,13 @@ const boardStateSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchInitialState.pending, (state) => {
-        console.log("pending");
         state.loading = true;
       })
       .addCase(fetchInitialState.fulfilled, (state, action) => {
-        console.log("fulfilled");
         state.loading = false;
         state.data = action.payload;
       })
       .addCase(fetchInitialState.rejected, (state, action) => {
-        console.log("rejected");
         state.loading = false;
         state.error = action.error.message;
       });

@@ -18,6 +18,7 @@ import TaskDetailsToolbar from "./TaskDetailsToolbar";
 import ButtonStyled from "./styled/ButtonStyled";
 import TaskLinksPanel from "./TaskLinksPanel";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -79,6 +80,7 @@ export default function TaskDetails({
       evt.preventDefault();
 
       if (newTask) {
+        inputData.id = uuidv4();
         dispatch(addNewTask(inputData));
       } else {
         const newTask = { ...taskData, ...inputData };

@@ -92,8 +92,6 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
     closestToDraggedTaskIndex
   );
 
-  console.log(tasks);
-
   return (
     <StageStyled
       ref={combineRefs}
