@@ -111,9 +111,9 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         />
         <h2 className="stage__title">{title}</h2>
       </StageContainerStyled>
-      {tasks.length > 0 ? (
-        <StageTasksStyled className="stage__tasks">{tasks}</StageTasksStyled>
-      ) : null}
+      <StageTasksStyled className="stage__tasks">
+        {tasks.length > 0 ? tasks : null}
+      </StageTasksStyled>
     </StageStyled>
   );
 }

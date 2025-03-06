@@ -165,7 +165,7 @@ import { v4 as uuidv4 } from "uuid";
 ]); */
 
 //PH
-const kanbanBoardId = "-OKWxSEcxijNyFJJlDma";
+const kanbanBoardId = "-OKWxSend40bnWodRWaf";
 
 export const fetchInitialState = createAsyncThunk(
   "boardState/fetchInitialState",
@@ -351,29 +351,56 @@ const boardStateSlice = createSlice({
 
       data[pendingStageIndex].tasksList.push(action.payload);
       const { tasksList } = data[pendingStageIndex];
-      setData(tasksList, kanbanBoardId, pendingStageIndex);
+      setData(tasksList, kanbanBoardId, `${pendingStageIndex}/tasksList`);
     },
     updateTask: (state, action) => {
       const { taskId, stageId, task } = action.payload;
-      const stageIndex = findStageIndex(state.data, stageId);
-      const taskIndex = findTaskIndex(state.data, taskId, stageId);
-      state.data[stageIndex]["tasksList"][taskIndex] = task;
+      const { data } = state;
+      const stageIndex = findStageIndex(data, stageId);
+      const taskIndex = findTaskIndex(data, taskId, stageId);
+      data[stageIndex]["tasksList"][taskIndex] = task;
+      setData(task, kanbanBoardId, `${stageIndex}/tasksList/${taskIndex}`);
     },
     removeTask: (state, action) => {
       const { taskId, stageId } = action.payload;
-      const stageIndex = findStageIndex(state, stageId);
-      const taskIndex = findTaskIndex(state, taskId, stageId);
-      state[stageIndex]["tasksList"].splice(taskIndex, 1);
+      const { data } = state;
+      const stageIndex = findStageIndex(data, stageId);
+      const taskIndex = findTaskIndex(data, taskId, stageId);
+      data[stageIndex]["tasksList"].splice(taskIndex, 1);
+
+      setData(
+        data[stageIndex]["tasksList"],
+        kanbanBoardId,
+        `${stageIndex}/tasksList`
+      );
     },
     moveTask: (state, action) => {
       const { taskId, currentStageId, newStageId, closestEleIndex } =
         action.payload;
-      const currentStageIndex = findStageIndex(state, currentStageId);
-      const taskIndex = findTaskIndex(state, taskId, currentStageId);
-      const task = state[currentStageIndex]["tasksList"][taskIndex];
-      const newStageIndex = findStageIndex(state, newStageId);
-      state[currentStageIndex]["tasksList"].splice(taskIndex, 1);
-      state[newStageIndex]["tasksList"].splice(closestEleIndex, 0, task);
+      const { data } = state;
+      const currentStageIndex = findStageIndex(data, currentStageId);
+      const taskIndex = findTaskIndex(data, taskId, currentStageId);
+
+      const task = data[currentStageIndex]["tasksList"][taskIndex];
+      const newStageIndex = findStageIndex(data, newStageId);
+
+      if (!data[currentStageIndex]["tasksList"])
+        data[currentStageIndex]["tasksList"] = [];
+      data[currentStageIndex]["tasksList"].splice(taskIndex, 1);
+
+      if (!data[newStageIndex]["tasksList"])
+        data[newStageIndex]["tasksList"] = [];
+      data[newStageIndex]["tasksList"].splice(closestEleIndex, 0, task);
+
+      const { tasksList: tasksFromCurrentStage } = data[currentStageIndex];
+      const { tasksList: tasksFromNewStage } = data[newStageIndex];
+
+      setData(
+        tasksFromCurrentStage,
+        kanbanBoardId,
+        `${currentStageIndex}/tasksList`
+      );
+      setData(tasksFromNewStage, kanbanBoardId, `${newStageIndex}/tasksList`);
     },
     addNewStage: (state, action) => {
       const newState = [...state, action.payload];

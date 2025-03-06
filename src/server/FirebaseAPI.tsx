@@ -30,9 +30,9 @@ export const pushData = async (data, kanbanBoardId, index) => {
   }
 };
 
-export const setData = async (data, kanbanBoardId, index) => {
+export const setData = async (data, kanbanBoardId, path) => {
   const db = getDatabase(app);
-  const dbRef = ref(db, `${kanbanBoardId}/${index}/tasksList`);
+  const dbRef = ref(db, `${kanbanBoardId}/${path}`);
 
   try {
     await set(dbRef, data);
@@ -42,9 +42,9 @@ export const setData = async (data, kanbanBoardId, index) => {
   }
 };
 
-export const removeData = async (id) => {
+export const removeData = async (kanbanBoardId, path) => {
   const db = getDatabase(app);
-  const dbRef = ref(db, `${dataLocation}/${id}`);
+  const dbRef = ref(db, `${kanbanBoardId}/${path}`);
 
   try {
     await remove(dbRef);
