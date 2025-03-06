@@ -15,15 +15,6 @@ export default function Menu() {
       <li>
         <NavLink to="/">setup panel</NavLink>
       </li>
-      <li>
-        <NavLink to="/account-manager">account</NavLink>
-      </li>
-      <li>
-        <NavLink to="/team">team</NavLink>
-      </li>
-      <li>
-        <NavLink to="/login-screen">log off</NavLink>
-      </li>
     </MenuStyled>
   );
 }

@@ -8,25 +8,11 @@ const MenuBoardPanelStyled = styled.ul`
 
 MenuBoardPanelStyled.displayName = "MenuBoardPanelStyled";
 
-export default function MenuBoardPanel({
-  boardSettingShown,
-  setBoardSettingShown,
-}) {
+export default function MenuBoardPanel() {
   return (
     <MenuBoardPanelStyled>
-      <li>save</li>
-      <li>invite</li>
       <li>
         <NavLink to="/">setup panel</NavLink>
-      </li>
-      <li
-        onClick={() => {
-          boardSettingShown
-            ? setBoardSettingShown(false)
-            : setBoardSettingShown(true);
-        }}
-      >
-        board options
       </li>
     </MenuBoardPanelStyled>
   );

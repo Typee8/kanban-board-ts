@@ -18,9 +18,9 @@ export const fetchData = async (kanbanBoardId) => {
   }
 };
 
-export const pushData = async (data, kanbanBoardId, index) => {
+export const pushData = async (data) => {
   const db = getDatabase(app);
-  const dbRef = ref(db, `${kanbanBoardId}/${index}/tasksList`);
+  const dbRef = ref(db);
 
   try {
     await push(dbRef, data);

@@ -28,10 +28,7 @@ export default function BoardPanel() {
   return (
     <DndProvider options={HTML5toTouch}>
       <BoardPanelStyled>
-        <MenuBoardPanel
-          boardSettingShown={boardSettingShown}
-          setBoardSettingShown={setBoardSettingShown}
-        />
+        <MenuBoardPanel />
         {loading ? <h3>Loading...</h3> : <Board boardData={data} />}
         {boardSettingShown ? <BoardSettings /> : null}
       </BoardPanelStyled>
