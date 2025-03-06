@@ -30,7 +30,7 @@ export const pushData = async (data, kanbanBoardId, index) => {
   }
 };
 
-export const setData = async (data, kanbanBoardId, path) => {
+export const setData = async (data, kanbanBoardId, path = "") => {
   const db = getDatabase(app);
   const dbRef = ref(db, `${kanbanBoardId}/${path}`);
 

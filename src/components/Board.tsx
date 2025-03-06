@@ -4,6 +4,7 @@ import NewBoardElements from "./NewBoardElements";
 import { moveStage } from "../store/slices/boardStateSlice";
 import { useEffect, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
+import { useDispatch } from "react-redux";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -14,6 +15,7 @@ const BoardStyled = styled.ul`
 BoardStyled.displayName = "BoardStyled";
 
 export default function Board({ boardData }) {
+  const dispatch = useDispatch();
   const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stagesPositions, setStagesPositions] = useState([]);
