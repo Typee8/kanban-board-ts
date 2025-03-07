@@ -4,8 +4,12 @@ import MenuBoardPanel from "./MenuBoardPanel";
 import { DndProvider } from "react-dnd-multi-backend";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useState, useEffect } from "react";
-import { fetchInitialState } from "../store/slices/boardStateSlice";
+import {
+  fetchInitialState,
+  updateState,
+} from "../store/slices/boardStateSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchData } from "../server/FirebaseAPI";
 
 const BoardPanelStyled = styled.div`
   width: 100vw;
@@ -20,7 +24,12 @@ export default function BoardPanel() {
 
   useEffect(() => {
     dispatch(fetchInitialState(boardId));
-  }, [dispatch]);
+  }, []);
+
+  setTimeout(async () => {
+    const serverData = await fetchData(boardId);
+    dispatch(updateState(serverData));
+  }, 5000);
 
   return (
     <DndProvider options={HTML5toTouch}>
@@ -31,3 +40,19 @@ export default function BoardPanel() {
     </DndProvider>
   );
 }
+
+/* function compareBoardData(serverState, appState) {
+  if (!Array.isArray(serverState) && !Array.isArray(appState)) {
+    const serverKeys = Object.keys(serverState);
+    const appKeys = Object.keys(appState);
+
+    if (serverKeys.length !== appKeys.length) return false;
+
+    for (let i = 0; i < serverKeys.length; i++) {
+      if (serverState[serverKeys[i]] !== appState[serverKeys[i]]) return false;
+    }
+
+    return true;
+  }
+}
+ */

@@ -28,6 +28,9 @@ const boardStateSlice = createSlice({
       stateCopy.boardId = action.payload;
       return (state = stateCopy);
     },
+    updateState: (state, action) => {
+      state.data = action.payload;
+    },
     addNewTask: (state, action) => {
       const { data, boardId } = state;
       const pendingStage = data.find((stage) => stage.id === "firstStage");
@@ -137,6 +140,7 @@ const boardStateSlice = createSlice({
 
 export const {
   setBoardId,
+  updateState,
   addNewTask,
   updateTask,
   removeTask,
