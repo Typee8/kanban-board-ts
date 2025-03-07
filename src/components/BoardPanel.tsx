@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import Board from "./Board";
-import BoardSettings from "./BoardSettings";
 import MenuBoardPanel from "./MenuBoardPanel";
 import { DndProvider } from "react-dnd-multi-backend";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
@@ -16,13 +15,11 @@ const BoardPanelStyled = styled.div`
 BoardPanelStyled.displayName = "BoardPanelStyled";
 
 export default function BoardPanel() {
-  const [boardSettingShown, setBoardSettingShown] = useState(false);
-
   const dispatch = useDispatch();
-  const { loading, data } = useSelector((state) => state.boardState);
+  const { loading, boardId, data } = useSelector((state) => state.boardState);
 
   useEffect(() => {
-    dispatch(fetchInitialState());
+    dispatch(fetchInitialState(boardId));
   }, [dispatch]);
 
   return (
@@ -30,7 +27,6 @@ export default function BoardPanel() {
       <BoardPanelStyled>
         <MenuBoardPanel />
         {loading ? <h3>Loading...</h3> : <Board boardData={data} />}
-        {boardSettingShown ? <BoardSettings /> : null}
       </BoardPanelStyled>
     </DndProvider>
   );

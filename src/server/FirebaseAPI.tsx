@@ -4,9 +4,9 @@ import firebaseConfig from "./firebaseConfig";
 
 const app = initializeApp(firebaseConfig);
 
-export const fetchData = async (kanbanBoardId) => {
+export const fetchData = async (boardId) => {
   const db = getDatabase(app);
-  const dbRef = ref(db, kanbanBoardId);
+  const dbRef = ref(db, boardId);
 
   try {
     const snapshot = await get(dbRef);
@@ -30,9 +30,9 @@ export const pushData = async (data) => {
   }
 };
 
-export const setData = async (data, kanbanBoardId, path = "") => {
+export const setData = async (data, boardId, path = "") => {
   const db = getDatabase(app);
-  const dbRef = ref(db, `${kanbanBoardId}/${path}`);
+  const dbRef = ref(db, `${boardId}/${path}`);
 
   try {
     await set(dbRef, data);
@@ -42,9 +42,9 @@ export const setData = async (data, kanbanBoardId, path = "") => {
   }
 };
 
-export const removeData = async (kanbanBoardId, path) => {
+export const removeData = async (boardId, path) => {
   const db = getDatabase(app);
-  const dbRef = ref(db, `${kanbanBoardId}/${path}`);
+  const dbRef = ref(db, `${boardId}/${path}`);
 
   try {
     await remove(dbRef);

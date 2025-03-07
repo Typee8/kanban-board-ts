@@ -39,16 +39,14 @@ export default function Form({
 }: FormProps) {
   return (
     <FormStyled className={className} onSubmit={onSubmit}>
-      {closeForm ? (
-        <CloseBtnStyled
-          onClick={(evt) => {
-            evt.preventDefault();
-            closeForm();
-          }}
-        >
-          X
-        </CloseBtnStyled>
-      ) : null}
+      <CloseBtnStyled
+        onClick={(evt) => {
+          evt.preventDefault();
+          closeForm();
+        }}
+      >
+        X
+      </CloseBtnStyled>
 
       {title ? <h3>{title}</h3> : null}
       {children}

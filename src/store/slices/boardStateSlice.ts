@@ -4,22 +4,32 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setData, fetchData, setData } from "../../server/FirebaseAPI";
 
 //PH
-const kanbanBoardId = "-OKWxSend40bnWodRWaf";
+/* const boardId = "-OKWxSend40bnWodRWaf"; */
 
 export const fetchInitialState = createAsyncThunk(
   "boardState/fetchInitialState",
-  async () => {
-    const result = await fetchData(kanbanBoardId);
+  async (boardId) => {
+    const result = await fetchData(boardId);
     return result;
   }
 );
 
 const boardStateSlice = createSlice({
   name: "boardState",
-  initialState: { loading: true, error: null, data: null },
+  initialState: {
+    loading: true,
+    error: null,
+    boardId: sessionStorage.getItem("boardId"),
+    data: null,
+  },
   reducers: {
+    setBoardId: (state, action) => {
+      const stateCopy = JSON.parse(JSON.stringify(state));
+      stateCopy.boardId = action.payload;
+      return (state = stateCopy);
+    },
     addNewTask: (state, action) => {
-      const { data } = state;
+      const { data, boardId } = state;
       const pendingStage = data.find((stage) => stage.id === "firstStage");
       if (!pendingStage) return;
       const pendingStageIndex = data.indexOf(pendingStage);
@@ -31,33 +41,33 @@ const boardStateSlice = createSlice({
 
       data[pendingStageIndex].tasksList.push(action.payload);
       const { tasksList } = data[pendingStageIndex];
-      setData(tasksList, kanbanBoardId, `${pendingStageIndex}/tasksList`);
+      setData(tasksList, boardId, `${pendingStageIndex}/tasksList`);
     },
     updateTask: (state, action) => {
       const { taskId, stageId, task } = action.payload;
-      const { data } = state;
+      const { data, boardId } = state;
       const stageIndex = findStageIndex(data, stageId);
       const taskIndex = findTaskIndex(data, taskId, stageId);
       data[stageIndex]["tasksList"][taskIndex] = task;
-      setData(task, kanbanBoardId, `${stageIndex}/tasksList/${taskIndex}`);
+      setData(task, boardId, `${stageIndex}/tasksList/${taskIndex}`);
     },
     removeTask: (state, action) => {
       const { taskId, stageId } = action.payload;
-      const { data } = state;
+      const { data, boardId } = state;
       const stageIndex = findStageIndex(data, stageId);
       const taskIndex = findTaskIndex(data, taskId, stageId);
       data[stageIndex]["tasksList"].splice(taskIndex, 1);
 
       setData(
         data[stageIndex]["tasksList"],
-        kanbanBoardId,
+        boardId,
         `${stageIndex}/tasksList`
       );
     },
     moveTask: (state, action) => {
       const { taskId, currentStageId, newStageId, closestEleIndex } =
         action.payload;
-      const { data } = state;
+      const { data, boardId } = state;
       const currentStageIndex = findStageIndex(data, currentStageId);
       const taskIndex = findTaskIndex(data, taskId, currentStageId);
 
@@ -75,42 +85,38 @@ const boardStateSlice = createSlice({
       const { tasksList: tasksFromCurrentStage } = data[currentStageIndex];
       const { tasksList: tasksFromNewStage } = data[newStageIndex];
 
-      setData(
-        tasksFromCurrentStage,
-        kanbanBoardId,
-        `${currentStageIndex}/tasksList`
-      );
-      setData(tasksFromNewStage, kanbanBoardId, `${newStageIndex}/tasksList`);
+      setData(tasksFromCurrentStage, boardId, `${currentStageIndex}/tasksList`);
+      setData(tasksFromNewStage, boardId, `${newStageIndex}/tasksList`);
     },
     addNewStage: (state, action) => {
-      const { data } = state;
+      const { data, boardId } = state;
       data.splice(data.length - 1, 0, action.payload);
-      setData(data, kanbanBoardId);
+      setData(data, boardId);
     },
     updateStage: (state, action) => {
       const { stageId, newStage } = action.payload;
-      const { data } = state;
+      const { data, boardId } = state;
       const stageIndex = findStageIndex(data, stageId);
       data[stageIndex] = newStage;
 
-      setData(data[stageIndex], kanbanBoardId, stageIndex);
+      setData(data[stageIndex], boardId, stageIndex);
     },
     removeStage: (state, action) => {
       const { stageId } = action.payload;
-      const { data } = state;
+      const { data, boardId } = state;
       const stageIndex = findStageIndex(data, stageId);
       data.splice(stageIndex, 1);
-      setData(data, kanbanBoardId);
+      setData(data, boardId);
     },
     moveStage: (state, action) => {
       const { stageId, closestStageIndex } = action.payload;
-      const { data } = state;
+      const { data, boardId } = state;
       const stageIndex = findStageIndex(data, stageId);
       const dataCopy = JSON.parse(JSON.stringify(data));
       data.splice(stageIndex, 1);
       data.splice(closestStageIndex, 0, dataCopy[stageIndex]);
 
-      setData(data, kanbanBoardId);
+      setData(data, boardId);
     },
   },
   extraReducers: (builder) => {
@@ -130,6 +136,7 @@ const boardStateSlice = createSlice({
 });
 
 export const {
+  setBoardId,
   addNewTask,
   updateTask,
   removeTask,
