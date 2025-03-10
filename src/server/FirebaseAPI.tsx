@@ -65,3 +65,15 @@ export const updateData = async (id, obj) => {
     throw new Error(`UPDATE - failed, status: ${error}`);
   }
 };
+
+export const removeEverything = async () => {
+  const db = getDatabase(app);
+  const dbRef = ref(db);
+
+  try {
+    await remove(dbRef);
+    console.log("Data removed successfully!");
+  } catch (error) {
+    throw new Error(`REMOVE - failed, status: ${error}`);
+  }
+};
