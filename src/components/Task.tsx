@@ -64,12 +64,13 @@ export default function Task({
         </li>
         <li>Task status {status}</li>
       </TaskContainerStyled>
-      <TaskDetails
-        stageId={stageId}
-        taskData={taskData}
-        taskDetailsShown={taskDetailsShown}
-        setTaskDetailsShown={() => setTaskDetailsShown(false)}
-      />
+      {taskDetailsShown ? (
+        <TaskDetails
+          stageId={stageId}
+          taskData={taskData}
+          setTaskDetailsShown={() => setTaskDetailsShown(false)}
+        />
+      ) : null}
     </TaskStyled>
   );
 }

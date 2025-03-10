@@ -24,10 +24,12 @@ export default function NewBoardElements() {
         setStageFormShown={() => setStageFormShown(false)}
       />
 
-      <TaskDetails
-        taskDetailsShown={taskDetailsShown}
-        setTaskDetailsShown={() => setTaskDetailsShown(false)}
-      />
+      {taskDetailsShown ? (
+        <TaskDetails
+          taskDetailsShown={taskDetailsShown}
+          setTaskDetailsShown={() => setTaskDetailsShown(false)}
+        />
+      ) : null}
     </NewBoardElementsStyled>
   );
 }
