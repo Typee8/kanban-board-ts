@@ -6,6 +6,7 @@ import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useState, useEffect } from "react";
 import {
   fetchInitialState,
+  fetchState,
   updateState,
 } from "../store/slices/boardStateSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,10 +27,13 @@ export default function BoardPanel() {
     dispatch(fetchInitialState(boardId));
   }, []);
 
-  setTimeout(async () => {
-    const serverData = await fetchData(boardId);
-    dispatch(updateState(serverData));
-  }, 5000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatch(fetchState(boardId));
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   return (
     <DndProvider options={HTML5toTouch}>
@@ -40,19 +44,3 @@ export default function BoardPanel() {
     </DndProvider>
   );
 }
-
-/* function compareBoardData(serverState, appState) {
-  if (!Array.isArray(serverState) && !Array.isArray(appState)) {
-    const serverKeys = Object.keys(serverState);
-    const appKeys = Object.keys(appState);
-
-    if (serverKeys.length !== appKeys.length) return false;
-
-    for (let i = 0; i < serverKeys.length; i++) {
-      if (serverState[serverKeys[i]] !== appState[serverKeys[i]]) return false;
-    }
-
-    return true;
-  }
-}
- */

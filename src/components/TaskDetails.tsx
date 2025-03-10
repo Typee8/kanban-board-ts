@@ -19,6 +19,8 @@ import ButtonStyled from "./styled/ButtonStyled";
 import TaskLinksPanel from "./TaskLinksPanel";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import React from "react";
+import isEqual from "lodash/isEqual";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -33,7 +35,7 @@ const CloseBtnStyled = styled(ButtonStyled)`
 
 CloseBtnStyled.displayName = "CloseBtnStyled";
 
-export default function TaskDetails({
+function TaskDetails({
   stageId = "firstStage",
   taskData,
   setTaskDetailsShown,
@@ -41,7 +43,17 @@ export default function TaskDetails({
   const newTask = taskData ? false : true;
 
   const formDefaultValues = newTask
-    ? {}
+    ? {
+        title: "",
+        description: "",
+        links: "",
+        deadline: "",
+        priority: "",
+        assigneesLimit: "",
+        assigneesList: "",
+        commentsList: "",
+        status: "",
+      }
     : {
         title: taskData.title,
         description: taskData.description,
@@ -155,3 +167,8 @@ export default function TaskDetails({
     </Form>
   );
 }
+
+const arePropsEqual = (prevProps, nextProps) =>
+  isEqual(prevProps.obj, nextProps.obj);
+
+export default React.memo(TaskDetails, arePropsEqual);

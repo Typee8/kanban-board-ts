@@ -2,15 +2,25 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setData, fetchData, setData } from "../../server/FirebaseAPI";
-
-//PH
-/* const boardId = "-OKWxSend40bnWodRWaf"; */
+import { isEqual } from "lodash";
 
 export const fetchInitialState = createAsyncThunk(
   "boardState/fetchInitialState",
   async (boardId) => {
     const result = await fetchData(boardId);
     return result;
+  }
+);
+
+export const fetchState = createAsyncThunk(
+  "boardState/fetchState",
+  async (boardId, { getState }) => {
+    const result = await fetchData(boardId);
+    const state = getState();
+
+    if (!isEqual(state, result)) {
+      return result;
+    }
   }
 );
 
@@ -134,6 +144,9 @@ const boardStateSlice = createSlice({
       .addCase(fetchInitialState.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(fetchState.fulfilled, (state, action) => {
+        state.data = action.payload;
       });
   },
 });
