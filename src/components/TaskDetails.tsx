@@ -36,7 +36,7 @@ const CloseBtnStyled = styled(ButtonStyled)`
 CloseBtnStyled.displayName = "CloseBtnStyled";
 
 const TaskDetailsWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -57,8 +57,10 @@ function TaskDetails({
   taskData,
   setTaskDetailsShown,
 }: TaskDetailsProps) {
-  const newTask = taskData ? false : true;
+  const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
+    useState(false);
 
+  const newTask = taskData ? false : true;
   const formDefaultValues = newTask
     ? {
         title: "",
@@ -82,9 +84,6 @@ function TaskDetails({
         commentsList: taskData.commentsList,
         status: taskData.status,
       };
-
-  const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
-    useState(false);
 
   const {
     formState: { isDirty },

@@ -1,25 +1,26 @@
 import styled from "styled-components";
-import SettingsBtn from "./buttons/SettingsBtn";
 import TaskDetails from "./TaskDetails";
 import { useState } from "react";
 import { useDrag } from "react-dnd";
 
 const TaskStyled = styled.li`
-  padding: 20px;
-  border-top: 1px solid black;
+  padding: 10px 20px;
   opacity: ${(props) => {
     if (props.$isDragging) return 0;
     if (props.$isPreviewed) return 0.4;
     return 1;
   }};
+
+  &:not(:last-child) {
+    border-bottom: 2px solid #f3f3f3;
+  }
 `;
 
 TaskStyled.displayName = "TaskStyled";
 
 const TaskContainerStyled = styled.ul`
-  padding: 20px;
+  padding-inline: 20px;
   border-radius: 60px;
-  background-color: blanchedalmond;
 `;
 
 TaskContainerStyled.displayName = "TaskContainerStyled";

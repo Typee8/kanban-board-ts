@@ -11,7 +11,8 @@ const BoardStyled = styled.ul`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid black;
+  padding: 40px 20px;
+  gap: 30px;
 
   @media (min-width: ${tablet}) {
     flex-direction: row;
@@ -95,8 +96,8 @@ export default function Board({ boardData }) {
 
   return (
     <BoardStyled ref={combineRefs}>
-      <NewBoardElements />
       {stages}
+      <NewBoardElements />
     </BoardStyled>
   );
 }

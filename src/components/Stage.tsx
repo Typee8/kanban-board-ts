@@ -10,7 +10,9 @@ import ArrowDropDown from "./icons/ArrowDropDown";
 const StageStyled = styled.li`
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  border-radius: 20px;
+  padding: 10px;
+  background-color: #fefefe;
   opacity: ${(props) => {
     if (props.$isDragging) return 0;
     if (props.$isPreviewed) return 0.4;
@@ -37,11 +39,14 @@ const StageTitleWrapper = styled.div`
 StageTitleWrapper.displayName = "StageTitleWrapper";
 
 const StageTasksStyled = styled.ul`
-  padding: 20px;
   display: ${(props) => (props.$isShown ? "initial" : "none")};
 `;
 
 StageTasksStyled.displayName = "StageTasksStyled";
+
+const H2Styled = styled.h2`
+  font-weight: 600;
+`;
 
 export default function Stage({ stageData, className, isPreviewed = false }) {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
@@ -110,11 +115,12 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
-      <StageDetails
-        stageData={stageData}
-        stageDetailsShown={stageDetailsShown}
-        setStageDetailsShown={() => setStageDetailsShown(false)}
-      />
+      {stageDetailsShown ? (
+        <StageDetails
+          stageData={stageData}
+          setStageDetailsShown={() => setStageDetailsShown(false)}
+        />
+      ) : null}
 
       <StageTitleWrapper>
         <ArrowDropDown onClick={setStageTasksShown} />
@@ -122,7 +128,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
           ref={drag}
           onClick={() => setStageDetailsShown(true)}
         >
-          <h2 className="stage__title">{title}</h2>
+          <H2Styled className="stage__title">{title}</H2Styled>
         </StageContainerStyled>
       </StageTitleWrapper>
 

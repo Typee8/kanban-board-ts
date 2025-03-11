@@ -19,20 +19,20 @@ export default function ArrowDropDown({ onClick }) {
       {isClicked ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="40px"
+          height="35px"
           viewBox="0 -960 960 960"
-          width="40px"
-          fill="#000000"
+          width="35px"
+          fill="#1B1B1B"
         >
           <path d="m280-400 200-200 200 200H280Z" />
         </svg>
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="40px"
+          height="35px"
           viewBox="0 -960 960 960"
-          width="40px"
-          fill="#000000"
+          width="35px"
+          fill="#1B1B1B"
         >
           <path d="M480-360 280-560h400L480-360Z" />
         </svg>

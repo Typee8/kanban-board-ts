@@ -1,7 +1,11 @@
 import Form from "./forms/Form";
 import ButtonStyled from "./styled/ButtonStyled";
 import { useForm } from "react-hook-form";
-import { updateStage, removeStage } from "../store/slices/boardStateSlice";
+import {
+  addNewStage,
+  updateStage,
+  removeStage,
+} from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
 import InputFluid from "./inputs/InputFluid";
 import StageDetailsToolbar from "./StageDetailsToolbar";
@@ -9,9 +13,10 @@ import SelectFluid from "./inputs/SelectFluid";
 import SaveChangesPanel from "./SaveChangesPanel";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 const StageDetailsWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -27,18 +32,26 @@ const StageDetailsWrapper = styled.div`
 
 StageDetailsWrapper.displayName = "StageDetailsWrapper";
 
-export default function StageDetails({
-  stageData,
-  stageDetailsShown,
-  setStageDetailsShown,
-}: {
-  stageDetailsShown: boolean;
-}) {
+const CloseBtnStyled = styled(ButtonStyled)`
+  position: absolute;
+  align-self: flex-end;
+`;
+
+CloseBtnStyled.displayName = "CloseBtnStyled";
+
+export default function StageDetails({ stageData, setStageDetailsShown }) {
   const [saveChangesPanelShown, setSaveChangesPanelShown] = useState(false);
-  const stageFromDefaultValues = {
-    title: stageData.title,
-    tasksLimit: stageData.tasksLimit,
-  };
+
+  const newStage = stageData ? false : true;
+  const stageFromDefaultValues = newStage
+    ? {
+        title: "",
+        tasksLimit: "",
+      }
+    : {
+        title: stageData.title,
+        tasksLimit: stageData.tasksLimit,
+      };
 
   const {
     formState: { isDirty },
@@ -53,17 +66,19 @@ export default function StageDetails({
 
   useEffect(() => reset(stageFromDefaultValues), [stageData]);
 
-  if (stageDetailsShown === false) return;
-
   const onSubmit = (inputData, evt) => {
     evt.preventDefault();
 
-    const newStage = { ...stageData, ...inputData };
-    dispatch(updateStage({ newStage, stageId: stageData.id }));
+    if (newStage) {
+      inputData.id = uuidv4();
+      dispatch(addNewStage(inputData));
+    } else {
+      const newStage = { ...stageData, ...inputData };
+      dispatch(updateStage({ newStage, stageId: stageData.id }));
+    }
+
     setStageDetailsShown(false);
   };
-
-  console.log(isDirty);
 
   return (
     <StageDetailsWrapper>
@@ -74,26 +89,38 @@ export default function StageDetails({
           closeEditingPanel={() => setStageDetailsShown(false)}
           discardChanges={() => reset()}
         />
-        <StageDetailsToolbar>
-          <ButtonStyled
+        {newStage ? (
+          <CloseBtnStyled
             onClick={() => {
-              dispatch(removeStage({ stageId: stageData.id }));
+              setStageDetailsShown(false);
+              reset();
             }}
           >
-            -
-          </ButtonStyled>
-          <ButtonStyled
-            onClick={() => {
-              if (isDirty) {
-                setSaveChangesPanelShown(true);
-              } else {
-                setStageDetailsShown(false);
-              }
-            }}
-          >
-            x
-          </ButtonStyled>
-        </StageDetailsToolbar>
+            X
+          </CloseBtnStyled>
+        ) : (
+          <StageDetailsToolbar>
+            <ButtonStyled
+              onClick={() => {
+                dispatch(removeStage({ stageId: stageData.id }));
+              }}
+            >
+              -
+            </ButtonStyled>
+            <ButtonStyled
+              onClick={() => {
+                if (isDirty) {
+                  setSaveChangesPanelShown(true);
+                } else {
+                  setStageDetailsShown(false);
+                }
+              }}
+            >
+              x
+            </ButtonStyled>
+          </StageDetailsToolbar>
+        )}
+
         <InputFluid
           getInputValue={() => getValues("title")}
           register={register("title")}

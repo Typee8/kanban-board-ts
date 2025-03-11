@@ -1,34 +1,41 @@
-import AddBtn from "./buttons/AddBtn";
 import TaskDetails from "./TaskDetails";
 import StageForm from "./forms/StageForm";
 import styled from "styled-components";
 import { useState } from "react";
+import AddTaskIcon from "./icons/AddTaskIcon";
+import AddStageIcon from "./icons/AddStageIcon";
+import LogOffIcon from "./icons/LogOffIcon";
+import StageDetails from "./StageDetails";
 
 const NewBoardElementsStyled = styled.li`
-  display: "flex";
-  flex-direction: "column";
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  justify-content: space-around;
+  width: 100vw;
+  padding: 20px;
+  background-color: #fefefe;
 `;
 
 NewBoardElementsStyled.displayName = "NewBoardElementsStyled";
 
 export default function NewBoardElements() {
-  const [stageFormShown, setStageFormShown] = useState(false);
+  const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
 
   return (
     <NewBoardElementsStyled>
-      <AddBtn onClick={() => setStageFormShown(true)} />
-      <AddBtn onClick={() => setTaskDetailsShown(true)} />
-      <StageForm
-        stageFormShown={stageFormShown}
-        setStageFormShown={() => setStageFormShown(false)}
-      />
+      <LogOffIcon />
+      <AddTaskIcon onClick={() => setTaskDetailsShown(true)} />
+      <AddStageIcon onClick={() => setStageDetailsShown(true)} />
+
+      {stageDetailsShown ? (
+        <StageDetails setStageDetailsShown={setStageDetailsShown} />
+      ) : null}
 
       {taskDetailsShown ? (
-        <TaskDetails
-          taskDetailsShown={taskDetailsShown}
-          setTaskDetailsShown={() => setTaskDetailsShown(false)}
-        />
+        <TaskDetails setTaskDetailsShown={setTaskDetailsShown} />
       ) : null}
     </NewBoardElementsStyled>
   );

@@ -1,14 +1,9 @@
 import styled from "styled-components";
 import Board from "./Board";
-import MenuBoardPanel from "./MenuBoardPanel";
 import { DndProvider } from "react-dnd-multi-backend";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
-import { useState, useEffect } from "react";
-import {
-  fetchInitialState,
-  fetchState,
-  updateState,
-} from "../store/slices/boardStateSlice";
+import { useEffect } from "react";
+import { fetchInitialState, fetchState } from "../store/slices/boardStateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../server/FirebaseAPI";
 
@@ -38,7 +33,6 @@ export default function BoardPanel() {
   return (
     <DndProvider options={HTML5toTouch}>
       <BoardPanelStyled>
-        <MenuBoardPanel />
         {loading ? <h3>Loading...</h3> : <Board boardData={data} />}
       </BoardPanelStyled>
     </DndProvider>
