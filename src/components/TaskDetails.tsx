@@ -94,9 +94,9 @@ function TaskDetails({
     } else {
       const newTask = { ...taskData, ...inputData };
       dispatch(updateTask({ task: newTask, taskId: taskData.id, stageId }));
-      setTaskDetailsShown(false);
       setTaskDetailsLeavePanelShown(false);
     }
+    setTaskDetailsShown(false);
   };
 
   return (

@@ -54,6 +54,8 @@ export default function Board({ boardData }) {
     [mousePosition, stagesPositions]
   );
 
+  if (boardData === null) boardData = [];
+
   const stages = boardData.map((data) => (
     <Stage key={data.id} stageData={data} className="stage" />
   ));

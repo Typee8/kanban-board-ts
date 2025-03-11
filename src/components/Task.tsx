@@ -41,6 +41,13 @@ export default function Task({
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
+    canDrag: (monitor) => {
+      console.log(monitor);
+      // if dragged item is TaskStyled
+      // then it's true
+      // if it isn't then it's false
+      return true;
+    },
   }));
   const { title, deadline, assigneesList, assigneesLimit, status } = taskData;
 
