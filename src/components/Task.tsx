@@ -50,8 +50,7 @@ export default function Task({
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
-      <SettingsBtn onClick={() => setTaskDetailsShown(true)} />
-      <TaskContainerStyled ref={drag}>
+      <TaskContainerStyled ref={drag} onClick={() => setTaskDetailsShown(true)}>
         <li>{title}</li>
         <li>{deadline}</li>
         <li>

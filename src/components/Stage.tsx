@@ -103,11 +103,10 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         stageDetailsShown={stageDetailsShown}
         setStageDetailsShown={() => setStageDetailsShown(false)}
       />
-      <SettingsBtn
-        className="stage__settings"
+      <StageContainerStyled
+        ref={drag}
         onClick={() => setStageDetailsShown(true)}
-      />
-      <StageContainerStyled ref={drag}>
+      >
         <h2 className="stage__title">{title}</h2>
       </StageContainerStyled>
       <StageTasksStyled className="stage__tasks">
