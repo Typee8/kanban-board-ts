@@ -1,6 +1,8 @@
 import SetupPanel from "./components/SetupPanel";
 import BoardPanel from "./components/BoardPanel";
 import "./css/reset.css";
+import "./css/global.css";
+import "./css/fonts.css";
 import { HashRouter as Router, Routes, Route } from "react-router";
 import { fetchData, setData, removeEverything } from "./server/FirebaseAPI";
 

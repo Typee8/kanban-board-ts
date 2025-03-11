@@ -5,11 +5,17 @@ import { moveStage } from "../store/slices/boardStateSlice";
 import { useEffect, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
+import { tablet } from "../devicesWidthStandard";
 
 const BoardStyled = styled.ul`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   border: 1px solid black;
+
+  @media (min-width: ${tablet}) {
+    flex-direction: row;
+  }
 `;
 
 BoardStyled.displayName = "BoardStyled";

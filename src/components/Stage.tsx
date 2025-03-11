@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Task from "./Task";
-import SettingsBtn from "./buttons/SettingsBtn";
 import StageDetails from "./StageDetails";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
 import { useDrop, useDrag } from "react-dnd";
+import ArrowDropDown from "./icons/ArrowDropDown";
 
 const StageStyled = styled.li`
   display: flex;
@@ -21,19 +21,31 @@ const StageStyled = styled.li`
 StageStyled.displayName = "StageStyled";
 
 const StageContainerStyled = styled.ul`
+  display: flex;
+  align-items: center;
   padding: 20px;
 `;
 
 StageContainerStyled.displayName = "StageContainerStyled";
 
+const StageTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+StageTitleWrapper.displayName = "StageTitleWrapper";
+
 const StageTasksStyled = styled.ul`
   padding: 20px;
+  display: ${(props) => (props.$isShown ? "initial" : "none")};
 `;
 
 StageTasksStyled.displayName = "StageTasksStyled";
 
 export default function Stage({ stageData, className, isPreviewed = false }) {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
+  const [stageTasksShown, setStageTasksShown] = useState(false);
   const [closestToDraggedTaskIndex, setClosestToDraggedTaskIndex] = useState();
   const stageRef = useRef();
   const dispatch = useDispatch();
@@ -103,13 +115,18 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         stageDetailsShown={stageDetailsShown}
         setStageDetailsShown={() => setStageDetailsShown(false)}
       />
-      <StageContainerStyled
-        ref={drag}
-        onClick={() => setStageDetailsShown(true)}
-      >
-        <h2 className="stage__title">{title}</h2>
-      </StageContainerStyled>
-      <StageTasksStyled className="stage__tasks">
+
+      <StageTitleWrapper>
+        <ArrowDropDown onClick={setStageTasksShown} />
+        <StageContainerStyled
+          ref={drag}
+          onClick={() => setStageDetailsShown(true)}
+        >
+          <h2 className="stage__title">{title}</h2>
+        </StageContainerStyled>
+      </StageTitleWrapper>
+
+      <StageTasksStyled $isShown={stageTasksShown} className="stage__tasks">
         {tasks.length > 0 ? tasks : null}
       </StageTasksStyled>
     </StageStyled>
