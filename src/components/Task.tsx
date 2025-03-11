@@ -41,25 +41,17 @@ export default function Task({
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-    canDrag: (monitor) => {
-      console.log(monitor);
-      // if dragged item is TaskStyled
-      // then it's true
-      // if it isn't then it's false
-      return true;
-    },
   }));
   const { title, deadline, assigneesList, assigneesLimit, status } = taskData;
 
   return (
     <TaskStyled
-      ref={drag}
       className={className}
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
       <SettingsBtn onClick={() => setTaskDetailsShown(true)} />
-      <TaskContainerStyled>
+      <TaskContainerStyled ref={drag}>
         <li>{title}</li>
         <li>{deadline}</li>
         <li>

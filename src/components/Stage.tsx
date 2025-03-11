@@ -8,7 +8,6 @@ import { moveTask } from "../store/slices/boardStateSlice";
 import { useDrop, useDrag } from "react-dnd";
 
 const StageStyled = styled.li`
-  position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid black;
@@ -99,16 +98,16 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
+      <StageDetails
+        stageData={stageData}
+        stageDetailsShown={stageDetailsShown}
+        setStageDetailsShown={() => setStageDetailsShown(false)}
+      />
+      <SettingsBtn
+        className="stage__settings"
+        onClick={() => setStageDetailsShown(true)}
+      />
       <StageContainerStyled ref={drag}>
-        <StageDetails
-          stageData={stageData}
-          stageDetailsShown={stageDetailsShown}
-          setStageDetailsShown={() => setStageDetailsShown(false)}
-        />
-        <SettingsBtn
-          className="stage__settings"
-          onClick={() => setStageDetailsShown(true)}
-        />
         <h2 className="stage__title">{title}</h2>
       </StageContainerStyled>
       <StageTasksStyled className="stage__tasks">

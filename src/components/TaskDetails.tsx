@@ -35,6 +35,23 @@ const CloseBtnStyled = styled(ButtonStyled)`
 
 CloseBtnStyled.displayName = "CloseBtnStyled";
 
+const TaskDetailsWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.6)
+  );
+`;
+
+TaskDetailsWrapper.displayName = "TaskDetailsWrapper";
+
 function TaskDetails({
   stageId = "firstStage",
   taskData,
@@ -100,71 +117,75 @@ function TaskDetails({
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <TaskDetailsLeavePanel
-        isShown={taskDetailsLeavePanelShown}
-        setIsShown={setTaskDetailsLeavePanelShown}
-        closeTaskDetails={() => setTaskDetailsShown(false)}
-        resetTaskForm={() => reset(formDefaultValues)}
-      />
-
-      {newTask ? (
-        <CloseBtnStyled
-          onClick={() => {
-            setTaskDetailsShown(false);
-            reset();
-          }}
-        >
-          X
-        </CloseBtnStyled>
-      ) : (
-        <TaskDetailsToolbar
-          isTaskFormDirty={isDirty}
-          removeTask={() =>
-            dispatch(removeTask({ taskId: taskData.id, stageId }))
-          }
-          showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
-          hideTaskDetails={() => setTaskDetailsShown(false)}
-          getTaskStatus={() => watch("status")}
-          taskStatusRegister={register("status")}
+    <TaskDetailsWrapper>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TaskDetailsLeavePanel
+          isShown={taskDetailsLeavePanelShown}
+          setIsShown={setTaskDetailsLeavePanelShown}
+          closeTaskDetails={() => setTaskDetailsShown(false)}
+          resetTaskForm={() => reset(formDefaultValues)}
         />
-      )}
 
-      <TaskTitlePanel
-        getTitle={() => getValues("title")}
-        taskRegister={register("title")}
-      />
-      <TaskDescriptionPanel
-        getDescription={() => getValues("description")}
-        taskRegister={register("description")}
-      />
+        {newTask ? (
+          <CloseBtnStyled
+            onClick={() => {
+              setTaskDetailsShown(false);
+              reset();
+            }}
+          >
+            X
+          </CloseBtnStyled>
+        ) : (
+          <TaskDetailsToolbar
+            isTaskFormDirty={isDirty}
+            removeTask={() =>
+              dispatch(removeTask({ taskId: taskData.id, stageId }))
+            }
+            showTaskDetailsLeavePanel={() =>
+              setTaskDetailsLeavePanelShown(true)
+            }
+            hideTaskDetails={() => setTaskDetailsShown(false)}
+            getTaskStatus={() => watch("status")}
+            taskStatusRegister={register("status")}
+          />
+        )}
 
-      <TaskLinksPanel
-        taskRegister={register}
-        taskFormControl={control}
-        getTaskFormValues={getValues}
-      />
+        <TaskTitlePanel
+          getTitle={() => getValues("title")}
+          taskRegister={register("title")}
+        />
+        <TaskDescriptionPanel
+          getDescription={() => getValues("description")}
+          taskRegister={register("description")}
+        />
 
-      <TaskDeadlinePanel
-        getDate={() => getValues("deadline")}
-        setDate={(newValue) => setValue("deadline", newValue)}
-        taskRegister={register("deadline")}
-      />
+        <TaskLinksPanel
+          taskRegister={register}
+          taskFormControl={control}
+          getTaskFormValues={getValues}
+        />
 
-      <TaskPriorityPanel
-        getPriority={() => getValues("priority")}
-        taskRegister={register("priority")}
-        optionsList={["low", "medium", "high"]}
-      />
+        <TaskDeadlinePanel
+          getDate={() => getValues("deadline")}
+          setDate={(newValue) => setValue("deadline", newValue)}
+          taskRegister={register("deadline")}
+        />
 
-      <TaskAssigneePanel
-        taskRegister={register}
-        taskFormControl={control}
-        getTaskFormValues={getValues}
-      />
+        <TaskPriorityPanel
+          getPriority={() => getValues("priority")}
+          taskRegister={register("priority")}
+          optionsList={["low", "medium", "high"]}
+        />
 
-      {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
-    </Form>
+        <TaskAssigneePanel
+          taskRegister={register}
+          taskFormControl={control}
+          getTaskFormValues={getValues}
+        />
+
+        {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
+      </Form>
+    </TaskDetailsWrapper>
   );
 }
 

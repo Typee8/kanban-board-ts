@@ -8,6 +8,24 @@ import StageDetailsToolbar from "./StageDetailsToolbar";
 import SelectFluid from "./inputs/SelectFluid";
 import SaveChangesPanel from "./SaveChangesPanel";
 import { useState, useEffect } from "react";
+import styled from "styled-components";
+
+const StageDetailsWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 100vw;
+  min-height: 100vh;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.6)
+  );
+`;
+
+StageDetailsWrapper.displayName = "StageDetailsWrapper";
 
 export default function StageDetails({
   stageData,
@@ -48,42 +66,46 @@ export default function StageDetails({
   console.log(isDirty);
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <SaveChangesPanel
-        isShown={saveChangesPanelShown}
-        setIsShown={setSaveChangesPanelShown}
-        closeEditingPanel={() => setStageDetailsShown(false)}
-        discardChanges={() => reset()}
-      />
-      <StageDetailsToolbar>
-        <ButtonStyled
-          onClick={() => {
-            dispatch(removeStage({ stageId: stageData.id }));
-          }}
-        >
-          -
-        </ButtonStyled>
-        <ButtonStyled
-          onClick={() => {
-            if (isDirty) {
-              setSaveChangesPanelShown(true);
-            } else {
-              setStageDetailsShown(false);
-            }
-          }}
-        >
-          x
-        </ButtonStyled>
-      </StageDetailsToolbar>
-      <InputFluid
-        getInputValue={() => getValues("title")}
-        register={register("title")}
-      />
-      <SelectFluid
-        getSelectValue={() => getValues("tasksLimit")}
-        selectOptions={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
-        register={register("tasksLimit")}
-      />
-    </Form>
+    <StageDetailsWrapper>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <SaveChangesPanel
+          isShown={saveChangesPanelShown}
+          setIsShown={setSaveChangesPanelShown}
+          closeEditingPanel={() => setStageDetailsShown(false)}
+          discardChanges={() => reset()}
+        />
+        <StageDetailsToolbar>
+          <ButtonStyled
+            onClick={() => {
+              dispatch(removeStage({ stageId: stageData.id }));
+            }}
+          >
+            -
+          </ButtonStyled>
+          <ButtonStyled
+            onClick={() => {
+              if (isDirty) {
+                setSaveChangesPanelShown(true);
+              } else {
+                setStageDetailsShown(false);
+              }
+            }}
+          >
+            x
+          </ButtonStyled>
+        </StageDetailsToolbar>
+        <InputFluid
+          getInputValue={() => getValues("title")}
+          register={register("title")}
+        />
+        <SelectFluid
+          getSelectValue={() => getValues("tasksLimit")}
+          selectOptions={Array.from({ length: 10 }, (_, i) =>
+            (i + 1).toString()
+          )}
+          register={register("tasksLimit")}
+        />
+      </Form>
+    </StageDetailsWrapper>
   );
 }
