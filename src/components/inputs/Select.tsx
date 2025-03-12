@@ -6,6 +6,7 @@ type SelectProps = {
   $isShown: boolean;
   className?: string;
   title?: string;
+  placeholder?: string;
   defaultValue?: string;
   register: Omit<UseFormRegisterReturn<string>, "ref">;
   optionsList: string[];

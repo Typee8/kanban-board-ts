@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 const StageDetailsToolbarStyled = styled.ul`
   position: absolute;
-  right: 40px;
+  top: 0;
+  right: 0px;
 `;
 
 type StageDetailsToolbarProps = {

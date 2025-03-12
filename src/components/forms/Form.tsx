@@ -1,17 +1,30 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
-import CloseIcon from "../icons/CloseIcon";
+import ButtonStyled from "../styled/ButtonStyled";
+import { crossIcon } from "../../assets/svg_icons";
 
 const FormStyled = styled.form`
   z-index: 999;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   background-color: #f3f3f3;
 `;
 FormStyled.displayName = "FormStyled";
 
 const SubmitStyled = styled.input`
+  align-self: center;
+  border: none;
+  border-radius: 10px;
+  background-color: #fefefe;
+  padding: 10px 20px;
   margin-top: auto;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #fefefe;
+    background-color: #1b1b1b;
+  }
 `;
 
 type FormProps = {
@@ -32,17 +45,19 @@ export default function Form({
   return (
     <FormStyled className={className} onSubmit={onSubmit}>
       {closeForm ? (
-        <CloseIcon
+        <ButtonStyled
           onClick={(evt) => {
             evt.preventDefault();
             closeForm();
           }}
-        />
+        >
+          {crossIcon}
+        </ButtonStyled>
       ) : null}
 
       {title ? <h3>{title}</h3> : null}
       {children}
-      <SubmitStyled type="submit" />
+      <SubmitStyled type="submit" value="Dodaj" />
     </FormStyled>
   );
 }

@@ -22,13 +22,13 @@ export default function BoardPanel() {
     dispatch(fetchInitialState(boardId));
   }, []);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     const interval = setInterval(() => {
       dispatch(fetchState(boardId));
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [dispatch]);
+  }, [dispatch]); */
 
   return (
     <DndProvider options={HTML5toTouch}>

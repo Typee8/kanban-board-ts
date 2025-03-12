@@ -6,13 +6,14 @@ type InputProps = {
   className?: string;
   title?: string;
   type?: string;
+  placeholder?: string;
   register: any;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, title, type, register, onFocus, onBlur }, ref) => {
+  ({ className, title, type, placeholder, register, onFocus, onBlur }, ref) => {
     const id = uuidv4();
     return (
       <>
@@ -25,6 +26,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           {...register}
           onFocus={onFocus}
           onBlur={onBlur}
+          placeholder={placeholder}
         />
       </>
     );

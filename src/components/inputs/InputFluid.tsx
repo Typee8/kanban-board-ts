@@ -1,68 +1,18 @@
-import InputStyled from "../styled/InputStyled";
-import ButtonStyled from "../styled/ButtonStyled";
-import { useState, useRef } from "react";
 import styled from "styled-components";
-import { UseFormRegisterReturn } from "react-hook-form";
+import Input from "./Input";
 
-type InputFluidProps = {
-  getInputValue: () => string;
-  register: UseFormRegisterReturn<string>;
-};
-
-const InputFluidBtn = styled(ButtonStyled)`
-  background: none;
+const InputStyled = styled(Input)`
   border: none;
+  background: none;
   border-radius: 20px;
   padding: 10px 20px;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #cccccc;
-    transform: scale(1.1);
+    background-color: #fefefe;
   }
 `;
 
-InputFluidBtn.displayName = "InputFluidBtn";
-
-InputFluid.btn = InputFluidBtn;
-InputFluid.input = InputStyled;
-
-export default function InputFluid({
-  getInputValue,
-  register,
-}: InputFluidProps) {
-  const [editState, setEditState] = useState(false);
-
-  const inputRef = useRef();
-
-  const { ref: registeredEleRef, ...registerWithoutRef } = register;
-
-  const combineRefs = (node) => {
-    inputRef.current = node;
-    registeredEleRef(node);
-  };
-
-  return (
-    <div>
-      <InputFluidBtn
-        $isShown={!editState}
-        onClick={() => {
-          setTimeout(() => inputRef.current.focus(), 0);
-          setEditState(true);
-        }}
-      >
-        {getInputValue()}
-      </InputFluidBtn>
-
-      <InputStyled
-        ref={combineRefs}
-        $isShown={editState}
-        register={registerWithoutRef}
-        onBlur={(evt) => {
-          evt.preventDefault();
-          setEditState(false);
-        }}
-      />
-    </div>
-  );
+export default function InputFluid({ register, placeholder }) {
+  return <InputStyled {...register} placeholder={placeholder} />;
 }
