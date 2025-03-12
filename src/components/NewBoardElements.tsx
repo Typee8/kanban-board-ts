@@ -1,5 +1,4 @@
 import TaskDetails from "./TaskDetails";
-import StageForm from "./forms/StageForm";
 import styled from "styled-components";
 import { useState } from "react";
 import AddTaskIcon from "./icons/AddTaskIcon";

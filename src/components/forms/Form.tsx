@@ -1,25 +1,17 @@
 import { ReactNode } from "react";
-import ButtonStyled from "../styled/ButtonStyled";
 import styled from "styled-components";
+import CloseIcon from "../icons/CloseIcon";
 
 const FormStyled = styled.form`
   z-index: 999;
-  position: absolute;
-  top: 200px;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  gap: 20px;
-  width: 800px;
-  padding: 20px 60px;
-  border-radius: 60px;
-  background-color: blanchedalmond;
+  background-color: #f3f3f3;
 `;
 FormStyled.displayName = "FormStyled";
 
-const CloseBtnStyled = styled(ButtonStyled)`
-  position: absolute;
-  align-self: flex-end;
+const SubmitStyled = styled.input`
+  margin-top: auto;
 `;
 
 type FormProps = {
@@ -39,18 +31,18 @@ export default function Form({
 }: FormProps) {
   return (
     <FormStyled className={className} onSubmit={onSubmit}>
-      <CloseBtnStyled
-        onClick={(evt) => {
-          evt.preventDefault();
-          closeForm();
-        }}
-      >
-        X
-      </CloseBtnStyled>
+      {closeForm ? (
+        <CloseIcon
+          onClick={(evt) => {
+            evt.preventDefault();
+            closeForm();
+          }}
+        />
+      ) : null}
 
       {title ? <h3>{title}</h3> : null}
       {children}
-      <input type="submit" />
+      <SubmitStyled type="submit" />
     </FormStyled>
   );
 }

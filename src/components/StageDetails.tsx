@@ -14,6 +14,7 @@ import SaveChangesPanel from "./SaveChangesPanel";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import CloseIcon from "./icons/CloseIcon";
 
 const StageDetailsWrapper = styled.div`
   position: fixed;
@@ -21,9 +22,9 @@ const StageDetailsWrapper = styled.div`
   left: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-  min-width: 100vw;
-  min-height: 100vh;
+  padding-block: 120px;
+  width: 100vw;
+  height: 100vh;
   background: linear-gradient(
     rgba(255, 255, 255, 0.6),
     rgba(255, 255, 255, 0.6)
@@ -38,6 +39,14 @@ const CloseBtnStyled = styled(ButtonStyled)`
 `;
 
 CloseBtnStyled.displayName = "CloseBtnStyled";
+
+const StageDetailsStyled = styled(Form)`
+  width: 80vw;
+  height: 60vh;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #f3f3f3;
+`;
 
 export default function StageDetails({ stageData, setStageDetailsShown }) {
   const [saveChangesPanelShown, setSaveChangesPanelShown] = useState(false);
@@ -82,7 +91,7 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
 
   return (
     <StageDetailsWrapper>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <StageDetailsStyled onSubmit={handleSubmit(onSubmit)}>
         <SaveChangesPanel
           isShown={saveChangesPanelShown}
           setIsShown={setSaveChangesPanelShown}
@@ -90,14 +99,12 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
           discardChanges={() => reset()}
         />
         {newStage ? (
-          <CloseBtnStyled
+          <CloseIcon
             onClick={() => {
               setStageDetailsShown(false);
               reset();
             }}
-          >
-            X
-          </CloseBtnStyled>
+          />
         ) : (
           <StageDetailsToolbar>
             <ButtonStyled
@@ -107,7 +114,7 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
             >
               -
             </ButtonStyled>
-            <ButtonStyled
+            <CloseIcon
               onClick={() => {
                 if (isDirty) {
                   setSaveChangesPanelShown(true);
@@ -115,9 +122,7 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
                   setStageDetailsShown(false);
                 }
               }}
-            >
-              x
-            </ButtonStyled>
+            />
           </StageDetailsToolbar>
         )}
 
@@ -132,7 +137,7 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
           )}
           register={register("tasksLimit")}
         />
-      </Form>
+      </StageDetailsStyled>
     </StageDetailsWrapper>
   );
 }
