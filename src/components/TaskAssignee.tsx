@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from "react-hook-form";
 import ButtonStyled from "./styled/ButtonStyled";
-import SelectFluid from "./inputs/SelectFluid";
+import { SelectStyled } from "./styled/SelectStyled";
 import styled from "styled-components";
 
 type TaskAssigneeProps = {
@@ -21,7 +21,7 @@ export default function TaskAssignee({
 }: TaskAssigneeProps) {
   return (
     <TaskAssigneeStyled>
-      <SelectFluid
+      <SelectStyled
         getSelectValue={getValue}
         selectOptions={availableAssignees}
         register={register}

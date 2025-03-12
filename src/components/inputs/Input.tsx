@@ -4,7 +4,6 @@ import { forwardRef } from "react";
 type InputProps = {
   $isShown?: boolean;
   className?: string;
-  title?: string;
   type?: string;
   placeholder?: string;
   register: any;
@@ -13,22 +12,19 @@ type InputProps = {
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, title, type, placeholder, register, onFocus, onBlur }, ref) => {
+  ({ className, type, placeholder, register, onFocus, onBlur }, ref) => {
     const id = uuidv4();
     return (
-      <>
-        {title ? <label htmlFor={id}>{title}</label> : null}
-        <input
-          id={id}
-          ref={ref}
-          type={type}
-          className={className}
-          {...register}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          placeholder={placeholder}
-        />
-      </>
+      <input
+        id={id}
+        ref={ref}
+        type={type}
+        className={className}
+        {...register}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        placeholder={placeholder}
+      />
     );
   }
 );

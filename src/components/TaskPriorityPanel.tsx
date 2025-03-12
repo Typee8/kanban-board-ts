@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import SelectStyled from "./styled/SelectStyled";
+import { SelectStyled } from "./styled/SelectStyled";
 import styled from "styled-components";
 
 const TaskPriorityStyled = styled.div`

@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn } from "react-hook-form";
-import InputFluid from "./inputs/InputFluid";
+import { InputStyled } from "./styled/InputStyled";
 import ButtonStyled from "./styled/ButtonStyled";
 
 type TaskLinkProps = {
@@ -15,7 +15,7 @@ export default function TaskLink({
 }: TaskLinkProps) {
   return (
     <li>
-      <InputFluid getInputValue={getValue} register={register} />
+      <InputStyled getInputValue={getValue} register={register} />
       <ButtonStyled onClick={removeLink}>X</ButtonStyled>
     </li>
   );

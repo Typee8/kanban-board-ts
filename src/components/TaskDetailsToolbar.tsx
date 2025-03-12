@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ButtonStyled from "./styled/ButtonStyled";
-import SelectFluid from "./inputs/SelectFluid";
+import { SelectStyled } from "./styled/SelectStyled";
 
 const TaskDetailsToolbarStyled = styled.ul`
   position: absolute;
@@ -18,7 +18,7 @@ export default function TaskDetailsToolbar({
   return (
     <TaskDetailsToolbarStyled>
       <li>
-        <SelectFluid
+        <SelectStyled
           getSelectValue={getTaskStatus}
           register={taskStatusRegister}
           selectOptions={["in progress", "needs review", "done"]}

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import ButtonStyled from "./styled/ButtonStyled";
-import InputStyled from "./styled/InputStyled";
+import { InputStyled } from "./styled/InputStyled";
 import { useState, useRef, useEffect } from "react";
 
 const TaskCommentStyled = styled.div`

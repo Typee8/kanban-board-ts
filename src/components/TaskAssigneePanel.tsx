@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import TaskAssignee from "./TaskAssignee";
 import AddTaskAssignee from "./AddTaskAssignee";
-import SelectFluid from "./inputs/SelectFluid";
+import { SelectStyled } from "./styled/SelectStyled";
 
 type TaskAssigneePanelProps = {
   taskRegister: UseFormRegister<FieldValues>;
@@ -32,7 +32,7 @@ export default function TaskAssigneePanel({
     <ul>
       <li>
         <div>Assignee limit:</div>
-        <SelectFluid
+        <SelectStyled
           getSelectValue={() => getTaskFormValues("assigneesLimit")}
           selectOptions={Array.from({ length: 10 }, (_, i) =>
             (i + 1).toString()

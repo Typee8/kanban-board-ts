@@ -7,14 +7,14 @@ import {
   removeStage,
 } from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
-import StageDetailsToolbar from "./StageDetailsToolbar";
 import SaveChangesPanel from "./SaveChangesPanel";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import InputFluid from "./inputs/InputFluid";
-import SelectFluid from "./inputs/SelectFluid";
-import { crossIcon, trashIcon } from "../assets/svg_icons";
+import { InputStyled } from "./styled/InputStyled";
+import { SelectStyled } from "./styled/SelectStyled";
+import { crossIcon, taskIcon, trashIcon } from "../assets/svg_icons";
+import SelectTasksLimit from "./inputs/SelectTasksLimit";
 
 const StageDetailsWrapper = styled.div`
   z-index: 999;
@@ -35,17 +35,60 @@ StageDetailsWrapper.displayName = "StageDetailsWrapper";
 
 const ToolbarBtn = styled(ButtonStyled)`
   width: 50px;
+  border-radius: 10px;
+
+  &:hover {
+    & * {
+      color: #fefefe;
+    }
+
+    background-color: #1b1b1b;
+  }
 `;
 
 ToolbarBtn.displayName = "ToolbarBtn";
 
 const StageDetailsStyled = styled(Form)`
   position: relative;
+  display: flex;
   width: 100vw;
   height: 60vh;
   padding: 20px;
+  padding-top: 80px;
   border-radius: 40px 0px 0px 0px;
   background-color: #f3f3f3;
+`;
+
+const Title = styled(InputStyled)`
+  overflow: scroll;
+  font-size: 24px;
+  margin-bottom: 30px;
+`;
+
+const ToolbarStyled = styled.div`
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: flex;
+  padding: 0 10px;
+  border-radius: 0 0 0 20px;
+  background-color: #fefefe;
+`;
+
+const SubmitStyled = styled.input`
+  align-self: center;
+  border: none;
+  border-radius: 10px;
+  background-color: #fefefe;
+  padding: 20px 40px;
+  margin-top: auto;
+  transition: all 0.2s ease;
+  font-size: 24px;
+
+  &:hover {
+    color: #fefefe;
+    background-color: #1b1b1b;
+  }
 `;
 
 export default function StageDetails({ stageData, setStageDetailsShown }) {
@@ -107,7 +150,7 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
           closeEditingPanel={() => setStageDetailsShown(false)}
           discardChanges={() => reset()}
         />
-        <StageDetailsToolbar>
+        <ToolbarStyled>
           {newStage ? null : (
             <ToolbarBtn
               onClick={() => {
@@ -117,36 +160,40 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
               {trashIcon}
             </ToolbarBtn>
           )}
-          <ToolbarBtn
-            onClick={() => {
-              if (isDirty) {
-                setSaveChangesPanelShown(true);
-              } else {
+          {newStage ? (
+            <ToolbarBtn
+              onClick={() => {
                 setStageDetailsShown(false);
-              }
-            }}
-          >
-            {crossIcon}
-          </ToolbarBtn>
-        </StageDetailsToolbar>
-
-        <InputFluid register={register("title")} placeholder="Stage title" />
-        {/*         <InputFluid
-          getInputValue={() => getValues("title")}
-          register={register("title")}
-        /> */}
-        {/*         <SelectFluid
-          getSelectValue={() => getValues("tasksLimit")}
-          selectOptions={Array.from({ length: 10 }, (_, i) =>
-            (i + 1).toString()
+              }}
+            >
+              {crossIcon}
+            </ToolbarBtn>
+          ) : (
+            <ToolbarBtn
+              onClick={() => {
+                if (isDirty) {
+                  setSaveChangesPanelShown(true);
+                } else {
+                  setStageDetailsShown(false);
+                }
+              }}
+            >
+              {crossIcon}
+            </ToolbarBtn>
           )}
+        </ToolbarStyled>
+
+        <Title register={register("title")} placeholder="Stage title" />
+
+        <SelectTasksLimit
           register={register("tasksLimit")}
-        /> */}
-        <SelectFluid
-          register={register("tasksLimit")}
-          optionsList={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
-          title="Limit of tasks:"
+          options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
         />
+        {newStage ? (
+          <SubmitStyled type="submit" value="Add" />
+        ) : (
+          <SubmitStyled type="submit" value="Commit" />
+        )}
       </StageDetailsStyled>
     </StageDetailsWrapper>
   );

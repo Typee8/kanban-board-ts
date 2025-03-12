@@ -1,6 +1,6 @@
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import InputStyled from "./styled/InputStyled";
+import { InputStyled } from "./styled/InputStyled";
 import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";

@@ -1,33 +1,57 @@
+import { crossIcon } from "../assets/svg_icons";
 import ButtonStyled from "./styled/ButtonStyled";
 import styled from "styled-components";
 
 const SaveChangesPanelStyled = styled.div`
+  z-index: 999;
   position: absolute;
-  top: 200px;
+  top: 2px;
+  right: 2px;
+
+  height: 120px;
   display: ${(props) => (props.$isShown ? "flex" : "none")};
   flex-direction: column;
-  align-items: start;
-  gap: 20px;
-  padding: 20px 60px;
-  border-radius: 20px;
-  background-color: #d5922d;
+  padding: 0 10px 20px 20px;
+  border-radius: 0 0 0 20px;
+  background-color: #fefefe;
 `;
 SaveChangesPanelStyled.displayName = "SaveChangesPanelStyled";
 
 const SaveChangesPanelContainerStyled = styled.div`
   display: flex;
-  gap: 40px;
   justify-content: center;
-  width: 100%;
+  margin-top: auto;
+  gap: 20px;
 `;
 
 SaveChangesPanelContainerStyled.displayName = "SaveChangesPanelContainerStyled";
 
-const CloseBtnStyled = styled(ButtonStyled)`
-  align-self: flex-end;
+const ChangesBtnStyled = styled(ButtonStyled)`
+  border: none;
+  background: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 100px;
+
+  &:hover {
+    color: #fefefe;
+    background-color: #1b1b1b;
+  }
 `;
 
-CloseBtnStyled.displayName = "CloseBtnStyled";
+const ToolbarBtn = styled(ButtonStyled)`
+  align-self: flex-end;
+  width: 50px;
+  border-radius: 10px;
+
+  &:hover {
+    & * {
+      color: #fefefe;
+    }
+
+    background-color: #1b1b1b;
+  }
+`;
 
 export default function SaveChangesPanel({
   isShown,
@@ -37,19 +61,20 @@ export default function SaveChangesPanel({
 }) {
   return (
     <SaveChangesPanelStyled $isShown={isShown}>
-      <CloseBtnStyled onClick={() => setIsShown(false)}>X</CloseBtnStyled>
-      <h3>You didn't save your changes, what would you like to do?</h3>
+      <ToolbarBtn onClick={() => setIsShown(false)}>{crossIcon}</ToolbarBtn>
       <SaveChangesPanelContainerStyled>
-        <input type="submit" value="save" onClick={() => setIsShown(false)} />
-        <ButtonStyled
+        <ChangesBtnStyled type="submit" onClick={() => setIsShown(false)}>
+          Commit changes
+        </ChangesBtnStyled>
+        <ChangesBtnStyled
           onClick={() => {
             setIsShown(false);
             closeEditingPanel();
             discardChanges();
           }}
         >
-          Leave
-        </ButtonStyled>
+          Discard changes
+        </ChangesBtnStyled>
       </SaveChangesPanelContainerStyled>
     </SaveChangesPanelStyled>
   );

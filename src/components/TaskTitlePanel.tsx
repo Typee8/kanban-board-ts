@@ -1,5 +1,5 @@
-import InputFluid from "./inputs/InputFluid";
+import { InputStyled } from "./styled/InputStyled";
 
 export default function TaskTitlePanel({ getTitle, taskRegister }) {
-  return <InputFluid getInputValue={getTitle} register={taskRegister} />;
+  return <InputStyled getInputValue={getTitle} register={taskRegister} />;
 }

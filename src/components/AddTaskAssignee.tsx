@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import SelectStyled from "./styled/SelectStyled";
+import { SelectStyled } from "./styled/SelectStyled";
 import AddBtnStyled from "./styled/AddBtnStyled";
 
 type AddTaskAssigneeProps = {

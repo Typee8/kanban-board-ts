@@ -12,21 +12,6 @@ const FormStyled = styled.form`
 `;
 FormStyled.displayName = "FormStyled";
 
-const SubmitStyled = styled.input`
-  align-self: center;
-  border: none;
-  border-radius: 10px;
-  background-color: #fefefe;
-  padding: 10px 20px;
-  margin-top: auto;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: #fefefe;
-    background-color: #1b1b1b;
-  }
-`;
-
 type FormProps = {
   children: ReactNode;
   className?: string;
@@ -57,7 +42,6 @@ export default function Form({
 
       {title ? <h3>{title}</h3> : null}
       {children}
-      <SubmitStyled type="submit" value="Dodaj" />
     </FormStyled>
   );
 }

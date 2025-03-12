@@ -13,14 +13,6 @@ const ButtonStyled = styled(Button)`
     props.$isShown === true || props.$isShown === undefined
       ? "initial"
       : "none"};
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
 `;
 
 export default ButtonStyled;
