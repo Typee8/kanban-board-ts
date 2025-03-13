@@ -42,7 +42,11 @@ export default function TaskLinksPanel({
         />
       ))}
       <AddTaskLink
-        addLink={() => append(getValues("newLink"))}
+        addLink={() => {
+          const value = getValues("newLink");
+          if (value.length === 0) return;
+          append(value);
+        }}
         register={register("newLink")}
       />
     </TaskLinksPanelStyled>

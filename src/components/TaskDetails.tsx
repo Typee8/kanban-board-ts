@@ -21,6 +21,8 @@ import isEqual from "lodash/isEqual";
 import SaveChangesPanel from "./SaveChangesPanel";
 import { InputStyled } from "./styled/InputStyled";
 import TextArea from "./inputs/TextArea";
+import TextAreaStyled from "./styled/TextAreaStyledDEPRECATED";
+import TaskDescription from "./TaskDescription";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -41,7 +43,7 @@ const TaskDetailsWrapper = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: ${(props) => (props.$vh ? `${props.$vh * 100}px` : "100vh")};
+  height: 100vh;
   background: linear-gradient(
     rgba(255, 255, 255, 0.6),
     rgba(255, 255, 255, 0.6)
@@ -64,17 +66,38 @@ const TaskDetailsStyled = styled(Form)`
 const TaskTitle = styled(InputStyled)`
   overflow: scroll;
   font-size: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
-const TaskDescription = styled(TextArea)`
-  overflow: scroll;
+/* const TaskDescription = styled(TextArea)`
+  resize: none;
+  background: none;
+  border: none;
+  overflow: hidden;
   margin-bottom: 30px;
-  min-height: 120vh;
-`;
+  padding-inline: 20px;
+  min-width: 100%;
+  min-height: 200px;
+  max-height: 50%;
+  transition: all 0.3s ease;
+  font-family: "Roboto";
+  font-size: 16px;
+
+  &:hover {
+    background-color: #fefefe;
+    overflow: scroll;
+    border-radius: 10px;
+  }
+
+  &::placeholder {
+    font-size: 20px;
+  }
+`; */
 
 const SubmitStyled = styled.input`
+  position: fixed;
   align-self: center;
+  bottom: 20px;
   border: none;
   border-radius: 10px;
   background-color: #fefefe;
@@ -94,14 +117,6 @@ function TaskDetails({
   taskData,
   setTaskDetailsShown,
 }: TaskDetailsProps) {
-  const [vh, setVh] = useState(window.innerHeight * 0.01);
-
-  useEffect(
-    () =>
-      window.addEventListener("resize", () => setVh(window.innerHeight * 0.01)),
-    []
-  );
-
   const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
     useState(false);
 
@@ -161,7 +176,7 @@ function TaskDetails({
   };
 
   return (
-    <TaskDetailsWrapper $vh={vh}>
+    <TaskDetailsWrapper>
       <TaskDetailsStyled onSubmit={handleSubmit(onSubmit)}>
         <SaveChangesPanel
           isShown={taskDetailsLeavePanelShown}
@@ -183,15 +198,12 @@ function TaskDetails({
         />
 
         <TaskTitle register={register("title")} placeholder="Task title" />
-        {/*         <TaskDescriptionPanel
-          getDescription={() => getValues("description")}
-          taskRegister={register("description")}
-        /> */}
 
-        <TaskDescription
+        {/*         <TaskDescription
           register={register("description")}
           placeholder="Task description"
-        />
+        /> */}
+        <TaskDescription register={register("description")} />
 
         <TaskLinksPanel
           taskRegister={register}
