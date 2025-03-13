@@ -24,7 +24,6 @@ const SelectStyled = styled.select`
   background: none;
   border-radius: 10px;
   padding: 10px 20px;
-  width: 70px;
   transition: all 0.3s ease;
 
   &:hover {
@@ -34,8 +33,11 @@ const SelectStyled = styled.select`
 
 export default function SelectTasksLimit({ register, options }) {
   const id = uuidv4();
+  console.log(options);
   const optionsJSX = options.map((ele: string) => (
-    <option key={ele}>{ele}</option>
+    <option key={ele} value={ele}>
+      {ele}
+    </option>
   ));
 
   return (

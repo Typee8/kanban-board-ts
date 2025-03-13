@@ -1,10 +1,10 @@
 import TaskDetails from "./TaskDetails";
 import styled from "styled-components";
 import { useState } from "react";
-import AddTaskIcon from "./icons/AddTaskIcon";
-import AddStageIcon from "./icons/AddStageIcon";
-import LogOffIcon from "./icons/LogOffIcon";
 import StageDetails from "./StageDetails";
+import { logOffIcon, stageAddIcon, taskAddIcon } from "../assets/svg_icons";
+import { useNavigate } from "react-router";
+import ButtonStyled from "./styled/ButtonStyled";
 
 const NewBoardElementsStyled = styled.li`
   display: flex;
@@ -13,21 +13,39 @@ const NewBoardElementsStyled = styled.li`
   left: 0;
   justify-content: space-around;
   width: 100vw;
-  padding: 20px;
+  padding: 15px;
   background-color: #fefefe;
 `;
 
 NewBoardElementsStyled.displayName = "NewBoardElementsStyled";
 
+const NewElementsBtn = styled(ButtonStyled)`
+  width: 50px;
+  color: #1b1b1b;
+  border-radius: 10px;
+
+  &:hover {
+    color: #fefefe;
+    background-color: #1b1b1b;
+  }
+`;
+
 export default function NewBoardElements() {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <NewBoardElementsStyled>
-      <LogOffIcon />
-      <AddTaskIcon onClick={() => setTaskDetailsShown(true)} />
-      <AddStageIcon onClick={() => setStageDetailsShown(true)} />
+      <NewElementsBtn onClick={() => navigate("/")}>
+        {logOffIcon}
+      </NewElementsBtn>
+      <NewElementsBtn onClick={() => setTaskDetailsShown(true)}>
+        {taskAddIcon}
+      </NewElementsBtn>
+      <NewElementsBtn onClick={() => setStageDetailsShown(true)}>
+        {stageAddIcon}
+      </NewElementsBtn>
 
       {stageDetailsShown ? (
         <StageDetails setStageDetailsShown={setStageDetailsShown} />

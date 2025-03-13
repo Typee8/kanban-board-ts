@@ -3,7 +3,7 @@ type ButtonProps = {
   $isShown?: boolean;
   className?: string;
   type?: string;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children?: ReactNode;
 };
 

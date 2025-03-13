@@ -107,7 +107,7 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
   const stageFromDefaultValues = newStage
     ? {
         title: "",
-        tasksLimit: "",
+        tasksLimit: "10",
       }
     : {
         title: stageData.title,
