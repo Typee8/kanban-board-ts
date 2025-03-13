@@ -12,9 +12,10 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { InputStyled } from "./styled/InputStyled";
-import { SelectStyled } from "./styled/SelectStyled";
-import { crossIcon, taskIcon, trashIcon } from "../assets/svg_icons";
+import { crossIcon, trashIcon } from "../assets/svg_icons";
 import SelectTasksLimit from "./inputs/SelectTasksLimit";
+import isEqual from "lodash/isEqual";
+import React from "react";
 
 const StageDetailsWrapper = styled.div`
   z-index: 999;
@@ -91,7 +92,7 @@ const SubmitStyled = styled.input`
   }
 `;
 
-export default function StageDetails({ stageData, setStageDetailsShown }) {
+function StageDetails({ stageData, setStageDetailsShown }) {
   console.log("StageDetails renders");
   const [vh, setVh] = useState(window.innerHeight * 0.01);
 
@@ -198,3 +199,8 @@ export default function StageDetails({ stageData, setStageDetailsShown }) {
     </StageDetailsWrapper>
   );
 }
+
+const arePropsEqual = (prevProps, nextProps) =>
+  isEqual(prevProps.obj, nextProps.obj);
+
+export default React.memo(StageDetails, arePropsEqual);
