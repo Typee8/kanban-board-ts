@@ -13,7 +13,6 @@ import TaskTitlePanel from "./TaskTitlePanel";
 import TaskDescriptionPanel from "./TaskDescriptionPanel";
 import TaskDeadlinePanel from "./TaskDeadlinePanel";
 import TaskPriorityPanel from "./TaskPriorityPanel";
-import TaskDetailsLeavePanel from "./TaskDetailsLeavePanel";
 import TaskDetailsToolbar from "./TaskDetailsToolbar";
 import ButtonStyled from "./styled/ButtonStyled";
 import TaskLinksPanel from "./TaskLinksPanel";
@@ -21,6 +20,7 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import React from "react";
 import isEqual from "lodash/isEqual";
+import SaveChangesPanel from "./SaveChangesPanel";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -52,6 +52,17 @@ const TaskDetailsWrapper = styled.div`
 
 TaskDetailsWrapper.displayName = "TaskDetailsWrapper";
 
+const TaskDetailsStyled = styled(Form)`
+  position: relative;
+  display: flex;
+  width: 100vw;
+  height: 60vh;
+  padding: 20px;
+  padding-top: 80px;
+  border-radius: 40px 0px 0px 0px;
+  background-color: #f3f3f3;
+`;
+
 function TaskDetails({
   stageId = "firstStage",
   taskData,
@@ -71,7 +82,7 @@ function TaskDetails({
         assigneesLimit: "",
         assigneesList: "",
         commentsList: "",
-        status: "",
+        status: "in progress",
       }
     : {
         title: taskData.title,
@@ -117,37 +128,25 @@ function TaskDetails({
 
   return (
     <TaskDetailsWrapper>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <TaskDetailsLeavePanel
+      <TaskDetailsStyled onSubmit={handleSubmit(onSubmit)}>
+        <SaveChangesPanel
           isShown={taskDetailsLeavePanelShown}
           setIsShown={setTaskDetailsLeavePanelShown}
-          closeTaskDetails={() => setTaskDetailsShown(false)}
-          resetTaskForm={() => reset(formDefaultValues)}
+          closeEditingPanel={() => setTaskDetailsShown(false)}
+          discardChanges={() => reset(formDefaultValues)}
         />
 
-        {newTask ? (
-          <CloseBtnStyled
-            onClick={() => {
-              setTaskDetailsShown(false);
-              reset();
-            }}
-          >
-            X
-          </CloseBtnStyled>
-        ) : (
-          <TaskDetailsToolbar
-            isTaskFormDirty={isDirty}
-            removeTask={() =>
-              dispatch(removeTask({ taskId: taskData.id, stageId }))
-            }
-            showTaskDetailsLeavePanel={() =>
-              setTaskDetailsLeavePanelShown(true)
-            }
-            hideTaskDetails={() => setTaskDetailsShown(false)}
-            getTaskStatus={() => watch("status")}
-            taskStatusRegister={register("status")}
-          />
-        )}
+        <TaskDetailsToolbar
+          newTask={newTask}
+          isTaskFormDirty={isDirty}
+          removeTask={() =>
+            dispatch(removeTask({ taskId: taskData.id, stageId }))
+          }
+          showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
+          hideTaskDetails={() => setTaskDetailsShown(false)}
+          getTaskStatus={() => watch("status")}
+          taskStatusRegister={register("status")}
+        />
 
         <TaskTitlePanel
           getTitle={() => getValues("title")}
@@ -183,7 +182,7 @@ function TaskDetails({
         />
 
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
-      </Form>
+      </TaskDetailsStyled>
     </TaskDetailsWrapper>
   );
 }

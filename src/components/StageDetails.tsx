@@ -119,7 +119,6 @@ function StageDetails({ stageData, setStageDetailsShown }) {
     formState: { isDirty },
     register,
     reset,
-    getValues,
     handleSubmit,
   } = useForm({
     defaultValues: stageFromDefaultValues,

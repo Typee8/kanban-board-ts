@@ -14,10 +14,6 @@ type SelectProps = {
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
   ({ className, register, children, id, onBlur }, ref) => {
-    /*     const optionsJSX = optionsList.map((ele: string) => (
-      <option key={ele}>{ele}</option>
-    )); */
-
     return (
       <select
         ref={ref}
