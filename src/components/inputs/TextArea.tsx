@@ -2,16 +2,16 @@ import { v4 as uuidv4 } from "uuid";
 import { forwardRef } from "react";
 
 type TextAreaProps = {
-  $isShown: boolean;
   className?: string;
   title?: string;
+  placeholder?: string;
   register?: any;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
 
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  ({ className, title, register, onFocus, onBlur }, ref) => {
+  ({ className, title, placeholder, register, onFocus, onBlur }, ref) => {
     const id = uuidv4();
     return (
       <>
@@ -19,6 +19,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         <textarea
           ref={ref}
           id={id}
+          placeholder={placeholder}
           className={className}
           {...register}
           {...register}

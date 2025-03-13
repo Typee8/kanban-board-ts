@@ -5,11 +5,13 @@ import { crossIcon, trashIcon } from "../assets/svg_icons";
 import SelectTaskStatus from "./inputs/SelectTaskStatus";
 
 const TaskDetailsToolbarStyled = styled.ul`
-  position: absolute;
-  top: 2px;
-  right: 2px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
   display: flex;
   padding: 0 10px;
+  border: 0px solid #f3f3f3;
+  border-width: 2px 0px 2px 2px;
   border-radius: 0 0 0 20px;
   background-color: #fefefe;
 `;
@@ -45,12 +47,12 @@ export default function TaskDetailsToolbar({
     <TaskDetailsToolbarStyled>
       {newTask ? null : (
         <>
-          <LiStyled>
-            <SelectTaskStatus register={taskStatusRegister} />
-          </LiStyled>
           <li>
             <ToolbarBtn onClick={removeTask}>{trashIcon}</ToolbarBtn>
           </li>
+          <LiStyled>
+            <SelectTaskStatus register={taskStatusRegister} />
+          </LiStyled>
         </>
       )}
       <li>

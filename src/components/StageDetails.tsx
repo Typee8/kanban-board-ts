@@ -60,7 +60,7 @@ const StageDetailsStyled = styled(Form)`
   background-color: #f3f3f3;
 `;
 
-const Title = styled(InputStyled)`
+const TaskTitle = styled(InputStyled)`
   overflow: scroll;
   font-size: 24px;
   margin-bottom: 30px;
@@ -183,7 +183,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
           )}
         </ToolbarStyled>
 
-        <Title register={register("title")} placeholder="Stage title" />
+        <TaskTitle register={register("title")} placeholder="Stage title" />
 
         <SelectTasksLimit
           register={register("tasksLimit")}
