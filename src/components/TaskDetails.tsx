@@ -9,7 +9,7 @@ import {
 } from "../store/slices/boardStateSlice";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
-import TaskDeadlinePanel from "./TaskDeadlinePanel";
+import TaskDeadlinePanel from "./TaskDeadline";
 import TaskPriorityPanel from "./TaskPriorityPanel";
 import TaskDetailsToolbar from "./TaskDetailsToolbar";
 import ButtonStyled from "./styled/ButtonStyled";
@@ -20,8 +20,6 @@ import React from "react";
 import isEqual from "lodash/isEqual";
 import SaveChangesPanel from "./SaveChangesPanel";
 import { InputStyled } from "./styled/InputStyled";
-import TextArea from "./inputs/TextArea";
-import TextAreaStyled from "./styled/TextAreaStyledDEPRECATED";
 import TaskDescription from "./TaskDescription";
 
 type TaskDetailsProps = {
@@ -66,33 +64,7 @@ const TaskDetailsStyled = styled(Form)`
 const TaskTitle = styled(InputStyled)`
   overflow: scroll;
   font-size: 24px;
-  margin-bottom: 20px;
 `;
-
-/* const TaskDescription = styled(TextArea)`
-  resize: none;
-  background: none;
-  border: none;
-  overflow: hidden;
-  margin-bottom: 30px;
-  padding-inline: 20px;
-  min-width: 100%;
-  min-height: 200px;
-  max-height: 50%;
-  transition: all 0.3s ease;
-  font-family: "Roboto";
-  font-size: 16px;
-
-  &:hover {
-    background-color: #fefefe;
-    overflow: scroll;
-    border-radius: 10px;
-  }
-
-  &::placeholder {
-    font-size: 20px;
-  }
-`; */
 
 const SubmitStyled = styled.input`
   position: fixed;
@@ -110,6 +82,12 @@ const SubmitStyled = styled.input`
     color: #fefefe;
     background-color: #1b1b1b;
   }
+`;
+
+const VerticalBreak = styled.span`
+  width: 100%;
+  border-bottom: 2px solid #fefefe;
+  margin-block: 20px;
 `;
 
 function TaskDetails({
@@ -198,36 +176,34 @@ function TaskDetails({
         />
 
         <TaskTitle register={register("title")} placeholder="Task title" />
-
-        {/*         <TaskDescription
-          register={register("description")}
-          placeholder="Task description"
-        /> */}
-        <TaskDescription register={register("description")} />
-
-        <TaskLinksPanel
-          taskRegister={register}
-          taskFormControl={control}
-          getTaskFormValues={getValues}
-        />
-
+        <VerticalBreak />
         <TaskDeadlinePanel
-          getDate={() => getValues("deadline")}
-          setDate={(newValue) => setValue("deadline", newValue)}
-          taskRegister={register("deadline")}
+          setDate={(newValue) =>
+            setValue("deadline", newValue, { shouldDirty: true })
+          }
+          register={register("deadline")}
         />
-
+        <VerticalBreak />
         <TaskPriorityPanel
           getPriority={() => getValues("priority")}
           taskRegister={register("priority")}
           optionsList={["low", "medium", "high"]}
         />
-
+        <VerticalBreak />
         <TaskAssigneePanel
           taskRegister={register}
           taskFormControl={control}
           getTaskFormValues={getValues}
         />
+        <VerticalBreak />
+        <TaskDescription register={register("description")} />
+        <VerticalBreak />
+        <TaskLinksPanel
+          taskRegister={register}
+          taskFormControl={control}
+          getTaskFormValues={getValues}
+        />
+        <VerticalBreak />
 
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
         {newTask ? (

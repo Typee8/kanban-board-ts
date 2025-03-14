@@ -13,7 +13,13 @@ type SelectProps = {
 };
 
 const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, register, children, id, onBlur }, ref) => {
+  ({ className, options, register, id, onBlur }, ref) => {
+    const optionsJSX = options.map((ele: string) => (
+      <option key={ele} value={ele}>
+        {ele}
+      </option>
+    ));
+
     return (
       <select
         ref={ref}
@@ -22,7 +28,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
         {...register}
         onBlur={onBlur}
       >
-        {children}
+        {optionsJSX}
       </select>
     );
   }

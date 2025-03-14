@@ -13,29 +13,29 @@ const TextAreaStyled = styled(TextArea)`
   background: none;
   border: none;
   overflow: hidden;
-  margin-bottom: 30px;
-  padding: 10px 20px;
+  margin-bottom: 10px;
+  padding: 10px;
   min-width: 100%;
   min-height: 200px;
   max-height: 50%;
   transition: all 0.3s ease;
   font-family: "Roboto";
   font-size: 16px;
+  text-align: center;
 
   &:hover {
     background-color: #fefefe;
-    overflow: scroll;
     border-radius: 10px;
   }
 
-  &::placeholder {
-    font-size: 20px;
+  &:focus {
+    overflow: scroll;
   }
 `;
 
 const LabelStyled = styled.label`
   padding-left: 20px;
-  font-size: 18px;
+  font-weight: 600;
 `;
 
 export default function TaskDescription({ register }) {
@@ -45,7 +45,7 @@ export default function TaskDescription({ register }) {
       <TextAreaStyled
         id="taskDescripton"
         register={register}
-        placeholder="Task description"
+        placeholder="type..."
       />
     </TaskDescriptionStyled>
   );

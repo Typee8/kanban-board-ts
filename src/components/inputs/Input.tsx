@@ -1,21 +1,33 @@
-import { v4 as uuidv4 } from "uuid";
 import { forwardRef } from "react";
 
 type InputProps = {
-  $isShown?: boolean;
   className?: string;
+  id?: string;
   type?: string;
   placeholder?: string;
   register: any;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  autocomplete?: string;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, placeholder, register, onFocus, onBlur }, ref) => {
-    const id = uuidv4();
+  (
+    {
+      className,
+      id,
+      type,
+      placeholder,
+      register,
+      onFocus,
+      onBlur,
+      autocomplete,
+    },
+    ref
+  ) => {
     return (
       <input
+        autoComplete={autocomplete}
         id={id}
         ref={ref}
         type={type}

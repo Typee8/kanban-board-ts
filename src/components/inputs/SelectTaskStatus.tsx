@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import Select from "./Select";
 
-const SelectStyled = styled.select`
+const SelectStyled = styled(Select)`
   border: none;
   background: none;
   border-radius: 10px;
@@ -16,11 +17,6 @@ const SelectStyled = styled.select`
 
 export default function SelectTaskStatus({ register }) {
   const options = ["in progress", "needs review", "done"];
-  const optionsJSX = options.map((ele: string) => (
-    <option key={ele} value={ele}>
-      {ele}
-    </option>
-  ));
 
-  return <SelectStyled {...register}>{optionsJSX}</SelectStyled>;
+  return <SelectStyled register={register} options={options} />;
 }

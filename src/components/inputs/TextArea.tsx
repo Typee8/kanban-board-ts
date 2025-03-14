@@ -19,9 +19,9 @@ function TextArea({
 }: TextAreaProps) {
   const textAreaRef = useRef();
 
-  useEffect(() => {
+  /*   useEffect(() => {
     textAreaRef.current.addEventListener("input", adjustHeight);
-  }, []);
+  }, []); */
 
   const { ref: registerRef, ...restOfRegister } = register;
   const combineRefs = (node) => {
@@ -42,10 +42,10 @@ function TextArea({
   );
 }
 
-function adjustHeight(evt) {
+/* function adjustHeight(evt) {
   evt.target.style.height = "0px";
   const scrollHeight = evt.target.scrollHeight;
   evt.target.style.height = scrollHeight + "px";
-}
+} */
 
 export default TextArea;

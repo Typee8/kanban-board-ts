@@ -41,7 +41,7 @@ export default function AddTaskAssignee({
         $isShown={selectShown}
         ref={combineRefs}
         register={restOfRegister}
-        optionsList={availableAssignees}
+        options={availableAssignees}
         onBlur={(evt) => {
           evt.preventDefault();
           addAssignee();

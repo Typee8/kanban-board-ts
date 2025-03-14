@@ -44,7 +44,7 @@ export default function TaskPriorityPanel({
         $isShown={editState}
         ref={combineRefs}
         register={restOfRegister}
-        optionsList={optionsList}
+        options={optionsList}
         onBlur={() => setEditState(false)}
       />
     </div>

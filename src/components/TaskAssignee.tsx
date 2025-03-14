@@ -21,11 +21,7 @@ export default function TaskAssignee({
 }: TaskAssigneeProps) {
   return (
     <TaskAssigneeStyled>
-      <SelectStyled
-        getSelectValue={getValue}
-        selectOptions={availableAssignees}
-        register={register}
-      />
+      <SelectStyled options={availableAssignees} register={register} />
       <ButtonStyled onClick={removeAssignee}>X</ButtonStyled>
     </TaskAssigneeStyled>
   );

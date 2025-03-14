@@ -33,10 +33,8 @@ export default function TaskAssigneePanel({
       <li>
         <div>Assignee limit:</div>
         <SelectStyled
-          getSelectValue={() => getTaskFormValues("assigneesLimit")}
-          selectOptions={Array.from({ length: 10 }, (_, i) =>
-            (i + 1).toString()
-          )}
+          /*           getSelectValue={() => getTaskFormValues("assigneesLimit")} */
+          options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
           register={taskRegister("assigneesLimit")}
         />
       </li>
