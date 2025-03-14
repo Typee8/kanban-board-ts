@@ -1,3 +1,4 @@
+import { editNoteIcon } from "../assets/svg_icons";
 import TextArea from "./inputs/TextArea";
 import styled from "styled-components";
 
@@ -34,14 +35,23 @@ const TextAreaStyled = styled(TextArea)`
 `;
 
 const LabelStyled = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding-left: 20px;
   font-weight: 600;
+
+  > * {
+    width: 40px;
+  }
 `;
 
 export default function TaskDescription({ register }) {
   return (
     <TaskDescriptionStyled>
-      <LabelStyled htmlFor="taskDescripton">Description: </LabelStyled>
+      <LabelStyled htmlFor="taskDescripton">
+        {editNoteIcon} Description:{" "}
+      </LabelStyled>
       <TextAreaStyled
         id="taskDescripton"
         register={register}

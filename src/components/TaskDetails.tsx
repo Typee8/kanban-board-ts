@@ -196,11 +196,7 @@ function TaskDetails({
           title={<>{personIcon} Assignees limit:</>}
         />
         <VerticalBreak />
-        <TaskAssigneePanel
-          taskRegister={register}
-          taskFormControl={control}
-          getTaskFormValues={getValues}
-        />
+        <TaskAssigneePanel taskFormControl={control} />
         <VerticalBreak />
         <TaskDescription register={register("description")} />
         <VerticalBreak />
