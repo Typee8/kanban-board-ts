@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ButtonStyled from "./styled/ButtonStyled";
 import { SelectStyled } from "./styled/SelectStyled";
-import { crossIcon, trashIcon } from "../assets/svg_icons";
+import { crossIcon, saveIcon, trashIcon } from "../assets/svg_icons";
 import SelectTaskStatus from "./inputs/SelectTaskStatus";
 
 const TaskDetailsToolbarStyled = styled.ul`
@@ -40,7 +40,6 @@ export default function TaskDetailsToolbar({
   removeTask,
   showTaskDetailsLeavePanel,
   hideTaskDetails,
-  getTaskStatus,
   taskStatusRegister,
 }) {
   return (
@@ -55,6 +54,9 @@ export default function TaskDetailsToolbar({
           </LiStyled>
         </>
       )}
+      <li>
+        <ToolbarBtn type="submit">{saveIcon}</ToolbarBtn>
+      </li>
       <li>
         <ToolbarBtn
           onClick={() => {

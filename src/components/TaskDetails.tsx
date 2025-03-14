@@ -130,7 +130,6 @@ function TaskDetails({
     getValues,
     setValue,
     control,
-    watch,
     reset,
   } = useForm({
     defaultValues: formDefaultValues,
@@ -145,12 +144,13 @@ function TaskDetails({
     if (newTask) {
       inputData.id = uuidv4();
       dispatch(addNewTask(inputData));
+      setTaskDetailsShown(false);
     } else {
       const newTask = { ...taskData, ...inputData };
       dispatch(updateTask({ task: newTask, taskId: taskData.id, stageId }));
+      reset(newTask);
       setTaskDetailsLeavePanelShown(false);
     }
-    setTaskDetailsShown(false);
   };
 
   return (
@@ -171,7 +171,6 @@ function TaskDetails({
           }
           showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
           hideTaskDetails={() => setTaskDetailsShown(false)}
-          getTaskStatus={() => watch("status")}
           taskStatusRegister={register("status")}
         />
 
@@ -207,11 +206,11 @@ function TaskDetails({
         <VerticalBreak />
 
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
-        {newTask ? (
-          <SubmitStyled type="submit" value="Add" />
-        ) : (
+        {
+          newTask ? <SubmitStyled type="submit" value="Add" /> : null /* (
           <SubmitStyled type="submit" value="Commit" />
-        )}
+        ) */
+        }
       </TaskDetailsStyled>
     </TaskDetailsWrapper>
   );
