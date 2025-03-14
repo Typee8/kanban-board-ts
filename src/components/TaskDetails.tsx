@@ -21,7 +21,7 @@ import SaveChangesPanel from "./SaveChangesPanel";
 import { InputStyled } from "./styled/InputStyled";
 import TaskDescription from "./TaskDescription";
 import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
-import { priorityIcon } from "../assets/svg_icons";
+import { groupIcon, priorityIcon } from "../assets/svg_icons";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -106,7 +106,7 @@ function TaskDetails({
         description: "",
         links: "",
         deadline: "",
-        priority: "",
+        priority: "low",
         assigneesLimit: "",
         assigneesList: "",
         commentsList: "",
@@ -188,6 +188,12 @@ function TaskDetails({
           register={register("priority")}
           options={["low", "medium", "high"]}
           title={<>{priorityIcon} Priority:</>}
+        />
+        <VerticalBreak />
+        <TaskDetailsSelect
+          options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
+          register={register("assigneesLimit")}
+          title={<>{groupIcon} Assignees limit:</>}
         />
         <VerticalBreak />
         <TaskAssigneePanel
