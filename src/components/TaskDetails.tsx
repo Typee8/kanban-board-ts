@@ -204,11 +204,7 @@ function TaskDetails({
         <VerticalBreak />
         <TaskDescription register={register("description")} />
         <VerticalBreak />
-        <TaskLinksPanel
-          taskRegister={register}
-          taskFormControl={control}
-          getTaskFormValues={getValues}
-        />
+        <TaskLinksPanel taskFormControl={control} />
         <VerticalBreak />
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
         {newTask ? <SubmitStyled type="submit" value="Add" /> : null}

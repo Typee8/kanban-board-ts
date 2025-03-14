@@ -1,20 +1,11 @@
-import assignee from "../assets/assignee__placeholder__data";
-import {
-  useForm,
-  useFieldArray,
-  UseFormRegister,
-  FieldValues,
-  UseFormGetValues,
-} from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import AddTaskAssignee from "./AddTaskAssignee";
 import styled from "styled-components";
 import { crossIcon, groupIcon } from "../assets/svg_icons";
 import ButtonStyled from "./styled/ButtonStyled";
 
 type TaskAssigneePanelProps = {
-  taskRegister: UseFormRegister<FieldValues>;
   taskFormControl: object;
-  getTaskFormValues: () => UseFormGetValues<FieldValues>;
 };
 
 const TaskAssigneePanelStyled = styled.div`
