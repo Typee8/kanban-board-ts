@@ -146,6 +146,7 @@ function TaskDetails({
       dispatch(addNewTask(inputData));
       setTaskDetailsShown(false);
     } else {
+      if (!isDirty) return;
       const newTask = { ...taskData, ...inputData };
       dispatch(updateTask({ task: newTask, taskId: taskData.id, stageId }));
       reset(newTask);
@@ -206,11 +207,7 @@ function TaskDetails({
         <VerticalBreak />
 
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
-        {
-          newTask ? <SubmitStyled type="submit" value="Add" /> : null /* (
-          <SubmitStyled type="submit" value="Commit" />
-        ) */
-        }
+        {newTask ? <SubmitStyled type="submit" value="Add" /> : null}
       </TaskDetailsStyled>
     </TaskDetailsWrapper>
   );
