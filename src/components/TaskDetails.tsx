@@ -9,7 +9,7 @@ import {
 } from "../store/slices/boardStateSlice";
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
-import TaskDeadlinePanel from "./TaskDeadline";
+import TaskDeadline from "./TaskDeadline";
 import TaskPriorityPanel from "./TaskPriorityPanel";
 import TaskDetailsToolbar from "./TaskDetailsToolbar";
 import ButtonStyled from "./styled/ButtonStyled";
@@ -177,7 +177,8 @@ function TaskDetails({
 
         <TaskTitle register={register("title")} placeholder="Task title" />
         <VerticalBreak />
-        <TaskDeadlinePanel
+        <TaskDeadline
+          getDate={() => getValues("deadline")}
           setDate={(newValue) =>
             setValue("deadline", newValue, { shouldDirty: true })
           }

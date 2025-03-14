@@ -1,2 +1,2 @@
-export const tablet = "600px";
-export const desktop = "1024px";
+export const tablet = 600;
+export const desktop = 1024;

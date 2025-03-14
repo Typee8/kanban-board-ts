@@ -14,7 +14,7 @@ const BoardStyled = styled.ul`
   padding: 40px 20px;
   gap: 30px;
 
-  @media (min-width: ${tablet}) {
+  @media (min-width: ${`${tablet}px`}) {
     flex-direction: row;
   }
 `;
