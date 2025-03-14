@@ -10,7 +10,6 @@ import {
 import TaskAssigneePanel from "./TaskAssigneePanel";
 import TaskCommentsPanel from "./TaskCommentsPanel";
 import TaskDeadline from "./TaskDeadline";
-import TaskPriorityPanel from "./TaskPriorityPanel";
 import TaskDetailsToolbar from "./TaskDetailsToolbar";
 import ButtonStyled from "./styled/ButtonStyled";
 import TaskLinksPanel from "./TaskLinksPanel";
@@ -21,6 +20,8 @@ import isEqual from "lodash/isEqual";
 import SaveChangesPanel from "./SaveChangesPanel";
 import { InputStyled } from "./styled/InputStyled";
 import TaskDescription from "./TaskDescription";
+import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
+import { priorityIcon } from "../assets/svg_icons";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -163,7 +164,6 @@ function TaskDetails({
           closeEditingPanel={() => setTaskDetailsShown(false)}
           discardChanges={() => reset(formDefaultValues)}
         />
-
         <TaskDetailsToolbar
           newTask={newTask}
           isTaskFormDirty={isDirty}
@@ -174,7 +174,6 @@ function TaskDetails({
           hideTaskDetails={() => setTaskDetailsShown(false)}
           taskStatusRegister={register("status")}
         />
-
         <TaskTitle register={register("title")} placeholder="Task title" />
         <VerticalBreak />
         <TaskDeadline
@@ -185,10 +184,10 @@ function TaskDetails({
           register={register("deadline")}
         />
         <VerticalBreak />
-        <TaskPriorityPanel
-          getPriority={() => getValues("priority")}
-          taskRegister={register("priority")}
-          optionsList={["low", "medium", "high"]}
+        <TaskDetailsSelect
+          register={register("priority")}
+          options={["low", "medium", "high"]}
+          title={<>{priorityIcon} Priority:</>}
         />
         <VerticalBreak />
         <TaskAssigneePanel
@@ -205,7 +204,6 @@ function TaskDetails({
           getTaskFormValues={getValues}
         />
         <VerticalBreak />
-
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
         {newTask ? <SubmitStyled type="submit" value="Add" /> : null}
       </TaskDetailsStyled>

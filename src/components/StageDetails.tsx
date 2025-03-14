@@ -12,8 +12,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { InputStyled } from "./styled/InputStyled";
-import { crossIcon, trashIcon } from "../assets/svg_icons";
-import SelectTasksLimit from "./inputs/SelectTasksLimit";
+import { crossIcon, trashIcon, taskIcon } from "../assets/svg_icons";
+import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
 import isEqual from "lodash/isEqual";
 import React from "react";
 
@@ -185,9 +185,10 @@ function StageDetails({ stageData, setStageDetailsShown }) {
 
         <TaskTitle register={register("title")} placeholder="Stage title" />
 
-        <SelectTasksLimit
+        <TaskDetailsSelect
           register={register("tasksLimit")}
           options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
+          title={<>{taskIcon} Limit:</>}
         />
         {newStage ? (
           <SubmitStyled type="submit" value="Add" />

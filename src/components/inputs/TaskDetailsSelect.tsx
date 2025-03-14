@@ -31,9 +31,8 @@ const SelectStyled = styled.select`
   }
 `;
 
-export default function SelectTasksLimit({ register, options }) {
+export default function TaskDetailsSelect({ register, options, title }) {
   const id = uuidv4();
-  console.log(options);
   const optionsJSX = options.map((ele: string) => (
     <option key={ele} value={ele}>
       {ele}
@@ -42,10 +41,7 @@ export default function SelectTasksLimit({ register, options }) {
 
   return (
     <SelectTasksLimitStyled>
-      <LabelStyled htmlFor={id}>
-        {taskIcon}
-        Limit:
-      </LabelStyled>
+      <LabelStyled htmlFor={id}>{title}</LabelStyled>
       <SelectStyled id={id} {...register}>
         {optionsJSX}
       </SelectStyled>

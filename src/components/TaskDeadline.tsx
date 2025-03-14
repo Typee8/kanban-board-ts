@@ -10,6 +10,7 @@ import { crossIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
 
 const TaskDeadlineStyle = styled.div`
+  padding-left: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
