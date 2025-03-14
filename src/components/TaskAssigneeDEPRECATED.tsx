@@ -10,7 +10,7 @@ type TaskAssigneeProps = {
 };
 
 const TaskAssigneeStyled = styled.li`
-  display: flex;
+  /*   display: flex; */
 `;
 
 export default function TaskAssignee({

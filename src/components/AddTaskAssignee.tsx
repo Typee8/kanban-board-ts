@@ -1,54 +1,76 @@
-import { useState, useRef } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { SelectStyled } from "./styled/SelectStyled";
-import AddBtnStyled from "./styled/AddBtnStyled";
+import { InputStyled } from "./styled/InputStyled";
+import styled from "styled-components";
+import { checkIcon, personAddIcon } from "../assets/svg_icons";
+import { v4 as uuidv4 } from "uuid";
+import ButtonStyled from "./styled/ButtonStyled";
 
 type AddTaskAssigneeProps = {
   addAssignee: () => void;
-  availableAssignees: string[];
   register: UseFormRegisterReturn;
 };
 
+const AddTaskAssigneeStyled = styled.li`
+  display: flex;
+  gap: 10px;
+  height: 50px;
+`;
+
+const LabelStyled = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+
+  > * {
+    width: 40px;
+  }
+`;
+
+const AddTaskAssigneeInput = styled(InputStyled)`
+  font-size: 16px;
+  width: 65%;
+`;
+
+const AddTaskAssigneeBtn = styled(ButtonStyled)`
+  min-width: 50px;
+  border-radius: 10px;
+
+  &:hover {
+    & * {
+      color: #fefefe;
+    }
+
+    background-color: #1b1b1b;
+  }
+`;
+
 export default function AddTaskAssignee({
   addAssignee,
-  availableAssignees,
+  resetInput,
   register,
+  checkInputLength,
 }: AddTaskAssigneeProps) {
-  const [addBtnShown, setAddBtnShown] = useState(true);
-  const [selectShown, setSelectShown] = useState(false);
-
-  const selectRef = useRef();
-
-  const { ref: registerRef, ...restOfRegister } = register;
-
-  const combineRefs = (node) => {
-    selectRef.current = node;
-    registerRef(node);
-  };
+  const id = uuidv4();
 
   return (
-    <li>
-      <AddBtnStyled
-        $isShown={addBtnShown}
-        onClick={() => {
-          setTimeout(() => selectRef.current.focus(), 0);
-          setAddBtnShown(false);
-          setSelectShown(true);
-        }}
+    <AddTaskAssigneeStyled>
+      <LabelStyled htmlFor={id}>{personAddIcon}</LabelStyled>
+      <AddTaskAssigneeInput
+        id={id}
+        register={register}
+        placeholder="new assignee..."
       />
-
-      <SelectStyled
-        $isShown={selectShown}
-        ref={combineRefs}
-        register={restOfRegister}
-        options={availableAssignees}
-        onBlur={(evt) => {
-          evt.preventDefault();
-          addAssignee();
-          setAddBtnShown(true);
-          setSelectShown(false);
-        }}
-      />
-    </li>
+      {checkInputLength() > 0 ? (
+        <AddTaskAssigneeBtn
+          onClick={() => {
+            addAssignee();
+            resetInput();
+          }}
+        >
+          {checkIcon}
+        </AddTaskAssigneeBtn>
+      ) : null}
+    </AddTaskAssigneeStyled>
   );
 }

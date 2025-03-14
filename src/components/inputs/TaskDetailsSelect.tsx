@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from "uuid";
-import { taskIcon } from "../../assets/svg_icons";
 import styled from "styled-components";
 
 const SelectTasksLimitStyled = styled.div`
