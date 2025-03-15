@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
 import { useDrop, useDrag } from "react-dnd";
 import ArrowDropDown from "./icons/ArrowDropDown";
+import { dragIndicatorIcon, taskAltIcon } from "../assets/svg_icons";
 
 const StageStyled = styled.li`
   display: flex;
@@ -23,6 +24,7 @@ const StageStyled = styled.li`
 StageStyled.displayName = "StageStyled";
 
 const StageContainerStyled = styled.ul`
+  position: relative;
   display: flex;
   align-items: center;
   padding: 20px;
@@ -31,6 +33,7 @@ const StageContainerStyled = styled.ul`
 StageContainerStyled.displayName = "StageContainerStyled";
 
 const StageTitleWrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -46,6 +49,19 @@ StageTasksStyled.displayName = "StageTasksStyled";
 
 const H2Styled = styled.h2`
   font-weight: 600;
+  margin-right: 20px;
+`;
+
+const TaskLimit = styled.span`
+  display: flex;
+  gap: 5px;
+  height: 20px;
+`;
+
+const StageDrag = styled.div`
+  position: absolute;
+  right: 10px;
+  width: 30px;
 `;
 
 export default function Stage({ stageData, className, isPreviewed = false }) {
@@ -98,7 +114,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
     drop(node);
   };
 
-  const { title, tasksList, id: stageId } = stageData;
+  const { title, tasksLimit, tasksList = [], id: stageId } = stageData;
 
   const tasks = getTasksJSX(
     isOver,
@@ -129,7 +145,15 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
           onClick={() => setStageDetailsShown(true)}
         >
           <H2Styled className="stage__title">{title}</H2Styled>
+          {tasksList.length > 0 ? (
+            <TaskLimit>
+              {taskAltIcon}
+              {tasksList.length}
+              {tasksLimit ? `/ ${tasksLimit}` : ""}
+            </TaskLimit>
+          ) : null}
         </StageContainerStyled>
+        <StageDrag>{dragIndicatorIcon}</StageDrag>
       </StageTitleWrapper>
 
       <StageTasksStyled $isShown={stageTasksShown} className="stage__tasks">
@@ -183,7 +207,7 @@ function getClosestTaskIndex(stageRef, monitor) {
 function getTasksJSX(
   isTaskDragged,
   stageId,
-  tasksList = [],
+  tasksList,
   draggedItem,
   closestToDraggedTaskIndex
 ) {
