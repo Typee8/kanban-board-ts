@@ -90,13 +90,13 @@ export default function TaskDeadline({ getDate, setDate, register }) {
   const [calendarShown, setCalendarShown] = useState(false);
   const [vh, setVh] = useState(window.innerHeight * 0.01);
 
-  useEffect(
-    () =>
-      window.addEventListener("resize", () => {
-        setVh(window.innerHeight * 0.01);
-      }),
-    []
-  );
+  useEffect(() => {
+    window.addEventListener("resize", () => setVh(window.innerHeight * 0.01));
+
+    return window.removeEventListener("resize", () =>
+      setVh(window.innerHeight * 0.01)
+    );
+  }, []);
 
   return (
     <TaskDeadlineStyle>

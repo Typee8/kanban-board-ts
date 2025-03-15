@@ -22,6 +22,7 @@ import { InputStyled } from "./styled/InputStyled";
 import TaskDescription from "./TaskDescription";
 import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
+import VerticalBreak from "./styled/VerticalBreak";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -41,7 +42,7 @@ const TaskDetailsWrapper = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: linear-gradient(
     rgba(255, 255, 255, 0.6),
@@ -53,7 +54,7 @@ TaskDetailsWrapper.displayName = "TaskDetailsWrapper";
 
 const TaskDetailsStyled = styled(Form)`
   display: flex;
-  width: 100%;
+  width: 100;
   height: 100%;
   padding: 20px;
   padding-top: 80px;
@@ -83,12 +84,6 @@ const SubmitStyled = styled.input`
     color: #fefefe;
     background-color: #1b1b1b;
   }
-`;
-
-const VerticalBreak = styled.span`
-  width: 100%;
-  border-bottom: 2px solid #fefefe;
-  margin-block: 20px;
 `;
 
 function TaskDetails({

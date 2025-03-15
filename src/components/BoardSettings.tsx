@@ -3,7 +3,7 @@ import styled from "styled-components";
 const BoardSettingStyled = styled.ul`
   position: absolute;
   top: 100px;
-  width: 100vw;
+  width: 100%;
   height: 50vh;
   background-color: blanchedalmond;
 `;

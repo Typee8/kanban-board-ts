@@ -12,7 +12,7 @@ const NewBoardElementsStyled = styled.li`
   bottom: 0;
   left: 0;
   justify-content: space-around;
-  width: 100vw;
+  width: 100%;
   padding: 15px;
   background-color: #fefefe;
 `;

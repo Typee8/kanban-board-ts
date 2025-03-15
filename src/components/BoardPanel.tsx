@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../server/FirebaseAPI";
 
 const BoardPanelStyled = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 60vh;
 `;
 

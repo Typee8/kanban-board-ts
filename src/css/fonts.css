@@ -1,5 +1,12 @@
 @font-face {
   font-family: "Roboto";
+  src: url("../fonts/Roboto/static/Roboto-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
   src: url("../fonts/Roboto/static/Roboto-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
@@ -13,6 +20,12 @@
 }
 
 body {
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+}
+
+textarea,
+input {
   font-family: "Roboto", sans-serif;
   font-weight: normal;
 }

@@ -51,11 +51,12 @@ export default function TaskDetailsToolbar({
           <LiStyled>
             <SelectTaskStatus register={taskStatusRegister} />
           </LiStyled>
+          <li>
+            <ToolbarBtn type="submit">{saveIcon}</ToolbarBtn>
+          </li>
         </>
       )}
-      <li>
-        <ToolbarBtn type="submit">{saveIcon}</ToolbarBtn>
-      </li>
+
       <li>
         <ToolbarBtn
           onClick={() => {

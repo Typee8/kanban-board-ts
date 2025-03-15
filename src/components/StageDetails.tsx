@@ -16,6 +16,7 @@ import { crossIcon, trashIcon, taskIcon } from "../assets/svg_icons";
 import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
 import isEqual from "lodash/isEqual";
 import React from "react";
+import VerticalBreak from "./styled/VerticalBreak";
 
 const StageDetailsWrapper = styled.div`
   z-index: 999;
@@ -24,7 +25,7 @@ const StageDetailsWrapper = styled.div`
   left: 0;
   display: flex;
   align-items: flex-end;
-  width: 100vw;
+  width: 100%;
   height: ${(props) => (props.$vh ? `${props.$vh * 100}px` : "100vh")};
   background: linear-gradient(
     rgba(255, 255, 255, 0.6),
@@ -52,7 +53,7 @@ ToolbarBtn.displayName = "ToolbarBtn";
 const StageDetailsStyled = styled(Form)`
   position: relative;
   display: flex;
-  width: 100vw;
+  width: 100%;
   height: 60vh;
   padding: 20px;
   padding-top: 80px;
@@ -63,7 +64,6 @@ const StageDetailsStyled = styled(Form)`
 const TaskTitle = styled(InputStyled)`
   overflow: scroll;
   font-size: 24px;
-  margin-bottom: 30px;
 `;
 
 const ToolbarStyled = styled.div`
@@ -96,11 +96,13 @@ function StageDetails({ stageData, setStageDetailsShown }) {
   console.log("StageDetails renders");
   const [vh, setVh] = useState(window.innerHeight * 0.01);
 
-  useEffect(
-    () =>
-      window.addEventListener("resize", () => setVh(window.innerHeight * 0.01)),
-    []
-  );
+  useEffect(() => {
+    window.addEventListener("resize", () => setVh(window.innerHeight * 0.01));
+
+    return window.removeEventListener("resize", () =>
+      setVh(window.innerHeight * 0.01)
+    );
+  }, []);
 
   const [saveChangesPanelShown, setSaveChangesPanelShown] = useState(false);
 
@@ -184,7 +186,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
         </ToolbarStyled>
 
         <TaskTitle register={register("title")} placeholder="Stage title" />
-
+        <VerticalBreak />
         <TaskDetailsSelect
           register={register("tasksLimit")}
           options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { forwardRef } from "react";
 
 type TextAreaProps = {
   className?: string;
@@ -8,44 +8,19 @@ type TextAreaProps = {
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 };
-
-function TextArea({
-  className,
-  id,
-  placeholder,
-  register,
-  onFocus,
-  onBlur,
-}: TextAreaProps) {
-  const textAreaRef = useRef();
-
-  /*   useEffect(() => {
-    textAreaRef.current.addEventListener("input", adjustHeight);
-  }, []); */
-
-  const { ref: registerRef, ...restOfRegister } = register;
-  const combineRefs = (node) => {
-    textAreaRef.current = node;
-    registerRef(node);
-  };
-
-  return (
-    <textarea
-      id={id}
-      placeholder={placeholder}
-      className={className}
-      ref={combineRefs}
-      {...restOfRegister}
-      onFocus={onFocus}
-      onBlur={onBlur}
-    />
-  );
-}
-
-/* function adjustHeight(evt) {
-  evt.target.style.height = "0px";
-  const scrollHeight = evt.target.scrollHeight;
-  evt.target.style.height = scrollHeight + "px";
-} */
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({ className, id, placeholder, register, onFocus }, ref) => {
+    return (
+      <textarea
+        id={id}
+        className={className}
+        placeholder={placeholder}
+        onFocus={onFocus}
+        {...register}
+        ref={ref}
+      />
+    );
+  }
+);
 
 export default TextArea;
