@@ -2,6 +2,7 @@ import styled from "styled-components";
 import TaskDetails from "./TaskDetails";
 import { useState } from "react";
 import { useDrag } from "react-dnd";
+import { calendarEventIcon, personIcon, taskIcon } from "../assets/svg_icons";
 
 const TaskStyled = styled.li`
   padding: 10px 20px;
@@ -19,11 +20,27 @@ const TaskStyled = styled.li`
 TaskStyled.displayName = "TaskStyled";
 
 const TaskContainerStyled = styled.ul`
-  padding-inline: 20px;
-  border-radius: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  border-radius: 10px;
+  background-color: #f3f3f3;
+
+  > li {
+    margin-right: 20px;
+    height: 20px;
+    display: flex;
+    gap: 5px;
+  }
 `;
 
 TaskContainerStyled.displayName = "TaskContainerStyled";
+
+const TaskTitle = styled.li`
+  width: 100%;
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
 
 export default function Task({
   stageId,
@@ -52,16 +69,20 @@ export default function Task({
       $isPreviewed={isPreviewed}
     >
       <TaskContainerStyled ref={drag} onClick={() => setTaskDetailsShown(true)}>
-        <li>{title}</li>
-        <li>{deadline}</li>
+        <TaskTitle>{title}</TaskTitle>
         <li>
-          {assigneesList
-            ? `${assigneesList.length} ${
-                assigneesLimit ? `/ ${assigneesLimit}` : ""
-              }`
-            : null}
+          {calendarEventIcon} {deadline}
         </li>
-        <li>Task status {status}</li>
+        {assigneesList ? (
+          <li>
+            {personIcon}
+            {assigneesList.length}
+            {assigneesLimit ? `/ ${assigneesLimit}` : ""}
+          </li>
+        ) : null}
+        <li>
+          {taskIcon} {status}
+        </li>
       </TaskContainerStyled>
       {taskDetailsShown ? (
         <TaskDetails
