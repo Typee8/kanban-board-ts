@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import ButtonStyled from "./styled/ButtonStyled";
-import { SelectStyled } from "./styled/SelectStyled";
 import { crossIcon, saveIcon, trashIcon } from "../assets/svg_icons";
 import SelectTaskStatus from "./inputs/SelectTaskStatus";
 

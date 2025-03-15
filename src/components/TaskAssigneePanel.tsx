@@ -1,7 +1,7 @@
 import { useForm, useFieldArray } from "react-hook-form";
-import AddTaskAssignee from "./AddTaskAssignee";
+import FormFieldArrayInput from "./FormFieldArrayInput";
 import styled from "styled-components";
-import { crossIcon, groupIcon } from "../assets/svg_icons";
+import { crossIcon, groupIcon, personAddIcon } from "../assets/svg_icons";
 import ButtonStyled from "./styled/ButtonStyled";
 
 type TaskAssigneePanelProps = {
@@ -79,8 +79,8 @@ export default function TaskAssigneePanel({
           ))}
         </TaskAssigneeContainer>
       ) : null}
-      <AddTaskAssignee
-        addAssignee={() => append({ name: getValues("newAssignee") })}
+      <FormFieldArrayInput
+        append={() => append({ name: getValues("newAssignee") })}
         resetInput={() => resetField("newAssignee")}
         checkInputLength={() => {
           const result = watch("newAssignee");
@@ -88,6 +88,8 @@ export default function TaskAssigneePanel({
           return length;
         }}
         register={register("newAssignee")}
+        title={<>{personAddIcon}</>}
+        placeholder="new assignee..."
       />
     </TaskAssigneePanelStyled>
   );

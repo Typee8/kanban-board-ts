@@ -22,7 +22,6 @@ const TextAreaStyled = styled(TextArea)`
   transition: all 0.3s ease;
   font-family: "Roboto";
   font-size: 16px;
-  text-align: center;
 
   &:hover {
     background-color: #fefefe;

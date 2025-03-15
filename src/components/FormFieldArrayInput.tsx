@@ -6,11 +6,11 @@ import { v4 as uuidv4 } from "uuid";
 import ButtonStyled from "./styled/ButtonStyled";
 
 type AddTaskAssigneeProps = {
-  addAssignee: () => void;
+  append: () => void;
   register: UseFormRegisterReturn;
 };
 
-const AddTaskAssigneeStyled = styled.li`
+const FormFieldArrayInputStyled = styled.li`
   display: flex;
   gap: 10px;
   height: 50px;
@@ -27,12 +27,12 @@ const LabelStyled = styled.label`
   }
 `;
 
-const AddTaskAssigneeInput = styled(InputStyled)`
+const Input = styled(InputStyled)`
   font-size: 16px;
   width: 65%;
 `;
 
-const AddTaskAssigneeBtn = styled(ButtonStyled)`
+const Btn = styled(ButtonStyled)`
   min-width: 50px;
   border-radius: 10px;
 
@@ -45,32 +45,30 @@ const AddTaskAssigneeBtn = styled(ButtonStyled)`
   }
 `;
 
-export default function AddTaskAssignee({
-  addAssignee,
+export default function FormFieldArrayInput({
+  append,
   resetInput,
   register,
+  title,
+  placeholder,
   checkInputLength,
 }: AddTaskAssigneeProps) {
   const id = uuidv4();
 
   return (
-    <AddTaskAssigneeStyled>
-      <LabelStyled htmlFor={id}>{personAddIcon}</LabelStyled>
-      <AddTaskAssigneeInput
-        id={id}
-        register={register}
-        placeholder="new assignee..."
-      />
+    <FormFieldArrayInputStyled>
+      <LabelStyled htmlFor={id}>{title}</LabelStyled>
+      <Input id={id} register={register} placeholder={placeholder} />
       {checkInputLength() > 0 ? (
-        <AddTaskAssigneeBtn
+        <Btn
           onClick={() => {
-            addAssignee();
+            append();
             resetInput();
           }}
         >
           {checkIcon}
-        </AddTaskAssigneeBtn>
+        </Btn>
       ) : null}
-    </AddTaskAssigneeStyled>
+    </FormFieldArrayInputStyled>
   );
 }
