@@ -70,9 +70,11 @@ export default function Task({
     >
       <TaskContainerStyled ref={drag} onClick={() => setTaskDetailsShown(true)}>
         <TaskTitle>{title}</TaskTitle>
-        <li>
-          {calendarEventIcon} {deadline}
-        </li>
+        {deadline ? (
+          <li>
+            {calendarEventIcon} {deadline}
+          </li>
+        ) : null}
         {assigneesList ? (
           <li>
             {personIcon}
@@ -80,9 +82,11 @@ export default function Task({
             {assigneesLimit ? `/ ${assigneesLimit}` : ""}
           </li>
         ) : null}
-        <li>
-          {taskIcon} {status}
-        </li>
+        {status ? (
+          <li>
+            {taskIcon} {status}
+          </li>
+        ) : null}
       </TaskContainerStyled>
       {taskDetailsShown ? (
         <TaskDetails

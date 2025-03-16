@@ -12,6 +12,7 @@ const BoardStyled = styled.ul`
   flex-direction: column;
   justify-content: center;
   padding: 40px 20px;
+  padding-bottom: 120px;
   gap: 30px;
 
   @media (min-width: ${`${tablet}px`}) {
@@ -31,6 +32,17 @@ export default function Board({ boardData }) {
     setStagesPositions(getStagesPositions(boardRef));
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("pointermove", (evt) => {
+      setMousePosition({ x: evt.clientX, y: evt.clientY });
+    });
+
+    return () =>
+      window.removeEventListener("dragover", (evt) =>
+        setMousePosition({ x: evt.clientX, y: evt.clientY })
+      );
+  }, []);
+
   const [{ isOver, draggedItem }, drop] = useDrop(
     () => ({
       accept: "stage",
@@ -39,8 +51,7 @@ export default function Board({ boardData }) {
           mousePosition,
           stagesPositions
         );
-        console.log(stagesPositions);
-        console.log(`stagesPositions ${stagesPositions}`);
+
         dispatch(
           moveStage({
             stageId: draggedItem.stageId,
@@ -49,9 +60,6 @@ export default function Board({ boardData }) {
         );
         setStagesPositions(getStagesPositions(boardRef));
         console.log(`Stage moved!`);
-      },
-      hover: (item, monitor) => {
-        setMousePosition(monitor.getClientOffset());
       },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
@@ -95,7 +103,11 @@ export default function Board({ boardData }) {
   };
 
   return (
-    <BoardStyled className="Board" ref={combineRefs}>
+    <BoardStyled
+      onDragOver={scrollPage(mousePosition.y)}
+      className="Board"
+      ref={combineRefs}
+    >
       {stages}
       <NewBoardElements />
     </BoardStyled>
@@ -134,4 +146,20 @@ function getStagesPositions(ref) {
   );
   console.log(stagesPositions);
   return stagesPositions;
+}
+
+export function scrollPage(y) {
+  const scrollSpeed = 7;
+
+  const viewportHeight = window.innerHeight;
+
+  // Scroll Down
+  if (y > viewportHeight - 200) {
+    window.scrollBy(0, scrollSpeed);
+  }
+
+  // Scroll Up
+  if (y < 200) {
+    window.scrollBy(0, -scrollSpeed);
+  }
 }

@@ -128,6 +128,7 @@ export default function TaskDeadline({ getDate, setDate, register }) {
         autocomplete="off"
         id="taskDeadline"
         register={register}
+        placeholder="pick deadline..."
         onFocus={(evt) => {
           console.log(tablet);
           console.log(window.innerWidth);

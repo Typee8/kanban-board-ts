@@ -28,7 +28,6 @@ const LabelStyled = styled.label`
 `;
 
 const Input = styled(InputStyled)`
-  font-size: 16px;
   width: 65%;
 `;
 
