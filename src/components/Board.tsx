@@ -36,7 +36,7 @@ export default function Board({ boardData }) {
       accept: "stage",
       drop: (draggedItem) => {
         const closestStageIndex = getClosestStageIndex(
-          mousePosition.x,
+          mousePosition,
           stagesPositions
         );
         console.log(stagesPositions);
@@ -69,7 +69,7 @@ export default function Board({ boardData }) {
 
   if (isOver) {
     const closestStageIndex = getClosestStageIndex(
-      mousePosition.x,
+      mousePosition,
       stagesPositions
     );
 
@@ -95,18 +95,31 @@ export default function Board({ boardData }) {
   };
 
   return (
-    <BoardStyled ref={combineRefs}>
+    <BoardStyled className="Board" ref={combineRefs}>
       {stages}
       <NewBoardElements />
     </BoardStyled>
   );
 }
 
-function getClosestStageIndex(mousePositionX, stagesPositions) {
-  const distanceList = stagesPositions.map((x) =>
-    Math.abs(x.right - mousePositionX)
-  );
+function getClosestStageIndex(mousePosition, stagesPositions) {
+  const Board = document.querySelector(".Board");
+  let distanceList;
+
+  if (window.getComputedStyle(Board).flexDirection === "column") {
+    distanceList = stagesPositions.map((y) =>
+      Math.abs(y.top - mousePosition.y)
+    );
+    console.log(mousePosition.y);
+  } else {
+    distanceList = stagesPositions.map((x) =>
+      Math.abs(x.right - mousePosition.x)
+    );
+    console.log(distanceList);
+  }
+
   const closestStageIndex = distanceList.indexOf(Math.min(...distanceList));
+  console.log(distanceList);
 
   return closestStageIndex;
 }
@@ -119,6 +132,6 @@ function getStagesPositions(ref) {
   const stagesPositions = stagesDOMList.map((stage) =>
     stage.getBoundingClientRect()
   );
-
+  console.log(stagesPositions);
   return stagesPositions;
 }
