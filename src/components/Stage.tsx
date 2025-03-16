@@ -27,6 +27,7 @@ const StageContainerStyled = styled.ul`
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
   padding: 20px;
 `;
 
