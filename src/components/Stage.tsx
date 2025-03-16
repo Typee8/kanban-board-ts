@@ -87,8 +87,10 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         );
         console.log(`Task moved!`);
       },
-      hover: (draggedItem, monitor) =>
-        setClosestToDraggedTaskIndex(getClosestTaskIndex(stageRef, monitor)),
+      hover: (draggedItem, monitor) => {
+        setClosestToDraggedTaskIndex(getClosestTaskIndex(stageRef, monitor));
+        setStageTasksShown(true);
+      },
       collect: (monitor) => ({
         isOver: !!monitor.isOver(),
         draggedItem: monitor.getItem(),
@@ -140,10 +142,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
 
       <StageTitleWrapper>
         <ArrowDropDown onClick={setStageTasksShown} />
-        <StageContainerStyled
-          ref={drag}
-          onClick={() => setStageDetailsShown(true)}
-        >
+        <StageContainerStyled onClick={() => setStageDetailsShown(true)}>
           <H2Styled className="stage__title">{title}</H2Styled>
           {tasksList.length > 0 ? (
             <TaskLimit>
@@ -153,7 +152,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
             </TaskLimit>
           ) : null}
         </StageContainerStyled>
-        <StageDrag>{dragIndicatorIcon}</StageDrag>
+        <StageDrag ref={drag}>{dragIndicatorIcon}</StageDrag>
       </StageTitleWrapper>
 
       <StageTasksStyled $isShown={stageTasksShown} className="stage__tasks">
