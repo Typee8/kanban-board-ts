@@ -16,10 +16,9 @@ const TaskStyled = styled.li`
     border-bottom: 2px solid #f3f3f3;
   }
 `;
-
 TaskStyled.displayName = "TaskStyled";
 
-const TaskContainerStyled = styled.ul`
+const Container = styled.ul`
   display: flex;
   flex-wrap: wrap;
   padding: 10px 20px;
@@ -33,14 +32,14 @@ const TaskContainerStyled = styled.ul`
     gap: 5px;
   }
 `;
+Container.displayName = "Container";
 
-TaskContainerStyled.displayName = "TaskContainerStyled";
-
-const TaskTitle = styled.li`
+const Title = styled.li`
   width: 100%;
   font-weight: 600;
   margin-bottom: 10px;
 `;
+Title.displayName = "Title";
 
 export default function Task({
   stageId,
@@ -68,8 +67,8 @@ export default function Task({
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >
-      <TaskContainerStyled ref={drag} onClick={() => setTaskDetailsShown(true)}>
-        <TaskTitle>{title}</TaskTitle>
+      <Container ref={drag} onClick={() => setTaskDetailsShown(true)}>
+        <Title>{title}</Title>
         {deadline ? (
           <li>
             {calendarEventIcon} {deadline}
@@ -87,7 +86,7 @@ export default function Task({
             {taskIcon} {status}
           </li>
         ) : null}
-      </TaskContainerStyled>
+      </Container>
       {taskDetailsShown ? (
         <TaskDetails
           stageId={stageId}
