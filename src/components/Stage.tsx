@@ -5,9 +5,7 @@ import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
 import { useDrop, useDrag } from "react-dnd";
-import ArrowDropDown from "./icons/ArrowDropDown";
-import { dragIndicatorIcon, taskAltIcon } from "../assets/svg_icons";
-import ButtonStyled from "./styled/ButtonStyled";
+import StageOverview from "./StageOverview";
 
 const StageStyled = styled.li`
   display: flex;
@@ -21,51 +19,10 @@ const StageStyled = styled.li`
     return 1;
   }};
 `;
-
 StageStyled.displayName = "StageStyled";
 
-const StageContainerStyled = styled.ul`
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 20px;
-`;
-
-StageContainerStyled.displayName = "StageContainerStyled";
-
-const StageTitleWrapper = styled.div`
-  user-select: none;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-StageTitleWrapper.displayName = "StageTitleWrapper";
-
-const StageTasksStyled = styled.ul`
-  display: ${(props) => (props.$isShown ? "initial" : "none")};
-`;
-
-StageTasksStyled.displayName = "StageTasksStyled";
-
-const H2Styled = styled.h2`
-  font-weight: 600;
-  margin-right: 20px;
-`;
-
-const TaskLimit = styled.span`
-  display: flex;
-  gap: 5px;
-  height: 20px;
-`;
-
-const StageDrag = styled(ButtonStyled)`
-  position: absolute;
-  right: 0;
-  width: 50px;
-`;
+const TasksList = styled.ul``;
+TasksList.displayName = "TasksList";
 
 export default function Stage({ stageData, className, isPreviewed = false }) {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
@@ -144,26 +101,21 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         />
       ) : null}
 
-      <StageTitleWrapper>
-        <ArrowDropDown onClick={setStageTasksShown} />
-        <StageContainerStyled onClick={() => setStageDetailsShown(true)}>
-          <H2Styled className="stage__title">{title}</H2Styled>
-          {tasksList.length > 0 ? (
-            <TaskLimit>
-              {taskAltIcon}
-              {tasksList.length}
-              {tasksLimit ? `/ ${tasksLimit}` : ""}
-            </TaskLimit>
-          ) : null}
-        </StageContainerStyled>
-        <StageDrag ref={drag} onDragStart={() => alert("onTouchStart")}>
-          {dragIndicatorIcon}
-        </StageDrag>
-      </StageTitleWrapper>
+      <StageOverview
+        stageTasksShown={stageTasksShown}
+        setStageTasksShown={setStageTasksShown}
+        showStageDetails={() => setStageDetailsShown(true)}
+        tasksList={tasksList}
+        tasksLimit={tasksLimit}
+        title={title}
+        drag={drag}
+      />
 
-      <StageTasksStyled $isShown={stageTasksShown} className="stage__tasks">
-        {tasks.length > 0 ? tasks : null}
-      </StageTasksStyled>
+      {stageTasksShown ? (
+        <TasksList className="stage__tasks">
+          {tasks.length > 0 ? tasks : null}
+        </TasksList>
+      ) : null}
     </StageStyled>
   );
 }

@@ -6,7 +6,7 @@ import { logOffIcon, stageAddIcon, taskAddIcon } from "../assets/svg_icons";
 import { useNavigate } from "react-router";
 import ButtonStyled from "./styled/ButtonStyled";
 
-const NewBoardElementsStyled = styled.li`
+const MenuMobileStyled = styled.li`
   display: flex;
   position: fixed;
   bottom: 0;
@@ -16,10 +16,9 @@ const NewBoardElementsStyled = styled.li`
   padding: 15px;
   background-color: #fefefe;
 `;
+MenuMobileStyled.displayName = "MenuMobileStyled";
 
-NewBoardElementsStyled.displayName = "NewBoardElementsStyled";
-
-const NewElementsBtn = styled(ButtonStyled)`
+const MenuBtn = styled(ButtonStyled)`
   width: 50px;
   color: #1b1b1b;
   border-radius: 10px;
@@ -29,23 +28,20 @@ const NewElementsBtn = styled(ButtonStyled)`
     background-color: #1b1b1b;
   }
 `;
+MenuBtn.displayName = "MenuBtn";
 
-export default function NewBoardElements() {
+export default function MenuMobile() {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
   const navigate = useNavigate();
 
   return (
-    <NewBoardElementsStyled>
-      <NewElementsBtn onClick={() => navigate("/")}>
-        {logOffIcon}
-      </NewElementsBtn>
-      <NewElementsBtn onClick={() => setTaskDetailsShown(true)}>
-        {taskAddIcon}
-      </NewElementsBtn>
-      <NewElementsBtn onClick={() => setStageDetailsShown(true)}>
+    <MenuMobileStyled>
+      <MenuBtn onClick={() => navigate("/")}>{logOffIcon}</MenuBtn>
+      <MenuBtn onClick={() => setTaskDetailsShown(true)}>{taskAddIcon}</MenuBtn>
+      <MenuBtn onClick={() => setStageDetailsShown(true)}>
         {stageAddIcon}
-      </NewElementsBtn>
+      </MenuBtn>
 
       {stageDetailsShown ? (
         <StageDetails setStageDetailsShown={setStageDetailsShown} />
@@ -54,6 +50,6 @@ export default function NewBoardElements() {
       {taskDetailsShown ? (
         <TaskDetails setTaskDetailsShown={setTaskDetailsShown} />
       ) : null}
-    </NewBoardElementsStyled>
+    </MenuMobileStyled>
   );
 }

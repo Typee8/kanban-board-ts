@@ -27,6 +27,7 @@ const LoadingScreen = styled.div`
   padding-top: 40vh;
   background-color: #f3f3f3;
 `;
+LoadingScreen.displayName = "LoadingScreen";
 
 const LoadingIconContainer = styled.div`
   width: 80px;
@@ -45,6 +46,7 @@ const LoadingIconContainer = styled.div`
     animation: logo-spin infinite 2.5s linear;
   }
 `;
+LoadingIconContainer.displayName = "LoadingIconContainer";
 
 export default function BoardPanel() {
   const dispatch = useDispatch();

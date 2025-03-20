@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Stage from "./Stage";
-import NewBoardElements from "./NewBoardElements";
+import MenuMobile from "./MenuMobile";
 import { moveStage } from "../store/slices/boardStateSlice";
 import { useEffect, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
@@ -109,7 +109,7 @@ export default function Board({ boardData }) {
       ref={combineRefs}
     >
       {stages}
-      <NewBoardElements />
+      <MenuMobile />
     </BoardStyled>
   );
 }
