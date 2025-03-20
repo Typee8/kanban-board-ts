@@ -12,8 +12,9 @@ const TaskLinksPanelStyled = styled.div`
   padding-left: 20px;
   width: 100%;
 `;
+TaskLinksPanelStyled.displayName = "TaskLinksPanelStyled";
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -23,6 +24,7 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
 const TaskLink = styled.div`
   display: flex;
@@ -34,6 +36,7 @@ const TaskLink = styled.div`
     background-color: #fefefe;
   }
 `;
+TaskLink.displayName = "TaskLink";
 
 const TaskLinkBtn = styled(ButtonStyled)`
   border-radius: 10px;
@@ -47,6 +50,7 @@ const TaskLinkBtn = styled(ButtonStyled)`
     background-color: #1b1b1b;
   }
 `;
+TaskLinkBtn.displayName = "TaskLinkBtn";
 
 const InputStyled = styled.input`
   border: none;
@@ -59,6 +63,7 @@ const InputStyled = styled.input`
 
   cursor: pointer;
 `;
+InputStyled.displayName = "InputStyled";
 
 export default function TaskLinksPanel({
   taskFormControl,
@@ -72,7 +77,7 @@ export default function TaskLinksPanel({
 
   return (
     <TaskLinksPanelStyled>
-      <LabelStyled htmlFor="taskLinks">{linkIcon} Links: </LabelStyled>
+      <Label htmlFor="taskLinks">{linkIcon} Links: </Label>
       {fields.length > 0 ? (
         <div id="taskLinks">
           {fields.map((field, index) => (

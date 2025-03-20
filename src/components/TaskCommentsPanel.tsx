@@ -11,8 +11,9 @@ const TaskCommentsPanelStyled = styled.div`
   display: flex;
   width: 100%;
 `;
+TaskCommentsPanelStyled.displayName = "TaskCommentsPanelStyled";
 
-const TaskCommentsContainerStyled = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -21,6 +22,7 @@ const TaskCommentsContainerStyled = styled.div`
   margin-bottom: 100px;
   border-radius: 10px;
 `;
+Container.displayName = "Container";
 
 const CommentFieldWrapper = styled.div`
   position: absolute;
@@ -33,6 +35,7 @@ const CommentFieldWrapper = styled.div`
     rgba(255, 255, 255, 0.6)
   );
 `;
+CommentFieldWrapper.displayName = "CommentFieldWrapper";
 
 const CommentField = styled.div`
   position: fixed;
@@ -47,6 +50,7 @@ const CommentField = styled.div`
   border-radius: 0px 0px 30px 30px;
   background-color: #ebebeb;
 `;
+CommentField.displayName = "CommentField";
 
 const CommentFieldPlaceholder = styled(CommentField)`
   top: unset;
@@ -54,6 +58,7 @@ const CommentFieldPlaceholder = styled(CommentField)`
   padding: 20px;
   border-radius: 30px 30px 0px 0px;
 `;
+CommentFieldPlaceholder.displayName = "CommentFieldPlaceholder";
 
 const CommentTextArea = styled(TextArea)`
   resize: none;
@@ -69,6 +74,7 @@ const CommentTextArea = styled(TextArea)`
 
   background-color: #fefefe;
 `;
+CommentTextArea.displayName = "CommentTextArea";
 
 const CommentTextAreaPlaceholder = styled.textarea`
   resize: none;
@@ -84,12 +90,14 @@ const CommentTextAreaPlaceholder = styled.textarea`
 
   background-color: #fefefe;
 `;
+CommentTextAreaPlaceholder.displayName = "CommentTextAreaPlaceholder";
 
 const CommentSendBtn = styled(ButtonStyled)`
   width: 50px;
 `;
+CommentSendBtn.displayName = "CommentSendBtn";
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -99,6 +107,7 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
 export default function TaskCommentsPanel({
   taskFormControl,
@@ -121,10 +130,8 @@ export default function TaskCommentsPanel({
 
   return (
     <TaskCommentsPanelStyled>
-      <TaskCommentsContainerStyled>
-        <LabelStyled htmlFor="taskComments">
-          {commentIcon} Comments:
-        </LabelStyled>
+      <Container>
+        <Label htmlFor="taskComments">{commentIcon} Comments:</Label>
         {fields.length > 0 ? (
           <div id="taskComments">
             {fields.map((field) => (
@@ -132,7 +139,7 @@ export default function TaskCommentsPanel({
             ))}
           </div>
         ) : null}
-      </TaskCommentsContainerStyled>
+      </Container>
       {commentFieldShown ? null : (
         <CommentFieldPlaceholder>
           <CommentTextAreaPlaceholder

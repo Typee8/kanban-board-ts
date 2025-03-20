@@ -14,8 +14,9 @@ const SelectStyled = styled(Select)`
     background-color: #1b1b1b;
   }
 `;
+SelectStyled.displayName = "SelectStyled";
 
-export default function SelectTaskStatus({ register }) {
+export default function TaskStatusSelection({ register }) {
   const options = ["in progress", "needs review", "done"];
 
   return <SelectStyled register={register} options={options} />;

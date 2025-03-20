@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import ButtonStyled from "./styled/ButtonStyled";
 import { crossIcon, saveIcon, trashIcon } from "../assets/svg_icons";
-import SelectTaskStatus from "./inputs/SelectTaskStatus";
+import TaskStatusSelection from "./inputs/TaskStatusSelection";
+import ToolbarBtn from "./styled/ToolbarBtn";
 
 const TaskDetailsToolbarStyled = styled.ul`
   position: fixed;
@@ -14,24 +14,13 @@ const TaskDetailsToolbarStyled = styled.ul`
   border-radius: 0 0 0 20px;
   background-color: #fefefe;
 `;
+TaskDetailsToolbarStyled.displayName = "TaskDetailsToolbarStyled";
 
-const ToolbarBtn = styled(ButtonStyled)`
-  width: 50px;
-  border-radius: 10px;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
-`;
-
-const LiStyled = styled.li`
+const TaskStatusWrapper = styled.li`
   display: flex;
   justify-content: center;
 `;
+TaskStatusWrapper.displayName = "TaskStatusWrapper";
 
 export default function TaskDetailsToolbar({
   newTask,
@@ -48,9 +37,9 @@ export default function TaskDetailsToolbar({
           <li>
             <ToolbarBtn onClick={removeTask}>{trashIcon}</ToolbarBtn>
           </li>
-          <LiStyled>
-            <SelectTaskStatus register={taskStatusRegister} />
-          </LiStyled>
+          <TaskStatusWrapper>
+            <TaskStatusSelection register={taskStatusRegister} />
+          </TaskStatusWrapper>
           <li>
             <ToolbarBtn type="submit">{saveIcon}</ToolbarBtn>
           </li>

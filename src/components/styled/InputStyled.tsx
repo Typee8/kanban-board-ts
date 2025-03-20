@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Input from "../inputs/Input";
 
-export const InputStyled = styled(Input)`
+const InputStyled = styled(Input)`
   border: none;
   background: none;
   border-radius: 10px;
@@ -17,3 +17,6 @@ export const InputStyled = styled(Input)`
     background-color: #fefefe;
   }
 `;
+InputStyled.displayName = "InputStyled";
+
+export default InputStyled;

@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn } from "react-hook-form";
-import { InputStyled } from "./styled/InputStyled";
+import InputStyled from "./styled/InputStyled";
 import ButtonStyled from "./styled/ButtonStyled";
 
 type TaskLinkProps = {

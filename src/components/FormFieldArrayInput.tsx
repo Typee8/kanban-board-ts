@@ -1,5 +1,5 @@
 import { UseFormRegisterReturn } from "react-hook-form";
-import { InputStyled } from "./styled/InputStyled";
+import InputStyled from "./styled/InputStyled";
 import styled from "styled-components";
 import { checkIcon, personAddIcon } from "../assets/svg_icons";
 import { v4 as uuidv4 } from "uuid";
@@ -15,8 +15,9 @@ const FormFieldArrayInputStyled = styled.li`
   gap: 10px;
   height: 50px;
 `;
+FormFieldArrayInputStyled.displayName = "FormFieldArrayInputStyled";
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -26,10 +27,12 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
 const Input = styled(InputStyled)`
   width: 65%;
 `;
+Input.displayName = "Input";
 
 const Btn = styled(ButtonStyled)`
   min-width: 50px;
@@ -43,6 +46,7 @@ const Btn = styled(ButtonStyled)`
     background-color: #1b1b1b;
   }
 `;
+Btn.displayName = "Btn";
 
 export default function FormFieldArrayInput({
   append,
@@ -56,7 +60,7 @@ export default function FormFieldArrayInput({
 
   return (
     <FormFieldArrayInputStyled>
-      <LabelStyled htmlFor={id}>{title}</LabelStyled>
+      <Label htmlFor={id}>{title}</Label>
       <Input id={id} register={register} placeholder={placeholder} />
       {checkInputLength() > 0 ? (
         <Btn

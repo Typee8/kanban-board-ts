@@ -10,7 +10,7 @@ import SaveChangesPanel from "./SaveChangesPanel";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { InputStyled } from "./styled/InputStyled";
+import InputStyled from "./styled/InputStyled";
 import { taskAltIcon } from "../assets/svg_icons";
 import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
 import isEqual from "lodash/isEqual";

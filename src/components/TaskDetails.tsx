@@ -18,7 +18,7 @@ import { v4 as uuidv4 } from "uuid";
 import React from "react";
 import isEqual from "lodash/isEqual";
 import SaveChangesPanel from "./SaveChangesPanel";
-import { InputStyled } from "./styled/InputStyled";
+import InputStyled from "./styled/InputStyled";
 import TaskDescription from "./TaskDescription";
 import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
@@ -37,7 +37,7 @@ const CloseBtnStyled = styled(ButtonStyled)`
 
 CloseBtnStyled.displayName = "CloseBtnStyled";
 
-const TaskDetailsWrapper = styled.div`
+const Wrapper = styled.div`
   z-index: 999;
   position: fixed;
   top: 0;
@@ -50,7 +50,7 @@ const TaskDetailsWrapper = styled.div`
   );
 `;
 
-TaskDetailsWrapper.displayName = "TaskDetailsWrapper";
+Wrapper.displayName = "Wrapper";
 
 const TaskDetailsStyled = styled(Form)`
   display: flex;
@@ -64,10 +64,11 @@ const TaskDetailsStyled = styled(Form)`
   overflow-y: scroll;
 `;
 
-const TaskTitle = styled(InputStyled)`
+const Title = styled(InputStyled)`
   overflow: scroll;
   font-size: 24px;
 `;
+Title.displayName = "Title";
 
 const SubmitStyled = styled.input`
   position: fixed;
@@ -152,14 +153,16 @@ function TaskDetails({
   };
 
   return (
-    <TaskDetailsWrapper>
+    <Wrapper>
       <TaskDetailsStyled onSubmit={handleSubmit(onSubmit)}>
-        <SaveChangesPanel
-          isShown={taskDetailsLeavePanelShown}
-          setIsShown={setTaskDetailsLeavePanelShown}
-          closeEditingPanel={() => setTaskDetailsShown(false)}
-          discardChanges={() => reset(formDefaultValues)}
-        />
+        {taskDetailsLeavePanelShown ? (
+          <SaveChangesPanel
+            setIsShown={setTaskDetailsLeavePanelShown}
+            closeEditingPanel={() => setTaskDetailsShown(false)}
+            discardChanges={() => reset(formDefaultValues)}
+          />
+        ) : null}
+
         <TaskDetailsToolbar
           newTask={newTask}
           isTaskFormDirty={isDirty}
@@ -170,7 +173,7 @@ function TaskDetails({
           hideTaskDetails={() => setTaskDetailsShown(false)}
           taskStatusRegister={register("status")}
         />
-        <TaskTitle register={register("title")} placeholder="Task title" />
+        <Title register={register("title")} placeholder="Task title" />
         <VerticalBreak />
         <TaskDeadline
           getDate={() => getValues("deadline")}
@@ -201,7 +204,7 @@ function TaskDetails({
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
         {newTask ? <SubmitStyled type="submit" value="Add" /> : null}
       </TaskDetailsStyled>
-    </TaskDetailsWrapper>
+    </Wrapper>
   );
 }
 

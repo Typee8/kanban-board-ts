@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 
-const SelectTasksLimitStyled = styled.div`
+const TaskDetailsSelectStyled = styled.div`
   display: flex;
   padding-left: 20px;
   gap: 10px;
 `;
+TaskDetailsSelectStyled.displayName = "TaskDetailsSelectStyled";
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -17,8 +18,9 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
-const SelectStyled = styled.select`
+const Select = styled.select`
   border: none;
   background: none;
   border-radius: 10px;
@@ -29,6 +31,7 @@ const SelectStyled = styled.select`
     background-color: #fefefe;
   }
 `;
+Select.displayName = "Select";
 
 export default function TaskDetailsSelect({ register, options, title }) {
   const id = uuidv4();
@@ -39,11 +42,11 @@ export default function TaskDetailsSelect({ register, options, title }) {
   ));
 
   return (
-    <SelectTasksLimitStyled>
-      <LabelStyled htmlFor={id}>{title}</LabelStyled>
-      <SelectStyled id={id} {...register}>
+    <TaskDetailsSelectStyled>
+      <Label htmlFor={id}>{title}</Label>
+      <Select id={id} {...register}>
         {optionsJSX}
-      </SelectStyled>
-    </SelectTasksLimitStyled>
+      </Select>
+    </TaskDetailsSelectStyled>
   );
 }

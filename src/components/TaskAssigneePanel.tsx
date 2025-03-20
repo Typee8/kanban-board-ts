@@ -12,8 +12,9 @@ const TaskAssigneePanelStyled = styled.div`
   padding-left: 20px;
   width: 100%;
 `;
+TaskAssigneePanelStyled.displayName = "TaskAssigneePanelStyled";
 
-const TaskAssigneeContainer = styled.div`
+const Container = styled.div`
   display: flex;
   overflow: scroll;
   gap: 10px;
@@ -22,8 +23,9 @@ const TaskAssigneeContainer = styled.div`
   border-radius: 10px;
   background-color: #fefefe;
 `;
+Container.displayName = "Container";
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -33,13 +35,15 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
-const TaskAssignee = styled.div`
+const Assignee = styled.div`
   display: flex;
   align-items: center;
 `;
+Assignee.displayName = "Assignee";
 
-const TaskAssigneeBtn = styled(ButtonStyled)`
+const AssigneRemoveBtn = styled(ButtonStyled)`
   width: 25px;
   border-radius: 5px;
   margin-left: 5px;
@@ -53,6 +57,7 @@ const TaskAssigneeBtn = styled(ButtonStyled)`
     background-color: #1b1b1b;
   }
 `;
+AssigneRemoveBtn.displayName = "AssigneRemoveBtn";
 
 export default function TaskAssigneePanel({
   taskFormControl,
@@ -66,18 +71,18 @@ export default function TaskAssigneePanel({
 
   return (
     <TaskAssigneePanelStyled>
-      <LabelStyled htmlFor="taskAssignees">{groupIcon} Assignees: </LabelStyled>
+      <Label htmlFor="taskAssignees">{groupIcon} Assignees: </Label>
       {fields.length > 0 ? (
-        <TaskAssigneeContainer id="taskAssignees">
+        <Container id="taskAssignees">
           {fields.map((field, index) => (
-            <TaskAssignee key={field.id}>
+            <Assignee key={field.id}>
               {field.name}
-              <TaskAssigneeBtn onClick={() => remove(index)}>
+              <AssigneRemoveBtn onClick={() => remove(index)}>
                 {crossIcon}
-              </TaskAssigneeBtn>
-            </TaskAssignee>
+              </AssigneRemoveBtn>
+            </Assignee>
           ))}
-        </TaskAssigneeContainer>
+        </Container>
       ) : null}
       <FormFieldArrayInput
         append={() => append({ name: getValues("newAssignee") })}

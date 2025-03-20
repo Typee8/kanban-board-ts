@@ -8,6 +8,7 @@ const TaskDescriptionStyled = styled.div`
   gap: 10px;
   width: 100%;
 `;
+TaskDescriptionStyled.displayName = "TaskDescriptionStyled";
 
 const TextAreaStyled = styled(TextArea)`
   resize: none;
@@ -32,8 +33,9 @@ const TextAreaStyled = styled(TextArea)`
     overflow: scroll;
   }
 `;
+TextAreaStyled.displayName = "TextAreaStyled";
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -44,13 +46,12 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
 export default function TaskDescription({ register }) {
   return (
     <TaskDescriptionStyled>
-      <LabelStyled htmlFor="taskDescripton">
-        {editNoteIcon} Description:{" "}
-      </LabelStyled>
+      <Label htmlFor="taskDescripton">{editNoteIcon} Description: </Label>
       <TextAreaStyled
         id="taskDescripton"
         register={register}

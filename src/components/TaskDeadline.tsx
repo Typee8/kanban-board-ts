@@ -1,22 +1,23 @@
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
-import { InputStyled } from "./styled/InputStyled";
+import InputStyled from "./styled/InputStyled";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import moment from "moment";
 import { calendarEventIcon } from "../assets/svg_icons";
-import ButtonStyled from "./styled/ButtonStyled";
+import ToolbarBtn from "./styled/ToolbarBtn";
 import { crossIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
 
-const TaskDeadlineStyle = styled.div`
+const TaskDeadlineStyled = styled.div`
   padding-left: 20px;
   display: flex;
   align-items: center;
   gap: 10px;
 `;
+TaskDeadlineStyled.displayName = "TaskDeadlineStyled";
 
-const CalendarWrapperStyled = styled.div`
+const CalendarWrapper = styled.div`
   z-index: 999;
   position: fixed;
   top: 0;
@@ -31,8 +32,9 @@ const CalendarWrapperStyled = styled.div`
     rgba(255, 255, 255, 0.6)
   );
 `;
+CalendarWrapper.displayName = "CalendarWrapper";
 
-const CalendarContainerStyled = styled.div`
+const CalendarContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
@@ -42,6 +44,7 @@ const CalendarContainerStyled = styled.div`
   border-radius: 40px 0px 0px 0px;
   background-color: #f3f3f3;
 `;
+CalendarContainer.displayName = "CalendarContainer";
 
 const CalendarStyled = styled(DayPicker)`
   flex-direction: column;
@@ -52,7 +55,7 @@ const CalendarStyled = styled(DayPicker)`
   --rdp-accent-color: #d4182e;
 `;
 
-const LabelStyled = styled.label`
+const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -62,8 +65,9 @@ const LabelStyled = styled.label`
     width: 40px;
   }
 `;
+Label.displayName = "Label";
 
-const ToolbarStyled = styled.div`
+const CalendarToolbar = styled.div`
   position: absolute;
   top: 2px;
   right: 2px;
@@ -72,19 +76,9 @@ const ToolbarStyled = styled.div`
   border-radius: 0 0 0 20px;
   background-color: #fefefe;
 `;
+CalendarToolbar.displayName = "CalendarToolbar";
 
-const ToolbarBtn = styled(ButtonStyled)`
-  width: 50px;
-  border-radius: 10px;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
-`;
+InputStyled.displayName = "Deadline";
 
 export default function TaskDeadline({ getDate, setDate, register }) {
   const [calendarShown, setCalendarShown] = useState(false);
@@ -99,18 +93,16 @@ export default function TaskDeadline({ getDate, setDate, register }) {
   }, []);
 
   return (
-    <TaskDeadlineStyle>
-      <LabelStyled htmlFor="taskDeadline">
-        {calendarEventIcon} Deadline:
-      </LabelStyled>
+    <TaskDeadlineStyled>
+      <Label htmlFor="taskDeadline">{calendarEventIcon} Deadline:</Label>
       {calendarShown ? (
-        <CalendarWrapperStyled $vh={vh}>
-          <CalendarContainerStyled>
-            <ToolbarStyled>
+        <CalendarWrapper $vh={vh}>
+          <CalendarContainer>
+            <CalendarToolbar>
               <ToolbarBtn onClick={() => setCalendarShown(false)}>
                 {crossIcon}
               </ToolbarBtn>
-            </ToolbarStyled>
+            </CalendarToolbar>
             <CalendarStyled
               mode="single"
               required={true}
@@ -120,8 +112,8 @@ export default function TaskDeadline({ getDate, setDate, register }) {
                 setCalendarShown(false);
               }}
             />
-          </CalendarContainerStyled>
-        </CalendarWrapperStyled>
+          </CalendarContainer>
+        </CalendarWrapper>
       ) : null}
 
       <InputStyled
@@ -136,6 +128,6 @@ export default function TaskDeadline({ getDate, setDate, register }) {
           setCalendarShown(true);
         }}
       />
-    </TaskDeadlineStyle>
+    </TaskDeadlineStyled>
   );
 }
