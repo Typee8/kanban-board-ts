@@ -5,7 +5,6 @@ import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useEffect } from "react";
 import { fetchInitialState, fetchState } from "../store/slices/boardStateSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../server/FirebaseAPI";
 
 const BoardPanelStyled = styled.div`
   width: 100%;
@@ -13,6 +12,12 @@ const BoardPanelStyled = styled.div`
 `;
 
 BoardPanelStyled.displayName = "BoardPanelStyled";
+
+const options = {
+  backends: HTML5toTouch.backends,
+};
+options.backends[1]["options"]["delay"] = 400;
+options.backends[1]["options"]["ignoreContextMenu"] = true;
 
 export default function BoardPanel() {
   const dispatch = useDispatch();
@@ -31,7 +36,7 @@ export default function BoardPanel() {
   }, [dispatch]);
 
   return (
-    <DndProvider options={HTML5toTouch}>
+    <DndProvider options={options}>
       <BoardPanelStyled>
         {loading ? <h3>Loading...</h3> : <Board boardData={data} />}
       </BoardPanelStyled>

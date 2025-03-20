@@ -7,6 +7,7 @@ import { moveTask } from "../store/slices/boardStateSlice";
 import { useDrop, useDrag } from "react-dnd";
 import ArrowDropDown from "./icons/ArrowDropDown";
 import { dragIndicatorIcon, taskAltIcon } from "../assets/svg_icons";
+import ButtonStyled from "./styled/ButtonStyled";
 
 const StageStyled = styled.li`
   display: flex;
@@ -34,6 +35,7 @@ const StageContainerStyled = styled.ul`
 StageContainerStyled.displayName = "StageContainerStyled";
 
 const StageTitleWrapper = styled.div`
+  user-select: none;
   position: relative;
   display: flex;
   flex-direction: row;
@@ -59,10 +61,10 @@ const TaskLimit = styled.span`
   height: 20px;
 `;
 
-const StageDrag = styled.div`
+const StageDrag = styled(ButtonStyled)`
   position: absolute;
-  right: 10px;
-  width: 30px;
+  right: 0;
+  width: 50px;
 `;
 
 export default function Stage({ stageData, className, isPreviewed = false }) {
@@ -88,7 +90,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         );
         console.log(`Task moved!`);
       },
-      hover: (draggedItem, monitor) => {
+      hover: (_, monitor) => {
         setClosestToDraggedTaskIndex(getClosestTaskIndex(stageRef, monitor));
         setStageTasksShown(true);
       },
@@ -100,7 +102,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
     []
   );
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
     type: "stage",
     item: {
       stageId: stageData.id,
@@ -114,6 +116,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
 
   const combineRefs = (node) => {
     stageRef.current = node;
+    dragPreview(node);
     drop(node);
   };
 
