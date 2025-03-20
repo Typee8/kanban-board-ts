@@ -1,16 +1,6 @@
 import { ReactNode } from "react";
-import styled from "styled-components";
 import ButtonStyled from "../styled/ButtonStyled";
 import { crossIcon } from "../../assets/svg_icons";
-
-const FormStyled = styled.form`
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #f3f3f3;
-`;
-FormStyled.displayName = "FormStyled";
 
 type FormProps = {
   children: ReactNode;
@@ -28,7 +18,7 @@ export default function Form({
   closeForm,
 }: FormProps) {
   return (
-    <FormStyled className={className} onSubmit={onSubmit}>
+    <form className={className} onSubmit={onSubmit}>
       {closeForm ? (
         <ButtonStyled
           onClick={(evt) => {
@@ -42,6 +32,6 @@ export default function Form({
 
       {title ? <h3>{title}</h3> : null}
       {children}
-    </FormStyled>
+    </form>
   );
 }

@@ -9,7 +9,7 @@ const SaveChangesPanelStyled = styled.div`
   right: 2px;
   width: 100%;
   height: 100%;
-  display: ${(props) => (props.$isShown ? "flex" : "none")};
+  display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px 40px 20px 40px;

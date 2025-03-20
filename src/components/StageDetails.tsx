@@ -1,5 +1,4 @@
 import Form from "./forms/Form";
-import ButtonStyled from "./styled/ButtonStyled";
 import { useForm } from "react-hook-form";
 import {
   addNewStage,
@@ -12,13 +11,14 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import { InputStyled } from "./styled/InputStyled";
-import { crossIcon, trashIcon, taskAltIcon } from "../assets/svg_icons";
+import { taskAltIcon } from "../assets/svg_icons";
 import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
 import isEqual from "lodash/isEqual";
 import React from "react";
 import VerticalBreak from "./styled/VerticalBreak";
+import StageDetailsToolbar from "./StageDetailsToolbar";
 
-const StageDetailsWrapper = styled.div`
+const Wrapper = styled.div`
   z-index: 999;
   position: fixed;
   top: 0;
@@ -32,27 +32,12 @@ const StageDetailsWrapper = styled.div`
     rgba(255, 255, 255, 0.6)
   );
 `;
-
-StageDetailsWrapper.displayName = "StageDetailsWrapper";
-
-const ToolbarBtn = styled(ButtonStyled)`
-  width: 50px;
-  border-radius: 10px;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
-`;
-
-ToolbarBtn.displayName = "ToolbarBtn";
+Wrapper.displayName = "Wrapper";
 
 const StageDetailsStyled = styled(Form)`
   position: relative;
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 60vh;
   padding: 20px;
@@ -60,21 +45,13 @@ const StageDetailsStyled = styled(Form)`
   border-radius: 40px 0px 0px 0px;
   background-color: #f3f3f3;
 `;
+StageDetailsStyled.displayName = "StageDetailsStyled";
 
 const TaskTitle = styled(InputStyled)`
   overflow: scroll;
   font-size: 24px;
 `;
-
-const ToolbarStyled = styled.div`
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  display: flex;
-  padding: 0 10px;
-  border-radius: 0 0 0 20px;
-  background-color: #fefefe;
-`;
+TaskTitle.displayName = "TaskTitle";
 
 const SubmitStyled = styled.input`
   align-self: center;
@@ -91,6 +68,7 @@ const SubmitStyled = styled.input`
     background-color: #1b1b1b;
   }
 `;
+SubmitStyled.displayName = "SubmitStyled";
 
 function StageDetails({ stageData, setStageDetailsShown }) {
   console.log("StageDetails renders");
@@ -144,46 +122,25 @@ function StageDetails({ stageData, setStageDetailsShown }) {
   };
 
   return (
-    <StageDetailsWrapper $vh={vh}>
+    <Wrapper $vh={vh}>
       <StageDetailsStyled onSubmit={handleSubmit(onSubmit)}>
-        <SaveChangesPanel
-          isShown={saveChangesPanelShown}
-          setIsShown={setSaveChangesPanelShown}
-          closeEditingPanel={() => setStageDetailsShown(false)}
-          discardChanges={() => reset()}
+        {saveChangesPanelShown ? (
+          <SaveChangesPanel
+            setIsShown={setSaveChangesPanelShown}
+            closeEditingPanel={() => setStageDetailsShown(false)}
+            discardChanges={() => reset()}
+          />
+        ) : null}
+
+        <StageDetailsToolbar
+          newStage={newStage}
+          removeStage={() => {
+            dispatch(removeStage({ stageId: stageData.id }));
+          }}
+          isFromDirty={isDirty}
+          showSaveChangesPanel={() => setSaveChangesPanelShown(true)}
+          hideStageDetails={() => setStageDetailsShown(false)}
         />
-        <ToolbarStyled>
-          {newStage ? null : (
-            <ToolbarBtn
-              onClick={() => {
-                dispatch(removeStage({ stageId: stageData.id }));
-              }}
-            >
-              {trashIcon}
-            </ToolbarBtn>
-          )}
-          {newStage ? (
-            <ToolbarBtn
-              onClick={() => {
-                setStageDetailsShown(false);
-              }}
-            >
-              {crossIcon}
-            </ToolbarBtn>
-          ) : (
-            <ToolbarBtn
-              onClick={() => {
-                if (isDirty) {
-                  setSaveChangesPanelShown(true);
-                } else {
-                  setStageDetailsShown(false);
-                }
-              }}
-            >
-              {crossIcon}
-            </ToolbarBtn>
-          )}
-        </ToolbarStyled>
 
         <TaskTitle register={register("title")} placeholder="Stage title" />
         <VerticalBreak />
@@ -198,7 +155,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
           <SubmitStyled type="submit" value="Commit" />
         )}
       </StageDetailsStyled>
-    </StageDetailsWrapper>
+    </Wrapper>
   );
 }
 

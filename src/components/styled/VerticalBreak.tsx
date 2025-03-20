@@ -5,5 +5,6 @@ const VerticalBreak = styled.span`
   border-bottom: 2px solid #fefefe;
   margin-block: 20px;
 `;
+VerticalBreak.displayName = "VerticalBreak";
 
 export default VerticalBreak;
