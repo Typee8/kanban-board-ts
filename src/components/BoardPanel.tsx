@@ -15,7 +15,7 @@ options.backends[1]["options"]["ignoreContextMenu"] = true;
 
 const BoardPanelStyled = styled.div`
   width: 100%;
-  height: 60vh;
+  height: 100vh;
 `;
 BoardPanelStyled.displayName = "BoardPanelStyled";
 

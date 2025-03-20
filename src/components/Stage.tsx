@@ -156,7 +156,9 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
             </TaskLimit>
           ) : null}
         </StageContainerStyled>
-        <StageDrag ref={drag}>{dragIndicatorIcon}</StageDrag>
+        <StageDrag ref={drag} onDragStart={() => alert("onTouchStart")}>
+          {dragIndicatorIcon}
+        </StageDrag>
       </StageTitleWrapper>
 
       <StageTasksStyled $isShown={stageTasksShown} className="stage__tasks">

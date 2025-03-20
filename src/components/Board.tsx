@@ -10,10 +10,10 @@ import { tablet } from "../devicesWidthStandard";
 const BoardStyled = styled.ul`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   padding: 40px 20px;
   padding-bottom: 120px;
   gap: 30px;
+  height: 100%;
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: row;
