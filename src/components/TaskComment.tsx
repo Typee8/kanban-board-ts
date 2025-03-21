@@ -17,7 +17,7 @@ const TaskCommentStyled = styled.div`
   gap: 20px;
   border-radius: 10px;
   transition: all 0.3s ease;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 
 const TaskCommentContainer = styled.div`

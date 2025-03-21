@@ -7,10 +7,10 @@ const ToolbarBtn = styled(ButtonStyled)`
 
   &:hover {
     & * {
-      color: #fefefe;
+      color: var(--secondary-color);
     }
 
-    background-color: #1b1b1b;
+    background-color: var(--contrast-primary-color);
   }
 `;
 ToolbarBtn.displayName = "ToolbarBtn";

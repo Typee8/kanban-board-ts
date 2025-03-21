@@ -3,6 +3,7 @@ import FormFieldArrayInput from "./FormFieldArrayInput";
 import styled from "styled-components";
 import { crossIcon, groupIcon, personAddIcon } from "../assets/svg_icons";
 import ButtonStyled from "./styled/ButtonStyled";
+import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 type TaskAssigneePanelProps = {
   taskFormControl: object;
@@ -21,21 +22,9 @@ const Container = styled.div`
   padding: 10px;
   margin-block: 10px 20px;
   border-radius: 10px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 Container.displayName = "Container";
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
-`;
-Label.displayName = "Label";
 
 const Assignee = styled.div`
   display: flex;
@@ -48,14 +37,6 @@ const AssigneRemoveBtn = styled(ButtonStyled)`
   border-radius: 5px;
   margin-left: 5px;
   padding: 5px;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
 `;
 AssigneRemoveBtn.displayName = "AssigneRemoveBtn";
 
@@ -71,7 +52,9 @@ export default function TaskAssigneePanel({
 
   return (
     <TaskAssigneePanelStyled>
-      <Label htmlFor="taskAssignees">{groupIcon} Assignees: </Label>
+      <DetailsLabelStyled htmlFor="taskAssignees">
+        {groupIcon} Assignees:{" "}
+      </DetailsLabelStyled>
       {fields.length > 0 ? (
         <Container id="taskAssignees">
           {fields.map((field, index) => (

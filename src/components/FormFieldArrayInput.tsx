@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { checkIcon, personAddIcon } from "../assets/svg_icons";
 import { v4 as uuidv4 } from "uuid";
 import ButtonStyled from "./styled/ButtonStyled";
+import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 type AddTaskAssigneeProps = {
   append: () => void;
@@ -17,18 +18,6 @@ const FormFieldArrayInputStyled = styled.li`
 `;
 FormFieldArrayInputStyled.displayName = "FormFieldArrayInputStyled";
 
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
-`;
-Label.displayName = "Label";
-
 const Input = styled(InputStyled)`
   width: 65%;
 `;
@@ -37,14 +26,6 @@ Input.displayName = "Input";
 const Btn = styled(ButtonStyled)`
   min-width: 50px;
   border-radius: 10px;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
 `;
 Btn.displayName = "Btn";
 
@@ -60,7 +41,7 @@ export default function FormFieldArrayInput({
 
   return (
     <FormFieldArrayInputStyled>
-      <Label htmlFor={id}>{title}</Label>
+      <DetailsLabelStyled htmlFor={id}>{title}</DetailsLabelStyled>
       <Input id={id} register={register} placeholder={placeholder} />
       {checkInputLength() > 0 ? (
         <Btn

@@ -1,6 +1,29 @@
+:root {
+  /* light theme colors */
+  --primary-color: #f3f3f3;
+  --secondary-color: #fefefe;
+  --tertiary-color: #ebebeb;
+  --contrast-primary-color: #1b1b1b;
+  --transparent-primary-color: linear-gradient(
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.6)
+  );
+}
+
+[data-theme="dark"] {
+  /* dark theme colors */
+  --primary-color: #000000;
+  --secondary-color: #2a2a2a;
+  --tertiary-color: #111111;
+  --contrast-primary-color: #efefef;
+  --transparent-primary-color: linear-gradient(
+    rgba(0, 0, 0, 0.3),
+    rgba(0, 0, 0, 0.6)
+  );
+}
+
 body {
   min-width: 100%;
   min-height: 100vh;
-
   background-color: #f3f3f3;
 }

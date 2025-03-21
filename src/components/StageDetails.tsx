@@ -12,7 +12,7 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 import InputStyled from "./styled/InputStyled";
 import { taskAltIcon } from "../assets/svg_icons";
-import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
+import DetailsSelect from "./inputs/DetailsSelect";
 import isEqual from "lodash/isEqual";
 import React from "react";
 import VerticalBreak from "./styled/VerticalBreak";
@@ -27,10 +27,7 @@ const Wrapper = styled.div`
   align-items: flex-end;
   width: 100%;
   height: ${(props) => (props.$vh ? `${props.$vh * 100}px` : "100vh")};
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.6)
-  );
+  background: var(--transparent-primary-color);
 `;
 Wrapper.displayName = "Wrapper";
 
@@ -43,7 +40,7 @@ const StageDetailsStyled = styled(Form)`
   padding: 20px;
   padding-top: 80px;
   border-radius: 40px 0px 0px 0px;
-  background-color: #f3f3f3;
+  background-color: var(--primary-color);
 `;
 StageDetailsStyled.displayName = "StageDetailsStyled";
 
@@ -57,15 +54,16 @@ const SubmitStyled = styled.input`
   align-self: center;
   border: none;
   border-radius: 10px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
   padding: 20px 40px;
   margin-top: auto;
   transition: all 0.2s ease;
   font-size: 24px;
 
+  color: var(--contrast-primary-color);
   &:hover {
-    color: #fefefe;
-    background-color: #1b1b1b;
+    color: var(--secondary-color);
+    background-color: var(--contrast-primary-color);
   }
 `;
 SubmitStyled.displayName = "SubmitStyled";
@@ -144,7 +142,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
 
         <TaskTitle register={register("title")} placeholder="Stage title" />
         <VerticalBreak />
-        <TaskDetailsSelect
+        <DetailsSelect
           register={register("tasksLimit")}
           options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
           title={<>{taskAltIcon} Limit:</>}

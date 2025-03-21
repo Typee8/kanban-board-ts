@@ -3,6 +3,7 @@ import FormFieldArrayInput from "./FormFieldArrayInput";
 import styled from "styled-components";
 import { crossIcon, linkAddIcon, linkIcon } from "../assets/svg_icons";
 import ButtonStyled from "./styled/ButtonStyled";
+import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 type TaskAssigneePanelProps = {
   taskFormControl: object;
@@ -14,18 +15,6 @@ const TaskLinksPanelStyled = styled.div`
 `;
 TaskLinksPanelStyled.displayName = "TaskLinksPanelStyled";
 
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
-`;
-Label.displayName = "Label";
-
 const TaskLink = styled.div`
   display: flex;
   align-items: center;
@@ -33,7 +22,7 @@ const TaskLink = styled.div`
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #fefefe;
+    background-color: var(--secondary-color);
   }
 `;
 TaskLink.displayName = "TaskLink";
@@ -41,14 +30,6 @@ TaskLink.displayName = "TaskLink";
 const TaskLinkBtn = styled(ButtonStyled)`
   border-radius: 10px;
   justify-self: flex-end;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
 `;
 TaskLinkBtn.displayName = "TaskLinkBtn";
 
@@ -77,7 +58,9 @@ export default function TaskLinksPanel({
 
   return (
     <TaskLinksPanelStyled>
-      <Label htmlFor="taskLinks">{linkIcon} Links: </Label>
+      <DetailsLabelStyled htmlFor="taskLinks">
+        {linkIcon} Links:{" "}
+      </DetailsLabelStyled>
       {fields.length > 0 ? (
         <div id="taskLinks">
           {fields.map((field, index) => (

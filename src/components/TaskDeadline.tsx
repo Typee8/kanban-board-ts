@@ -8,6 +8,7 @@ import { calendarEventIcon } from "../assets/svg_icons";
 import ToolbarBtn from "./styled/ToolbarBtn";
 import { crossIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
+import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 const TaskDeadlineStyled = styled.div`
   padding-left: 20px;
@@ -27,10 +28,7 @@ const CalendarWrapper = styled.div`
   justify-content: center;
   align-items: flex-end;
   height: ${(props) => (props.$vh ? `${props.$vh * 100}px` : "100vh")};
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.6)
-  );
+  background: var(--transparent-primary-color);
 `;
 CalendarWrapper.displayName = "CalendarWrapper";
 
@@ -42,7 +40,7 @@ const CalendarContainer = styled.div`
   min-height: 60vh;
   padding: 80px 20px 40px 20px;
   border-radius: 40px 0px 0px 0px;
-  background-color: #f3f3f3;
+  background-color: var(--primary-color);
 `;
 CalendarContainer.displayName = "CalendarContainer";
 
@@ -52,20 +50,8 @@ const CalendarStyled = styled(DayPicker)`
   padding: 20px;
   border-radius: 20px;
 
-  --rdp-accent-color: #d4182e;
+  --rdp-accent-color: var(--highlight-primary-color);
 `;
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
-`;
-Label.displayName = "Label";
 
 const CalendarToolbar = styled.div`
   position: absolute;
@@ -74,7 +60,7 @@ const CalendarToolbar = styled.div`
   display: flex;
   padding: 0 10px;
   border-radius: 0 0 0 20px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 CalendarToolbar.displayName = "CalendarToolbar";
 
@@ -94,7 +80,9 @@ export default function TaskDeadline({ getDate, setDate, register }) {
 
   return (
     <TaskDeadlineStyled>
-      <Label htmlFor="taskDeadline">{calendarEventIcon} Deadline:</Label>
+      <DetailsLabelStyled htmlFor="taskDeadline">
+        {calendarEventIcon} Deadline:
+      </DetailsLabelStyled>
       {calendarShown ? (
         <CalendarWrapper $vh={vh}>
           <CalendarContainer>

@@ -20,7 +20,7 @@ import isEqual from "lodash/isEqual";
 import SaveChangesPanel from "./SaveChangesPanel";
 import InputStyled from "./styled/InputStyled";
 import TaskDescription from "./TaskDescription";
-import TaskDetailsSelect from "./inputs/TaskDetailsSelect";
+import DetailsSelect from "./inputs/DetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
 import VerticalBreak from "./styled/VerticalBreak";
 
@@ -44,10 +44,7 @@ const Wrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.6)
-  );
+  background: var(--transparent-primary-color);
 `;
 
 Wrapper.displayName = "Wrapper";
@@ -60,7 +57,7 @@ const TaskDetailsStyled = styled(Form)`
   padding: 20px;
   padding-top: 80px;
   border-radius: 40px 0px 0px 0px;
-  background-color: #f3f3f3;
+  background-color: var(--primary-color);
   overflow-y: scroll;
 `;
 
@@ -70,23 +67,16 @@ const Title = styled(InputStyled)`
 `;
 Title.displayName = "Title";
 
-const SubmitStyled = styled.input`
+const SubmitStyled = styled(ButtonStyled)`
   position: fixed;
   align-self: center;
   bottom: 20px;
-  border: none;
-  border-radius: 10px;
-  background-color: #fefefe;
   padding: 20px 40px;
   margin-top: auto;
-  transition: all 0.2s ease;
   font-size: 24px;
-
-  &:hover {
-    color: #fefefe;
-    background-color: #1b1b1b;
-  }
+  background-color: var(--secondary-color);
 `;
+SubmitStyled.displayName = "SubmitStyled";
 
 function TaskDetails({
   stageId = "firstStage",
@@ -183,13 +173,13 @@ function TaskDetails({
           register={register("deadline")}
         />
         <VerticalBreak />
-        <TaskDetailsSelect
+        <DetailsSelect
           register={register("priority")}
           options={["low", "medium", "high"]}
           title={<>{priorityIcon} Priority:</>}
         />
         <VerticalBreak />
-        <TaskDetailsSelect
+        <DetailsSelect
           options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
           register={register("assigneesLimit")}
           title={<>{personIcon} Assignees limit:</>}
@@ -202,7 +192,7 @@ function TaskDetails({
         <TaskLinksPanel taskFormControl={control} />
         <VerticalBreak />
         {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
-        {newTask ? <SubmitStyled type="submit" value="Add" /> : null}
+        {newTask ? <SubmitStyled type="submit">Add</SubmitStyled> : null}
       </TaskDetailsStyled>
     </Wrapper>
   );

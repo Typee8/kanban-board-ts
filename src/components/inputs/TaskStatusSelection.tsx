@@ -9,9 +9,10 @@ const SelectStyled = styled(Select)`
   margin-right: 10px;
   transition: all 0.3s ease;
 
+  color: var(--contrast-primary-color);
   &:hover {
-    color: #fefefe;
-    background-color: #1b1b1b;
+    color: var(--secondary-color);
+    background-color: var(--contrast-primary-color);
   }
 `;
 SelectStyled.displayName = "SelectStyled";

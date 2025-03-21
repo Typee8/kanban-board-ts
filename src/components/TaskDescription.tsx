@@ -1,6 +1,7 @@
 import { editNoteIcon } from "../assets/svg_icons";
 import TextArea from "./inputs/TextArea";
 import styled from "styled-components";
+import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 const TaskDescriptionStyled = styled.div`
   display: flex;
@@ -23,9 +24,11 @@ const TextAreaStyled = styled(TextArea)`
   transition: all 0.3s ease;
   font-family: "Roboto";
   font-size: 16px;
+  color: var(--contrast-primary-color);
 
-  &:hover {
-    background-color: #fefefe;
+  &:hover,
+  &:focus {
+    background-color: var(--secondary-color);
     border-radius: 10px;
   }
 
@@ -35,16 +38,8 @@ const TextAreaStyled = styled(TextArea)`
 `;
 TextAreaStyled.displayName = "TextAreaStyled";
 
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
+const Label = styled(DetailsLabelStyled)`
   padding-left: 20px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
 `;
 Label.displayName = "Label";
 

@@ -6,6 +6,7 @@ import moment from "moment";
 import { commentIcon, sendIcon } from "../assets/svg_icons";
 import { useState, useRef, useEffect } from "react";
 import TaskComment from "./TaskComment";
+import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 const TaskCommentsPanelStyled = styled.div`
   display: flex;
@@ -30,10 +31,7 @@ const CommentFieldWrapper = styled.div`
   left: 0;
   width: 100vw;
   height: 100%;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.6)
-  );
+  background: var(--transparent-primary-color);
 `;
 CommentFieldWrapper.displayName = "CommentFieldWrapper";
 
@@ -46,9 +44,9 @@ const CommentField = styled.div`
   width: 100%;
   padding: 20px 20px 20px 40px;
   gap: 20px;
-  border: 1px solid #fefefe;
+  border: 1px solid var(--secondary-color);
   border-radius: 0px 0px 30px 30px;
-  background-color: #ebebeb;
+  background-color: var(--tertiary-color);
 `;
 CommentField.displayName = "CommentField";
 
@@ -72,7 +70,7 @@ const CommentTextArea = styled(TextArea)`
   transition: all 0.3s ease;
   overflow: scroll;
 
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 CommentTextArea.displayName = "CommentTextArea";
 
@@ -88,7 +86,7 @@ const CommentTextAreaPlaceholder = styled.textarea`
   transition: all 0.3s ease;
   overflow: scroll;
 
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 CommentTextAreaPlaceholder.displayName = "CommentTextAreaPlaceholder";
 
@@ -96,18 +94,6 @@ const CommentSendBtn = styled(ButtonStyled)`
   width: 50px;
 `;
 CommentSendBtn.displayName = "CommentSendBtn";
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
-`;
-Label.displayName = "Label";
 
 export default function TaskCommentsPanel({
   taskFormControl,
@@ -131,7 +117,9 @@ export default function TaskCommentsPanel({
   return (
     <TaskCommentsPanelStyled>
       <Container>
-        <Label htmlFor="taskComments">{commentIcon} Comments:</Label>
+        <DetailsLabelStyled htmlFor="taskComments">
+          {commentIcon} Comments:
+        </DetailsLabelStyled>
         {fields.length > 0 ? (
           <div id="taskComments">
             {fields.map((field) => (

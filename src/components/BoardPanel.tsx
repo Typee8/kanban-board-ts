@@ -25,13 +25,13 @@ const LoadingScreen = styled.div`
   height: 100vh;
   justify-content: center;
   padding-top: 40vh;
-  background-color: #f3f3f3;
+  background-color: var(--primary-color);
 `;
 LoadingScreen.displayName = "LoadingScreen";
 
 const LoadingIconContainer = styled.div`
   width: 80px;
-  color: #1b1b1b;
+  color: var(--contrast-primary-color);
 
   @keyframes logo-spin {
     from {

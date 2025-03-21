@@ -13,8 +13,10 @@ const InputStyled = styled(Input)`
       ? "initial"
       : "none"};
 
-  &:hover {
-    background-color: #fefefe;
+  color: var(--contrast-primary-color);
+  &:hover,
+  &:focus {
+    background-color: var(--secondary-color);
   }
 `;
 InputStyled.displayName = "InputStyled";

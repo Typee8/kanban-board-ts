@@ -9,11 +9,17 @@ const StageOverviewStyled = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: var(--contrast-primary-color);
 `;
 StageOverviewStyled.displayName = "StageOverviewStyled";
 
 const DropDownBtnStyled = styled(ButtonStyled)`
   width: 60px;
+
+  &:hover {
+    color: unset;
+    background: none;
+  }
 `;
 DropDownBtnStyled.displayName = "DropDownBtnStyled";
 
@@ -29,6 +35,7 @@ Container.displayName = "Container";
 const Title = styled.h2`
   font-weight: 600;
   margin-right: 20px;
+  color: var(--contrast-primary-color);
 `;
 Title.displayName = "Title";
 
@@ -43,6 +50,11 @@ const Drag = styled(ButtonStyled)`
   position: absolute;
   right: 0;
   width: 50px;
+
+  &:hover {
+    color: unset;
+    background-color: unset;
+  }
 `;
 Drag.displayName = "Drag";
 

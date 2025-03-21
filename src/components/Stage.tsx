@@ -12,7 +12,7 @@ const StageStyled = styled.li`
   flex-direction: column;
   border-radius: 20px;
   padding: 10px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
   opacity: ${(props) => {
     if (props.$isDragging) return 0;
     if (props.$isPreviewed) return 0.4;

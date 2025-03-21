@@ -14,7 +14,7 @@ const SaveChangesPanelStyled = styled.div`
   align-items: center;
   padding: 10px 40px 20px 40px;
   border-radius: 50px 0 0 0px;
-  background-color: #fefefe;
+  background-color: var(--primary-color);
 `;
 SaveChangesPanelStyled.displayName = "SaveChangesPanelStyled";
 
@@ -23,42 +23,29 @@ const SaveChangesPanelContainerStyled = styled.div`
   justify-content: center;
   gap: 20px;
 `;
-
 SaveChangesPanelContainerStyled.displayName = "SaveChangesPanelContainerStyled";
 
 const ChangesBtnStyled = styled(ButtonStyled)`
-  border: none;
-  background: none;
-  border-radius: 10px;
   padding: 10px 40px;
   width: 120px;
-  background-color: #f3f3f3;
-
-  &:hover {
-    color: #fefefe;
-    background-color: #1b1b1b;
-  }
+  background-color: var(--secondary-color);
 `;
 
-const ToolbarBtn = styled(ButtonStyled)`
+const CloseBtn = styled(ButtonStyled)`
   align-self: flex-end;
   width: 50px;
   margin: -10px -30px 20px 0px;
   border-radius: 10px;
-
-  &:hover {
-    & * {
-      color: #fefefe;
-    }
-
-    background-color: #1b1b1b;
-  }
+  background-color: var(--secondary-color);
 `;
+CloseBtn.displayName = "CloseBtn";
 
-const TitleStyled = styled.h3`
+const Title = styled.h3`
   margin-bottom: 60px;
   font-size: 24px;
+  color: var(--contrast-primary-color);
 `;
+Title.displayName = "Title";
 
 export default function SaveChangesPanel({
   isShown,
@@ -68,8 +55,8 @@ export default function SaveChangesPanel({
 }) {
   return (
     <SaveChangesPanelStyled $isShown={isShown}>
-      <ToolbarBtn onClick={() => setIsShown(false)}>{crossIcon}</ToolbarBtn>
-      <TitleStyled>Uncommited changes.</TitleStyled>
+      <CloseBtn onClick={() => setIsShown(false)}>{crossIcon}</CloseBtn>
+      <Title>Uncommited changes.</Title>
       <SaveChangesPanelContainerStyled>
         <ChangesBtnStyled type="submit" onClick={() => setIsShown(false)}>
           {saveIcon}

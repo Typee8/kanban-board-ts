@@ -13,7 +13,7 @@ const TaskStyled = styled.li`
   }};
 
   &:not(:last-child) {
-    border-bottom: 2px solid #f3f3f3;
+    border-bottom: 2px solid var(--primary-color);
   }
 `;
 TaskStyled.displayName = "TaskStyled";
@@ -23,8 +23,8 @@ const Container = styled.ul`
   flex-wrap: wrap;
   padding: 10px 20px;
   border-radius: 10px;
-  background-color: #f3f3f3;
-
+  color: var(--contrast-primary-color);
+  background-color: var(--primary-color);
   > li {
     margin-right: 20px;
     height: 20px;

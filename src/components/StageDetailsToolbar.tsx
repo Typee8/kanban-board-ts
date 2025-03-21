@@ -9,7 +9,7 @@ const StageDetailsToolbarStyled = styled.div`
   display: flex;
   padding: 0 10px;
   border-radius: 0 0 0 20px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 StageDetailsToolbarStyled.displayName = "StageDetailsToolbarStyled";
 

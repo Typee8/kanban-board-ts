@@ -1,24 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
+import DetailsLabelStyled from "../styled/DetailsLabelStyled";
 
-const TaskDetailsSelectStyled = styled.div`
+const DetailsSelectStyled = styled.div`
   display: flex;
   padding-left: 20px;
   gap: 10px;
 `;
-TaskDetailsSelectStyled.displayName = "TaskDetailsSelectStyled";
-
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 600;
-
-  > * {
-    width: 40px;
-  }
-`;
-Label.displayName = "Label";
+DetailsSelectStyled.displayName = "DetailsSelectStyled";
 
 const Select = styled.select`
   border: none;
@@ -27,13 +16,14 @@ const Select = styled.select`
   padding: 10px 20px;
   transition: all 0.3s ease;
 
+  color: var(--contrast-primary-color);
   &:hover {
-    background-color: #fefefe;
+    background-color: var(--secondary-color);
   }
 `;
 Select.displayName = "Select";
 
-export default function TaskDetailsSelect({ register, options, title }) {
+export default function DetailsSelect({ register, options, title }) {
   const id = uuidv4();
   const optionsJSX = options.map((ele: string) => (
     <option key={ele} value={ele}>
@@ -42,11 +32,11 @@ export default function TaskDetailsSelect({ register, options, title }) {
   ));
 
   return (
-    <TaskDetailsSelectStyled>
-      <Label htmlFor={id}>{title}</Label>
+    <DetailsSelectStyled>
+      <DetailsLabelStyled htmlFor={id}>{title}</DetailsLabelStyled>
       <Select id={id} {...register}>
         {optionsJSX}
       </Select>
-    </TaskDetailsSelectStyled>
+    </DetailsSelectStyled>
   );
 }

@@ -14,19 +14,13 @@ const MenuMobileStyled = styled.li`
   justify-content: space-around;
   width: 100%;
   padding: 15px;
-  background-color: #fefefe;
+  background-color: var(--secondary-color);
 `;
 MenuMobileStyled.displayName = "MenuMobileStyled";
 
 const MenuBtn = styled(ButtonStyled)`
   width: 50px;
-  color: #1b1b1b;
   border-radius: 10px;
-
-  &:hover {
-    color: #fefefe;
-    background-color: #1b1b1b;
-  }
 `;
 MenuBtn.displayName = "MenuBtn";
 
