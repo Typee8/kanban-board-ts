@@ -38,18 +38,38 @@ const Container = styled.ul`
 Container.displayName = "Container";
 
 const Title = styled.h2`
+  --font-size: 20px;
+
   font-weight: 600;
   margin-right: 20px;
   color: var(--contrast-primary-color);
+  font-size: var(--font-size);
+
+  @media (min-width: ${`${tablet}px`}) {
+    font-size: calc(var(--font-size) * var(--font-tablet-scale));
+  }
 `;
 Title.displayName = "Title";
 
 const TaskLimit = styled.span`
+  --height: 20px;
+
   display: flex;
   gap: 5px;
-  height: 20px;
+  height: var(--height);
+
+  @media (min-width: ${`${tablet}px`}) {
+    font-size: calc(var(--font-size) * var(--font-tablet-scale));
+    height: calc(var(--height) * var(--font-tablet-scale));
+  }
 `;
 TaskLimit.displayName = "TaskLimit";
+
+const TaskLimitContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+TaskLimitContainer.displayName = "TaskLimitContainer";
 
 const Drag = styled(ButtonStyled)`
   position: absolute;
@@ -86,8 +106,10 @@ export default function StageOverview({
         {tasksList.length > 0 ? (
           <TaskLimit>
             {taskAltIcon}
-            {tasksList.length}
-            {tasksLimit ? `/ ${tasksLimit}` : ""}
+            <TaskLimitContainer>
+              {tasksList.length}
+              {tasksLimit ? `/ ${tasksLimit}` : ""}
+            </TaskLimitContainer>
           </TaskLimit>
         ) : null}
       </Container>

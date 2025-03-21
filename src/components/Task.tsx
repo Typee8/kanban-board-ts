@@ -3,6 +3,7 @@ import TaskDetails from "./TaskDetails";
 import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { calendarEventIcon, personIcon, taskIcon } from "../assets/svg_icons";
+import { tablet } from "../devicesWidthStandard";
 
 export const TaskStyled = styled.li`
   padding: 10px 20px;
@@ -25,12 +26,6 @@ const Container = styled.ul`
   border-radius: 10px;
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
-  > li {
-    margin-right: 20px;
-    height: 20px;
-    display: flex;
-    gap: 5px;
-  }
 `;
 Container.displayName = "Container";
 
@@ -38,8 +33,28 @@ const Title = styled.li`
   width: 100%;
   font-weight: 600;
   margin-bottom: 10px;
+
+  @media (min-width: ${`${tablet}px`}) {
+    font-size: calc(var(--font-default-size) * var(--font-tablet-scale));
+  }
 `;
 Title.displayName = "Title";
+
+const TaskData = styled.li`
+  --height: 20px;
+  --font-size: 14px;
+  margin-right: 20px;
+  height: var(--height);
+  font-size: var(--font-size);
+  display: flex;
+  gap: 5px;
+
+  @media (min-width: ${`${tablet}px`}) {
+    font-size: calc(var(--font-size) * var(--font-tablet-scale));
+    height: calc(var(--height) * var(--font-tablet-scale));
+  }
+`;
+TaskData.displayName = "TaskData";
 
 export default function Task({
   stageId,
@@ -70,21 +85,21 @@ export default function Task({
       <Container ref={drag} onClick={() => setTaskDetailsShown(true)}>
         <Title>{title}</Title>
         {deadline ? (
-          <li>
+          <TaskData>
             {calendarEventIcon} {deadline}
-          </li>
+          </TaskData>
         ) : null}
         {assigneesList ? (
-          <li>
+          <TaskData>
             {personIcon}
             {assigneesList.length}
             {assigneesLimit ? `/ ${assigneesLimit}` : ""}
-          </li>
+          </TaskData>
         ) : null}
         {status ? (
-          <li>
+          <TaskData>
             {taskIcon} {status}
-          </li>
+          </TaskData>
         ) : null}
       </Container>
       {taskDetailsShown ? (

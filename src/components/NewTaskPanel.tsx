@@ -27,7 +27,7 @@ const Btn = styled(ButtonStyled)`
 Btn.displayName = "Btn";
 
 const IconContainer = styled.div`
-  width: 30px;
+  width: 40px;
 `;
 IconContainer.displayName = "IconContainer";
 
