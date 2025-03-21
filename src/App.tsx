@@ -5,28 +5,17 @@ import "./css/global.css";
 import "./css/fonts.css";
 import { HashRouter as Router, Routes, Route } from "react-router";
 import { fetchData, setData, removeEverything } from "./server/FirebaseAPI";
-import { useState } from "react";
-import ThemeContext from "./ThemeContext";
 
 deleteDeprecatedData();
 
 function App() {
-  const [theme, setTheme] = useState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-  );
-  console.log(theme);
-
-  document.documentElement.setAttribute("data-theme", "dark");
-
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<SetupPanel />} />
-          <Route path="/board-panel" element={<BoardPanel />} />
-        </Routes>
-      </Router>
-    </ThemeContext.Provider>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SetupPanel />} />
+        <Route path="/board-panel" element={<BoardPanel />} />
+      </Routes>
+    </Router>
   );
 }
 

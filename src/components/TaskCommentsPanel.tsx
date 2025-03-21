@@ -69,7 +69,7 @@ const CommentTextArea = styled(TextArea)`
   border-radius: 10px;
   transition: all 0.3s ease;
   overflow: scroll;
-
+  color: var(--contrast-primary-color);
   background-color: var(--secondary-color);
 `;
 CommentTextArea.displayName = "CommentTextArea";
