@@ -7,7 +7,7 @@ import moment from "moment";
 import { calendarEventIcon } from "../assets/svg_icons";
 import ToolbarBtn from "./styled/ToolbarBtn";
 import { crossIcon } from "../assets/svg_icons";
-import { tablet } from "../devicesWidthStandard";
+import { tablet } from "../devicesWidthStandard.tsx";
 import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 const TaskDeadlineStyled = styled.div`

@@ -6,12 +6,15 @@ import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
 import { useDrop, useDrag } from "react-dnd";
 import StageOverview from "./StageOverview";
+import NewTaskPanel from "./NewTaskPanel";
+import { tablet } from "../devicesWidthStandard";
 
 const StageStyled = styled.li`
   display: flex;
   flex-direction: column;
   border-radius: 20px;
   padding: 10px;
+  min-width: 250px;
   background-color: var(--secondary-color);
   opacity: ${(props) => {
     if (props.$isDragging) return 0;
@@ -21,7 +24,13 @@ const StageStyled = styled.li`
 `;
 StageStyled.displayName = "StageStyled";
 
-const TasksList = styled.ul``;
+const TasksList = styled.ul`
+  display: ${(props) => (props.$isShown ? "initial" : "none")};
+
+  @media (min-width: ${`${tablet}px`}) {
+    display: initial;
+  }
+`;
 TasksList.displayName = "TasksList";
 
 export default function Stage({ stageData, className, isPreviewed = false }) {
@@ -111,11 +120,10 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         drag={drag}
       />
 
-      {stageTasksShown ? (
-        <TasksList className="stage__tasks">
-          {tasks.length > 0 ? tasks : null}
-        </TasksList>
-      ) : null}
+      <TasksList $isShown={stageTasksShown} className="stage__tasks">
+        {tasks.length > 0 ? tasks : null}
+        {stageData.id === "firstStage" ? <NewTaskPanel /> : null}
+      </TasksList>
     </StageStyled>
   );
 }

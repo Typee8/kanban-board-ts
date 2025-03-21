@@ -5,7 +5,7 @@ import { moveStage } from "../store/slices/boardStateSlice";
 import { useEffect, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
-import { tablet } from "../devicesWidthStandard";
+import { tablet } from "../devicesWidthStandard.tsx";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -14,10 +14,12 @@ const BoardStyled = styled.ul`
   padding-bottom: 120px;
   gap: 30px;
   height: 100%;
-  background-color: var(--primary-color);
+  background-color: var(--white-first-color);
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: row;
+    gap: 10px;
+    padding: 40px;
   }
 `;
 

@@ -5,6 +5,7 @@ import StageDetails from "./StageDetails";
 import { logOffIcon, stageAddIcon, taskAddIcon } from "../assets/svg_icons";
 import { useNavigate } from "react-router";
 import ButtonStyled from "./styled/ButtonStyled";
+import { tablet } from "../devicesWidthStandard.tsx";
 
 const MenuMobileStyled = styled.li`
   display: flex;
@@ -15,6 +16,10 @@ const MenuMobileStyled = styled.li`
   width: 100%;
   padding: 15px;
   background-color: var(--secondary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    display: none;
+  }
 `;
 MenuMobileStyled.displayName = "MenuMobileStyled";
 

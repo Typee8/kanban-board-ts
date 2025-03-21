@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { calendarEventIcon, personIcon, taskIcon } from "../assets/svg_icons";
 
-const TaskStyled = styled.li`
+export const TaskStyled = styled.li`
   padding: 10px 20px;
   opacity: ${(props) => {
     if (props.$isDragging) return 0;

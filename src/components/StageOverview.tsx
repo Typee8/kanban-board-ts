@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ButtonStyled from "./styled/ButtonStyled";
 import ArrowDropDown from "./icons/ArrowDropDown";
 import { taskAltIcon, dragIndicatorIcon } from "../assets/svg_icons";
+import { tablet } from "../devicesWidthStandard";
 
 const StageOverviewStyled = styled.div`
   user-select: none;
@@ -19,6 +20,10 @@ const DropDownBtnStyled = styled(ButtonStyled)`
   &:hover {
     color: unset;
     background: none;
+  }
+
+  @media (min-width: ${`${tablet}px`}) {
+    display: none;
   }
 `;
 DropDownBtnStyled.displayName = "DropDownBtnStyled";

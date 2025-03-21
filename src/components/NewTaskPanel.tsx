@@ -1,0 +1,38 @@
+import styled from "styled-components";
+import ButtonStyled from "./styled/ButtonStyled";
+import { TaskStyled } from "./Task";
+import { taskAddIcon } from "../assets/svg_icons";
+import TaskDetails from "./TaskDetails";
+import { useState } from "react";
+
+const Btn = styled(ButtonStyled)`
+  display: flex;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  color: var(--contrast-primary-color);
+  background-color: var(--primary-color);
+  font-size: 24px;
+`;
+Btn.displayName = "Btn";
+
+const IconContainer = styled.div`
+  width: 30px;
+`;
+IconContainer.displayName = "IconContainer";
+
+export default function NewTaskPanel() {
+  const [taskDetailsShown, setTaskDetailsShown] = useState(false);
+
+  return (
+    <TaskStyled>
+      <Btn onClick={() => setTaskDetailsShown(true)}>
+        <IconContainer>{taskAddIcon}</IconContainer>
+      </Btn>
+      {taskDetailsShown ? (
+        <TaskDetails setTaskDetailsShown={setTaskDetailsShown} />
+      ) : null}
+    </TaskStyled>
+  );
+}
