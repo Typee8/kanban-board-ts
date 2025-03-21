@@ -23,6 +23,7 @@ import TaskDescription from "./TaskDescription";
 import DetailsSelect from "./inputs/DetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
 import VerticalBreak from "./styled/VerticalBreak";
+import { tablet } from "../devicesWidthStandard";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -34,31 +35,39 @@ const CloseBtnStyled = styled(ButtonStyled)`
   position: absolute;
   align-self: flex-end;
 `;
-
 CloseBtnStyled.displayName = "CloseBtnStyled";
 
 const Wrapper = styled.div`
   z-index: 999;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100vh;
   background: var(--transparent-primary-color);
-`;
 
+  @media (min-width: ${`${tablet}px`}) {
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
 Wrapper.displayName = "Wrapper";
 
 const TaskDetailsStyled = styled(Form)`
   display: flex;
   flex-direction: column;
-  width: 100;
+  width: 100%;
   height: 100%;
   padding: 20px;
   padding-top: 80px;
   border-radius: 40px 0px 0px 0px;
   background-color: var(--primary-color);
   overflow-y: scroll;
+
+  @media (min-width: ${`${tablet}px`}) {
+    max-width: 600px;
+    border: 5px solid var(--tertiary-color);
+  }
 `;
 
 const Title = styled(InputStyled)`

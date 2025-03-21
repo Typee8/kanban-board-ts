@@ -26,6 +26,10 @@ const Container = styled.ul`
   border-radius: 10px;
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    flex-direction: column;
+  }
 `;
 Container.displayName = "Container";
 

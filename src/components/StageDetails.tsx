@@ -17,17 +17,23 @@ import isEqual from "lodash/isEqual";
 import React from "react";
 import VerticalBreak from "./styled/VerticalBreak";
 import StageDetailsToolbar from "./StageDetailsToolbar";
+import { tablet } from "../devicesWidthStandard";
 
 const Wrapper = styled.div`
   z-index: 999;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   display: flex;
   align-items: flex-end;
   width: 100%;
   height: ${(props) => (props.$vh ? `${props.$vh * 100}px` : "100vh")};
   background: var(--transparent-primary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    display: flex;
+    justify-content: flex-end;
+  }
 `;
 Wrapper.displayName = "Wrapper";
 
@@ -41,6 +47,12 @@ const StageDetailsStyled = styled(Form)`
   padding-top: 80px;
   border-radius: 40px 0px 0px 0px;
   background-color: var(--primary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    max-width: 600px;
+    height: 100%;
+    border: 5px solid var(--tertiary-color);
+  }
 `;
 StageDetailsStyled.displayName = "StageDetailsStyled";
 

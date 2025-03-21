@@ -1,6 +1,7 @@
 import { crossIcon, leaveToAppIcon, saveIcon } from "../assets/svg_icons";
 import ButtonStyled from "./styled/ButtonStyled";
 import styled from "styled-components";
+import { tablet } from "../devicesWidthStandard";
 
 const SaveChangesPanelStyled = styled.div`
   z-index: 999;
@@ -15,6 +16,10 @@ const SaveChangesPanelStyled = styled.div`
   padding: 10px 40px 20px 40px;
   border-radius: 50px 0 0 0px;
   background-color: var(--primary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    max-width: 600px;
+  }
 `;
 SaveChangesPanelStyled.displayName = "SaveChangesPanelStyled";
 

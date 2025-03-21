@@ -7,10 +7,15 @@ import { commentIcon, sendIcon } from "../assets/svg_icons";
 import { useState, useRef, useEffect } from "react";
 import TaskComment from "./TaskComment";
 import DetailsLabelStyled from "./styled/DetailsLabelStyled";
+import { tablet } from "../devicesWidthStandard";
 
 const TaskCommentsPanelStyled = styled.div`
   display: flex;
   width: 100%;
+
+  @media (min-width: ${`${tablet}px`}) {
+    display: none;
+  }
 `;
 TaskCommentsPanelStyled.displayName = "TaskCommentsPanelStyled";
 

@@ -34,6 +34,7 @@ const Container = styled.ul`
   align-items: center;
   width: 100%;
   padding: 20px;
+  margin-right: 40px;
 `;
 Container.displayName = "Container";
 
@@ -44,6 +45,7 @@ const Title = styled.h2`
   margin-right: 20px;
   color: var(--contrast-primary-color);
   font-size: var(--font-size);
+  overflow: hidden;
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
