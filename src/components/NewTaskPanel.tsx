@@ -4,6 +4,15 @@ import { TaskStyled } from "./Task";
 import { taskAddIcon } from "../assets/svg_icons";
 import TaskDetails from "./TaskDetails";
 import { useState } from "react";
+import { tablet } from "../devicesWidthStandard";
+
+const NewTaskPanelStyled = styled(TaskStyled)`
+  display: none;
+
+  @media (min-width: ${`${tablet}px`}) {
+    display: flex;
+  }
+`;
 
 const Btn = styled(ButtonStyled)`
   display: flex;
@@ -26,13 +35,13 @@ export default function NewTaskPanel() {
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
 
   return (
-    <TaskStyled>
+    <NewTaskPanelStyled>
       <Btn onClick={() => setTaskDetailsShown(true)}>
         <IconContainer>{taskAddIcon}</IconContainer>
       </Btn>
       {taskDetailsShown ? (
         <TaskDetails setTaskDetailsShown={setTaskDetailsShown} />
       ) : null}
-    </TaskStyled>
+    </NewTaskPanelStyled>
   );
 }

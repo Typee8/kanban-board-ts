@@ -9,7 +9,7 @@ import StageOverview from "./StageOverview";
 import NewTaskPanel from "./NewTaskPanel";
 import { tablet } from "../devicesWidthStandard";
 
-const StageStyled = styled.li`
+export const StageStyled = styled.li`
   display: flex;
   flex-direction: column;
   border-radius: 20px;

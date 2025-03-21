@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ButtonStyled from "./styled/ButtonStyled";
-import ArrowDropDown from "./icons/ArrowDropDown";
+import ArrowDropDown from "./ArrowDropDown";
 import { taskAltIcon, dragIndicatorIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
 

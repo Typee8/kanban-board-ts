@@ -6,6 +6,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { tablet } from "../devicesWidthStandard.tsx";
+import NewStagePanel from "./NewStagePanel.tsx";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -112,6 +113,7 @@ export default function Board({ boardData }) {
       ref={combineRefs}
     >
       {stages}
+      <NewStagePanel />
       <MenuMobile />
     </BoardStyled>
   );
