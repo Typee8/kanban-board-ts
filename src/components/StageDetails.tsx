@@ -80,7 +80,7 @@ const SubmitStyled = styled.input`
 `;
 SubmitStyled.displayName = "SubmitStyled";
 
-function StageDetails({ stageData, setStageDetailsShown }) {
+function StageDetails({ stageData, hideStageDetails }) {
   console.log("StageDetails renders");
   const [vh, setVh] = useState(window.innerHeight * 0.01);
 
@@ -128,7 +128,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
       dispatch(updateStage({ newStage, stageId: stageData.id }));
     }
 
-    setStageDetailsShown(false);
+    hideStageDetails();
   };
 
   return (
@@ -137,7 +137,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
         {saveChangesPanelShown ? (
           <SaveChangesPanel
             setIsShown={setSaveChangesPanelShown}
-            closeEditingPanel={() => setStageDetailsShown(false)}
+            closeEditingPanel={hideStageDetails}
             discardChanges={() => reset()}
           />
         ) : null}
@@ -149,7 +149,7 @@ function StageDetails({ stageData, setStageDetailsShown }) {
           }}
           isFromDirty={isDirty}
           showSaveChangesPanel={() => setSaveChangesPanelShown(true)}
-          hideStageDetails={() => setStageDetailsShown(false)}
+          hideStageDetails={hideStageDetails}
         />
 
         <TaskTitle register={register("title")} placeholder="Stage title" />

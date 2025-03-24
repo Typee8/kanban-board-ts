@@ -23,12 +23,12 @@ import TaskDescription from "./TaskDescription";
 import DetailsSelect from "./inputs/DetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
 import VerticalBreak from "./styled/VerticalBreak";
-import { tablet, desktop } from "../devicesWidthStandard";
+import { tablet } from "../devicesWidthStandard";
 
 type TaskDetailsProps = {
   stageId?: string;
   taskData?: any;
-  setTaskDetailsShown: Dispatch<SetStateAction<boolean>>;
+  hideTaskDetails: Dispatch<SetStateAction<undefined>>;
 };
 
 const CloseBtnStyled = styled(ButtonStyled)`
@@ -90,7 +90,7 @@ SubmitStyled.displayName = "SubmitStyled";
 function TaskDetails({
   stageId = "firstStage",
   taskData,
-  setTaskDetailsShown,
+  hideTaskDetails,
 }: TaskDetailsProps) {
   const [taskDetailsLeavePanelShown, setTaskDetailsLeavePanelShown] =
     useState(false);
@@ -141,7 +141,6 @@ function TaskDetails({
     if (newTask) {
       inputData.id = uuidv4();
       dispatch(addNewTask(inputData));
-      setTaskDetailsShown(false);
     } else {
       if (!isDirty) return;
       const newTask = { ...taskData, ...inputData };
@@ -149,6 +148,7 @@ function TaskDetails({
       reset(newTask);
       setTaskDetailsLeavePanelShown(false);
     }
+    hideTaskDetails();
   };
 
   return (
@@ -157,7 +157,7 @@ function TaskDetails({
         {taskDetailsLeavePanelShown ? (
           <SaveChangesPanel
             setIsShown={setTaskDetailsLeavePanelShown}
-            closeEditingPanel={() => setTaskDetailsShown(false)}
+            closeEditingPanel={hideTaskDetails}
             discardChanges={() => reset(formDefaultValues)}
           />
         ) : null}
@@ -169,7 +169,7 @@ function TaskDetails({
             dispatch(removeTask({ taskId: taskData.id, stageId }))
           }
           showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
-          hideTaskDetails={() => setTaskDetailsShown(false)}
+          hideTaskDetails={hideTaskDetails}
           taskStatusRegister={register("status")}
         />
         <Title register={register("title")} placeholder="Task title" />

@@ -110,7 +110,7 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
       {stageDetailsShown ? (
         <StageDetails
           stageData={stageData}
-          setStageDetailsShown={() => setStageDetailsShown(false)}
+          hideStageDetails={() => setStageDetailsShown(false)}
         />
       ) : null}
 

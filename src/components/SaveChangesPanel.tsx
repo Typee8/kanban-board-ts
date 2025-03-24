@@ -63,9 +63,7 @@ export default function SaveChangesPanel({
       <CloseBtn onClick={() => setIsShown(false)}>{crossIcon}</CloseBtn>
       <Title>Uncommited changes.</Title>
       <SaveChangesPanelContainerStyled>
-        <ChangesBtnStyled type="submit" onClick={() => setIsShown(false)}>
-          {saveIcon}
-        </ChangesBtnStyled>
+        <ChangesBtnStyled type="submit">{saveIcon}</ChangesBtnStyled>
         <ChangesBtnStyled
           onClick={() => {
             setIsShown(false);

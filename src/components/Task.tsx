@@ -110,7 +110,7 @@ export default function Task({
         <TaskDetails
           stageId={stageId}
           taskData={taskData}
-          setTaskDetailsShown={() => setTaskDetailsShown(false)}
+          hideTaskDetails={() => setTaskDetailsShown(false)}
         />
       ) : null}
     </TaskStyled>
