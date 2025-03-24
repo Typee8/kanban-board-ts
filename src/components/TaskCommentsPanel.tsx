@@ -13,6 +13,7 @@ const TaskCommentsPanelStyled = styled.div`
   display: flex;
   width: 100%;
 
+  color: var(--contrast-primary-color);
   @media (min-width: ${`${tablet}px`}) {
     display: none;
   }

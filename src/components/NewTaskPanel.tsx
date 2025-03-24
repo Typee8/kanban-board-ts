@@ -9,6 +9,10 @@ import { tablet } from "../devicesWidthStandard";
 const NewTaskPanelStyled = styled(TaskStyled)`
   display: none;
 
+  &:not(:first-child) {
+    border-top: 2px solid var(--primary-color);
+  }
+
   @media (min-width: ${`${tablet}px`}) {
     display: flex;
   }

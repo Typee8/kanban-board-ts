@@ -12,6 +12,8 @@ type TaskAssigneePanelProps = {
 const TaskAssigneePanelStyled = styled.div`
   padding-left: 20px;
   width: 100%;
+
+  color: var(--contrast-primary-color);
 `;
 TaskAssigneePanelStyled.displayName = "TaskAssigneePanelStyled";
 

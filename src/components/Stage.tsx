@@ -21,6 +21,10 @@ export const StageStyled = styled.li`
     if (props.$isPreviewed) return 0.4;
     return 1;
   }};
+
+  @media (min-width: ${`${tablet}px`}) {
+    max-width: 33vw;
+  }
 `;
 StageStyled.displayName = "StageStyled";
 

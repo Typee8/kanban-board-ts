@@ -21,6 +21,10 @@ const TaskLink = styled.div`
   border-radius: 10px;
   transition: all 0.3s ease;
 
+  * {
+    color: var(--contrast-primary-color);
+  }
+
   &:hover {
     background-color: var(--secondary-color);
   }

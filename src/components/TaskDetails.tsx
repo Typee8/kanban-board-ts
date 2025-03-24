@@ -58,8 +58,8 @@ const TaskDetailsStyled = styled(Form)`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 20px;
-  padding-top: 80px;
+  padding-inline: 20px;
+  padding-block: 80px;
   border-radius: 40px 0px 0px 0px;
   background-color: var(--primary-color);
   overflow-y: scroll;

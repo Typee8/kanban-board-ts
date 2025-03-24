@@ -49,6 +49,8 @@ const CalendarStyled = styled(DayPicker)`
   background-color: white;
   padding: 20px;
   border-radius: 20px;
+  color: var(--contrast-primary-color);
+  background-color: var(--secondary-color);
 
   --rdp-accent-color: var(--highlight-primary-color);
 `;

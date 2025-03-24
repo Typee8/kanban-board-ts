@@ -13,8 +13,8 @@ export const TaskStyled = styled.li`
     return 1;
   }};
 
-  &:not(:last-child) {
-    border-bottom: 2px solid var(--primary-color);
+  &:not(:first-child) {
+    border-top: 2px solid var(--primary-color);
   }
 `;
 TaskStyled.displayName = "TaskStyled";

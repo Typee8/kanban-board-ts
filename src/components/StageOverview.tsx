@@ -11,11 +11,15 @@ const StageOverviewStyled = styled.div`
   flex-direction: row;
   align-items: center;
   color: var(--contrast-primary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    padding-left: 20px;
+  }
 `;
 StageOverviewStyled.displayName = "StageOverviewStyled";
 
 const DropDownBtnStyled = styled(ButtonStyled)`
-  width: 60px;
+  min-width: 50px;
 
   &:hover {
     color: unset;
@@ -28,21 +32,9 @@ const DropDownBtnStyled = styled(ButtonStyled)`
 `;
 DropDownBtnStyled.displayName = "DropDownBtnStyled";
 
-const Container = styled.ul`
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 20px;
-  margin-right: 40px;
-`;
-Container.displayName = "Container";
-
 const Title = styled.h2`
   --font-size: 20px;
-
   font-weight: 600;
-  margin-right: 20px;
   color: var(--contrast-primary-color);
   font-size: var(--font-size);
   overflow: hidden;
@@ -58,7 +50,9 @@ const TaskLimit = styled.span`
 
   display: flex;
   gap: 5px;
+  min-width: 60px;
   height: var(--height);
+  margin-left: 20px;
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
@@ -68,15 +62,15 @@ const TaskLimit = styled.span`
 TaskLimit.displayName = "TaskLimit";
 
 const TaskLimitContainer = styled.div`
-  display: flex;
-  align-items: center;
+  /*   display: flex;
+  align-items: center; */
 `;
 TaskLimitContainer.displayName = "TaskLimitContainer";
 
 const Drag = styled(ButtonStyled)`
-  position: absolute;
-  right: 0;
-  width: 50px;
+  margin-left: auto;
+  min-width: 50px;
+  justify-self: flex-end;
 
   &:hover {
     color: unset;
@@ -95,26 +89,28 @@ export default function StageOverview({
   drag,
 }) {
   return (
-    <StageOverviewStyled>
+    <StageOverviewStyled onClick={showStageDetails}>
       <DropDownBtnStyled
-        onClick={() =>
-          stageTasksShown ? setStageTasksShown(false) : setStageTasksShown(true)
-        }
+        onClick={(evt) => {
+          evt.stopPropagation();
+
+          return stageTasksShown
+            ? setStageTasksShown(false)
+            : setStageTasksShown(true);
+        }}
       >
         <ArrowDropDown isFolded={stageTasksShown} />
       </DropDownBtnStyled>
-      <Container onClick={showStageDetails}>
-        <Title className="stage__title">{title}</Title>
-        {tasksList.length > 0 ? (
-          <TaskLimit>
-            {taskAltIcon}
-            <TaskLimitContainer>
-              {tasksList.length}
-              {tasksLimit ? `/ ${tasksLimit}` : ""}
-            </TaskLimitContainer>
-          </TaskLimit>
-        ) : null}
-      </Container>
+      <Title className="stage__title">{title}</Title>
+      {tasksList.length > 0 ? (
+        <TaskLimit>
+          {taskAltIcon}
+          <TaskLimitContainer>
+            {tasksList.length}
+            {tasksLimit ? `/ ${tasksLimit}` : ""}
+          </TaskLimitContainer>
+        </TaskLimit>
+      ) : null}
       <Drag ref={drag}>{dragIndicatorIcon}</Drag>
     </StageOverviewStyled>
   );

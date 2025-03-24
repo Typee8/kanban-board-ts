@@ -14,7 +14,7 @@ options.backends[1]["options"]["delay"] = 400;
 options.backends[1]["options"]["ignoreContextMenu"] = true;
 
 const BoardPanelStyled = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
 `;
 BoardPanelStyled.displayName = "BoardPanelStyled";
