@@ -17,7 +17,7 @@ import isEqual from "lodash/isEqual";
 import React from "react";
 import VerticalBreak from "./styled/VerticalBreak";
 import StageDetailsToolbar from "./StageDetailsToolbar";
-import { tablet } from "../devicesWidthStandard";
+import { tablet, desktop } from "../devicesWidthStandard";
 
 const Wrapper = styled.div`
   z-index: 999;
@@ -49,7 +49,7 @@ const StageDetailsStyled = styled(Form)`
   background-color: var(--primary-color);
 
   @media (min-width: ${`${tablet}px`}) {
-    max-width: 600px;
+    max-width: calc(600px + 5vw);
     height: 100%;
     border: 5px solid var(--tertiary-color);
   }

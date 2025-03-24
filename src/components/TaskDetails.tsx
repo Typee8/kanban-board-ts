@@ -23,7 +23,7 @@ import TaskDescription from "./TaskDescription";
 import DetailsSelect from "./inputs/DetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
 import VerticalBreak from "./styled/VerticalBreak";
-import { tablet } from "../devicesWidthStandard";
+import { tablet, desktop } from "../devicesWidthStandard";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -65,7 +65,7 @@ const TaskDetailsStyled = styled(Form)`
   overflow-y: scroll;
 
   @media (min-width: ${`${tablet}px`}) {
-    max-width: 600px;
+    max-width: calc(600px + 5vw);
     border: 5px solid var(--tertiary-color);
   }
 `;

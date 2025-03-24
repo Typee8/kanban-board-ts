@@ -22,7 +22,7 @@ const CalendarWrapper = styled.div`
   z-index: 999;
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   display: ${(props) =>
     props.$isShown || props.$isShown === undefined ? "flex" : "none"};
   justify-content: center;
@@ -36,11 +36,20 @@ const CalendarContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   width: 100vw;
   min-height: 60vh;
   padding: 80px 20px 40px 20px;
   border-radius: 40px 0px 0px 0px;
   background-color: var(--primary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    max-width: calc(600px + 5vw);
+    height: 100%;
+  }
 `;
 CalendarContainer.displayName = "CalendarContainer";
 
