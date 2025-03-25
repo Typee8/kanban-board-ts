@@ -104,6 +104,10 @@ ul {
   list-style: none;
 } /* we'll restore bullets as needed for content */
 
+li {
+  list-style: none;
+}
+
 blockquote,
 q {
   quotes: none;

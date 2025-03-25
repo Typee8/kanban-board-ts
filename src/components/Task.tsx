@@ -4,18 +4,13 @@ import { useState } from "react";
 import { useDrag } from "react-dnd";
 import { calendarEventIcon, personIcon, taskIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
+import { useDraggable, useDndMonitor } from "@dnd-kit/core";
 
 export const TaskStyled = styled.li`
-  padding: 10px 20px;
-  opacity: ${(props) => {
-    if (props.$isDragging) return 0;
-    if (props.$isPreviewed) return 0.4;
-    return 1;
-  }};
-
   &:not(:first-child) {
     border-top: 2px solid var(--primary-color);
   }
+  padding: 10px;
 `;
 TaskStyled.displayName = "TaskStyled";
 
@@ -24,6 +19,11 @@ const Container = styled.ul`
   flex-wrap: wrap;
   padding: 10px 20px;
   border-radius: 10px;
+  border: ${(props) =>
+    props.$isPreviewed
+      ? "3px solid var(--contrast-primary-color)"
+      : "3px solid transparent"};
+  opacity: ${(props) => (props.$isDragging ? 0 : 1)};
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
 
@@ -67,7 +67,7 @@ export default function Task({
   isPreviewed = false,
 }) {
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
-  const [{ isDragging }, drag] = useDrag(() => ({
+  /*   const [{ isDragging }, drag] = useDrag(() => ({
     type: "task",
     item: {
       stageId,
@@ -78,15 +78,42 @@ export default function Task({
       isDragging: !!monitor.isDragging(),
     }),
   }));
+ */
+
+  const [isDragging, setIsDragging] = useState(false);
+
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: taskData.id,
+    data: {
+      stageId,
+      taskData,
+    },
+  });
+
+  useDndMonitor({
+    onDragStart: (event) => {
+      if (event.active.id === taskData.id) setIsDragging(true);
+    },
+    onDragEnd: (event) => {
+      if (event.active.id === taskData.id) setIsDragging(false);
+    },
+    onDragCancel: (event) => {
+      if (event.active.id === taskData.id) setIsDragging(false);
+    },
+  });
+
   const { title, deadline, assigneesList, assigneesLimit, status } = taskData;
 
   return (
-    <TaskStyled
-      className={className}
-      $isDragging={isDragging}
-      $isPreviewed={isPreviewed}
-    >
-      <Container ref={drag} onClick={() => setTaskDetailsShown(true)}>
+    <TaskStyled>
+      <Container
+        ref={setNodeRef}
+        $isDragging={isDragging}
+        $isPreviewed={isPreviewed}
+        {...attributes}
+        {...listeners}
+        onClick={() => setTaskDetailsShown(true)}
+      >
         <Title>{title}</Title>
         {deadline ? (
           <TaskData>

@@ -33,7 +33,6 @@ export default function Board({ boardData = [] }) {
   const dispatch = useDispatch();
   const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
   const [stageDataState, setStageDataState] = useState();
 
   const { setNodeRef } = useDroppable({
@@ -51,7 +50,6 @@ export default function Board({ boardData = [] }) {
 
   function onDrop(evt) {
     const { stageId } = evt.active.data.current;
-    console.log(evt.clientX);
 
     const closestStageIndex = getClosestStageIndex(
       mousePosition,
