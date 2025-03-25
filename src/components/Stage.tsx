@@ -19,7 +19,9 @@ export const StageStyled = styled.li`
   background-color: var(--secondary-color);
   height: ${(props) => (props.$isPreviewed ? "100%" : "initial")};
   border: ${(props) =>
-    props.$isPreviewed ? "6px solid var(--contrast-primary-color)" : "none"};
+    props.$isPreviewed
+      ? "6px solid var(--contrast-primary-color)"
+      : "6px solid transparent"};
   opacity: ${(props) => {
     if (props.$isDragging) return 0;
     return 1;
@@ -48,14 +50,15 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
   const stageRef = useRef();
   const dispatch = useDispatch();
 
-  const { attributes, listeners, setNodeRef } = useDraggable({
-    id: stageData.id,
-    data: {
-      stageId: stageData.id,
-      stageData,
-      stageRef,
-    },
-  });
+  const { attributes, listeners, setNodeRef, setActivatorNodeRef } =
+    useDraggable({
+      id: stageData.id,
+      data: {
+        stageId: stageData.id,
+        stageData,
+        stageRef,
+      },
+    });
 
   useDndMonitor({
     onDragStart: (event) => {
@@ -132,8 +135,6 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
       className={className}
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
-      {...listeners}
-      {...attributes}
     >
       {stageDetailsShown ? (
         <StageDetails
@@ -149,7 +150,8 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
         tasksList={tasksList}
         tasksLimit={tasksLimit}
         title={title}
-        /*     drag={drag} */
+        dragListeners={listeners}
+        dragAttributes={attributes}
       />
 
       <TasksList $isShown={stageTasksShown} className="stage__tasks">

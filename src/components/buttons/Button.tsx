@@ -8,9 +8,15 @@ type ButtonProps = {
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, type = "button", onClick, children }, ref) => {
+  ({ className, type = "button", onClick, children, ...props }, ref) => {
     return (
-      <button ref={ref} type={type} className={className} onClick={onClick}>
+      <button
+        ref={ref}
+        type={type}
+        className={className}
+        onClick={onClick}
+        {...props}
+      >
         {children}
       </button>
     );

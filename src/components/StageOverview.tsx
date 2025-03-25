@@ -86,7 +86,8 @@ export default function StageOverview({
   tasksList,
   tasksLimit,
   title,
-  drag,
+  dragAttributes,
+  dragListeners,
 }) {
   return (
     <StageOverviewStyled onClick={showStageDetails}>
@@ -111,7 +112,9 @@ export default function StageOverview({
           </TaskLimitContainer>
         </TaskLimit>
       ) : null}
-      <Drag ref={drag}>{dragIndicatorIcon}</Drag>
+      <Drag {...dragAttributes} {...dragListeners}>
+        {dragIndicatorIcon}
+      </Drag>
     </StageOverviewStyled>
   );
 }
