@@ -4,7 +4,7 @@ import StageDetails from "./StageDetails";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { moveTask } from "../store/slices/boardStateSlice";
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop } from "react-dnd";
 import StageOverview from "./StageOverview";
 import NewTaskPanel from "./NewTaskPanel";
 import { tablet } from "../devicesWidthStandard";
@@ -22,10 +22,7 @@ export const StageStyled = styled.li`
     props.$isPreviewed
       ? "6px solid var(--contrast-primary-color)"
       : "6px solid transparent"};
-  opacity: ${(props) => {
-    if (props.$isDragging) return 0;
-    return 1;
-  }};
+  opacity: ${(props) => (props.$isDragging ? 0 : 1)};
 
   @media (min-width: ${`${tablet}px`}) {
     max-width: 33vw;

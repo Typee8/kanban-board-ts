@@ -2,12 +2,12 @@ import styled from "styled-components";
 import Stage from "./Stage";
 import MenuMobile from "./MenuMobile";
 import { moveStage } from "../store/slices/boardStateSlice";
-import { useEffect, useState, useRef } from "react";
-import { useDrop } from "react-dnd";
+import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { tablet } from "../devicesWidthStandard.tsx";
 import NewStagePanel from "./NewStagePanel.tsx";
 import { DndContext, useDroppable, DragOverlay } from "@dnd-kit/core";
+import { createPortal } from "react-dom";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -29,11 +29,10 @@ const BoardStyled = styled.ul`
 
 BoardStyled.displayName = "BoardStyled";
 
-export default function Board({ boardData }) {
+export default function Board({ boardData = [] }) {
   const dispatch = useDispatch();
   const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [stagesPositions, setStagesPositions] = useState([]);
 
   const [stageDataState, setStageDataState] = useState();
 
@@ -41,92 +40,22 @@ export default function Board({ boardData }) {
     id: "Board",
   });
 
-  useEffect(() => {
-    setStagesPositions(getStagesPositions(boardRef));
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("pointermove", (evt) => {
-      setMousePosition({ x: evt.clientX, y: evt.clientY });
-    });
-
-    return () =>
-      window.removeEventListener("dragover", (evt) =>
-        setMousePosition({ x: evt.clientX, y: evt.clientY })
-      );
-  }, []);
-
-  /*   const [{ isOver, draggedItem }, drop] = useDrop(
-    () => ({
-      accept: "stage",
-      drop: (draggedItem) => {
-        const closestStageIndex = getClosestStageIndex(
-          mousePosition,
-          stagesPositions
-        );
-
-        dispatch(
-          moveStage({
-            stageId: draggedItem.stageId,
-            closestStageIndex,
-          })
-        );
-        setStagesPositions(getStagesPositions(boardRef));
-        console.log(`Stage moved!`);
-      },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-        draggedItem: monitor.getItem(),
-      }),
-    }),
-    [mousePosition, stagesPositions]
-  ); */
-
-  if (boardData === null) boardData = [];
-
   const stages = boardData.map((data) => (
     <Stage key={data.id} stageData={data} className="stage" />
   ));
-  /*   if (isOver) {
-    const closestStageIndex = getClosestStageIndex(
-      mousePosition,
-      stagesPositions
-    );
-
-    if (boardData[closestStageIndex].id !== draggedItem.stageId) {
-      console.log(closestStageIndex);
-
-      stages.splice(
-        closestStageIndex,
-        0,
-        <Stage
-          key={`${draggedItem.stageId}--dragged`}
-          stageData={draggedItem.stageData}
-          className="stage--dragged"
-          isPreviewed={true}
-        />
-      );
-    }
-  }
-
-  const combineRefs = (node) => {
-    boardRef.current = node;
-    drop(node);
-  }; */
 
   function onDragOver(evt) {
-    console.log("over");
     const { stageData } = evt.active.data.current;
-
     setStageDataState(stageData);
   }
 
   function onDrop(evt) {
     const { stageId } = evt.active.data.current;
+    console.log(evt.clientX);
 
     const closestStageIndex = getClosestStageIndex(
       mousePosition,
-      stagesPositions
+      getStagesPositions(boardRef)
     );
 
     dispatch(
@@ -135,8 +64,6 @@ export default function Board({ boardData }) {
         closestStageIndex,
       })
     );
-    setStagesPositions(getStagesPositions(boardRef));
-
     console.log(`Stage moved!`);
   }
 
@@ -149,20 +76,25 @@ export default function Board({ boardData }) {
     <DndContext onDragMove={onDragOver} onDragEnd={onDrop}>
       <BoardStyled
         /*    onDragOver={scrollPage(mousePosition.y)} */
+        onMouseMove={(evt) =>
+          setMousePosition({ x: evt.clientX, y: evt.clientY })
+        }
         className="Board"
         ref={combineRefs}
       >
         {stages}
-        <DragOverlay>
-          {stageDataState ? (
-            <Stage
-              key={stageDataState.id}
-              stageData={stageDataState}
-              className="stage"
-              isPreviewed={true}
-            />
-          ) : null}
-        </DragOverlay>
+        {createPortal(
+          <DragOverlay>
+            {stageDataState ? (
+              <Stage
+                key={stageDataState.id}
+                stageData={stageDataState}
+                isPreviewed={true}
+              />
+            ) : null}
+          </DragOverlay>,
+          document.body
+        )}
         <NewStagePanel />
         <MenuMobile />
       </BoardStyled>
@@ -193,9 +125,7 @@ function getClosestStageIndex(mousePosition, stagesPositions) {
 }
 
 function getStagesPositions(ref) {
-  const stagesDOMList = Array.from(
-    ref.current.querySelectorAll(".stage:not(.stage--dragged)")
-  );
+  const stagesDOMList = Array.from(ref.current.querySelectorAll(".stage"));
 
   const stagesPositions = stagesDOMList.map((stage) =>
     stage.getBoundingClientRect()
