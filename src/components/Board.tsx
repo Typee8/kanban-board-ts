@@ -7,6 +7,8 @@ import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { tablet } from "../devicesWidthStandard.tsx";
 import NewStagePanel from "./NewStagePanel.tsx";
+import { DndContext } from "@dnd-kit/core";
+import { useDroppable } from "@dnd-kit/core";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -15,11 +17,12 @@ const BoardStyled = styled.ul`
   padding-bottom: 120px;
   gap: 30px;
   height: 100%;
+  width: 100%;
   background-color: var(--primary-color);
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: row;
-    width: fit-content;
+    min-width: fit-content;
     gap: 10px;
     padding: 40px;
   }
@@ -32,6 +35,10 @@ export default function Board({ boardData }) {
   const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stagesPositions, setStagesPositions] = useState([]);
+
+  const { setNodeRef } = useDroppable({
+    id: "Board",
+  });
 
   useEffect(() => {
     setStagesPositions(getStagesPositions(boardRef));
@@ -48,7 +55,7 @@ export default function Board({ boardData }) {
       );
   }, []);
 
-  const [{ isOver, draggedItem }, drop] = useDrop(
+  /*   const [{ isOver, draggedItem }, drop] = useDrop(
     () => ({
       accept: "stage",
       drop: (draggedItem) => {
@@ -72,7 +79,7 @@ export default function Board({ boardData }) {
       }),
     }),
     [mousePosition, stagesPositions]
-  );
+  ); */
 
   if (boardData === null) boardData = [];
 
@@ -80,7 +87,7 @@ export default function Board({ boardData }) {
     <Stage key={data.id} stageData={data} className="stage" />
   ));
 
-  if (isOver) {
+  /*   if (isOver) {
     const closestStageIndex = getClosestStageIndex(
       mousePosition,
       stagesPositions
@@ -105,18 +112,44 @@ export default function Board({ boardData }) {
   const combineRefs = (node) => {
     boardRef.current = node;
     drop(node);
+  }; */
+
+  function onDrop(evt) {
+    const { stageId } = evt.active.data.current;
+
+    const closestStageIndex = getClosestStageIndex(
+      mousePosition,
+      stagesPositions
+    );
+
+    dispatch(
+      moveStage({
+        stageId: stageId,
+        closestStageIndex,
+      })
+    );
+    setStagesPositions(getStagesPositions(boardRef));
+
+    console.log(`Stage moved!`);
+  }
+
+  const combineRefs = (node) => {
+    setNodeRef(node);
+    boardRef.current = node;
   };
 
   return (
-    <BoardStyled
-      onDragOver={scrollPage(mousePosition.y)}
-      className="Board"
-      ref={combineRefs}
-    >
-      {stages}
-      <NewStagePanel />
-      <MenuMobile />
-    </BoardStyled>
+    <DndContext onDragEnd={onDrop}>
+      <BoardStyled
+        /*    onDragOver={scrollPage(mousePosition.y)} */
+        className="Board"
+        ref={combineRefs}
+      >
+        {stages}
+        <NewStagePanel />
+        <MenuMobile />
+      </BoardStyled>
+    </DndContext>
   );
 }
 
