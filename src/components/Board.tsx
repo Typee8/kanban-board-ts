@@ -7,8 +7,7 @@ import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { tablet } from "../devicesWidthStandard.tsx";
 import NewStagePanel from "./NewStagePanel.tsx";
-import { DndContext } from "@dnd-kit/core";
-import { useDroppable } from "@dnd-kit/core";
+import { DndContext, useDroppable, DragOverlay } from "@dnd-kit/core";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -35,6 +34,8 @@ export default function Board({ boardData }) {
   const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [stagesPositions, setStagesPositions] = useState([]);
+
+  const [stageDataState, setStageDataState] = useState();
 
   const { setNodeRef } = useDroppable({
     id: "Board",
@@ -86,7 +87,6 @@ export default function Board({ boardData }) {
   const stages = boardData.map((data) => (
     <Stage key={data.id} stageData={data} className="stage" />
   ));
-
   /*   if (isOver) {
     const closestStageIndex = getClosestStageIndex(
       mousePosition,
@@ -114,6 +114,13 @@ export default function Board({ boardData }) {
     drop(node);
   }; */
 
+  function onDragOver(evt) {
+    console.log("over");
+    const { stageData } = evt.active.data.current;
+
+    setStageDataState(stageData);
+  }
+
   function onDrop(evt) {
     const { stageId } = evt.active.data.current;
 
@@ -139,13 +146,23 @@ export default function Board({ boardData }) {
   };
 
   return (
-    <DndContext onDragEnd={onDrop}>
+    <DndContext onDragMove={onDragOver} onDragEnd={onDrop}>
       <BoardStyled
         /*    onDragOver={scrollPage(mousePosition.y)} */
         className="Board"
         ref={combineRefs}
       >
         {stages}
+        <DragOverlay>
+          {stageDataState ? (
+            <Stage
+              key={stageDataState.id}
+              stageData={stageDataState}
+              className="stage"
+              isPreviewed={true}
+            />
+          ) : null}
+        </DragOverlay>
         <NewStagePanel />
         <MenuMobile />
       </BoardStyled>

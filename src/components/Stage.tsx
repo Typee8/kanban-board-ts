@@ -8,8 +8,7 @@ import { useDrop, useDrag } from "react-dnd";
 import StageOverview from "./StageOverview";
 import NewTaskPanel from "./NewTaskPanel";
 import { tablet } from "../devicesWidthStandard";
-import { useDraggable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
+import { useDraggable, useDndMonitor } from "@dnd-kit/core";
 
 export const StageStyled = styled.li`
   display: flex;
@@ -18,17 +17,17 @@ export const StageStyled = styled.li`
   padding: 10px;
   min-width: 250px;
   background-color: var(--secondary-color);
+  height: ${(props) => (props.$isPreviewed ? "100%" : "initial")};
+  border: ${(props) =>
+    props.$isPreviewed ? "6px solid var(--contrast-primary-color)" : "none"};
   opacity: ${(props) => {
     if (props.$isDragging) return 0;
-    if (props.$isPreviewed) return 0.4;
     return 1;
   }};
 
   @media (min-width: ${`${tablet}px`}) {
     max-width: 33vw;
   }
-
-  transform: ${(props) => props.$Transform};
 `;
 StageStyled.displayName = "StageStyled";
 
@@ -45,15 +44,28 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [stageTasksShown, setStageTasksShown] = useState(false);
   const [closestToDraggedTaskIndex, setClosestToDraggedTaskIndex] = useState();
+  const [isDragging, setIsDragging] = useState(false);
   const stageRef = useRef();
   const dispatch = useDispatch();
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef } = useDraggable({
     id: stageData.id,
     data: {
       stageId: stageData.id,
       stageData,
       stageRef,
+    },
+  });
+
+  useDndMonitor({
+    onDragStart: (event) => {
+      if (event.active.id === stageData.id) setIsDragging(true);
+    },
+    onDragEnd: (event) => {
+      if (event.active.id === stageData.id) setIsDragging(false);
+    },
+    onDragCancel: (event) => {
+      if (event.active.id === stageData.id) setIsDragging(false);
     },
   });
 
@@ -118,11 +130,10 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
     <StageStyled
       ref={combineRefs}
       className={className}
-      /*   $isDragging={isDragging} */
+      $isDragging={isDragging}
       $isPreviewed={isPreviewed}
       {...listeners}
       {...attributes}
-      $Transform={CSS.Translate.toString(transform)}
     >
       {stageDetailsShown ? (
         <StageDetails
