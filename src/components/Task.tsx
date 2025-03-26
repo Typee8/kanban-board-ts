@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import TaskDetails from "./TaskDetails";
-import { useState } from "react";
-import { useDrag } from "react-dnd";
+import { useState, useRef } from "react";
 import { calendarEventIcon, personIcon, taskIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
 import { useDraggable, useDndMonitor } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 
 export const TaskStyled = styled.li`
   &:not(:first-child) {
@@ -20,12 +20,12 @@ const Container = styled.ul`
   padding: 10px 20px;
   border-radius: 10px;
   border: ${(props) =>
-    props.$isPreviewed
+    props.$isDragging
       ? "3px solid var(--contrast-primary-color)"
       : "3px solid transparent"};
-  opacity: ${(props) => (props.$isDragging ? 0 : 1)};
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
+  transform: ${(props) => props.$transform};
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: column;
@@ -60,33 +60,24 @@ const TaskData = styled.li`
 `;
 TaskData.displayName = "TaskData";
 
-export default function Task({
-  stageId,
-  taskData,
-  className,
-  isPreviewed = false,
-}) {
+export default function Task({ stageId, taskData, isPreviewed = false }) {
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
-  /*   const [{ isDragging }, drag] = useDrag(() => ({
-    type: "task",
-    item: {
-      stageId,
-      taskId: taskData.id,
-      taskData: taskData,
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
- */
-
+  const taskRef = useRef();
   const [isDragging, setIsDragging] = useState(false);
 
-  const { attributes, listeners, setNodeRef } = useDraggable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef: dragRef,
+    transform,
+  } = useDraggable({
     id: taskData.id,
     data: {
-      stageId,
+      itemType: "task",
+      currentStageId: stageId,
+      taskId: taskData.id,
       taskData,
+      itemRef: taskRef.current,
     },
   });
 
@@ -105,9 +96,10 @@ export default function Task({
   const { title, deadline, assigneesList, assigneesLimit, status } = taskData;
 
   return (
-    <TaskStyled>
+    <TaskStyled ref={taskRef} className={isPreviewed ? null : "task"}>
       <Container
-        ref={setNodeRef}
+        ref={dragRef}
+        $transform={CSS.Translate.toString(transform)}
         $isDragging={isDragging}
         $isPreviewed={isPreviewed}
         {...attributes}

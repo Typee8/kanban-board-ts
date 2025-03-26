@@ -12,10 +12,10 @@ const NewStagePanelStyled = styled(StageStyled)`
   @media (min-width: ${`${tablet}px`}) {
     display: flex;
     transition: all 0.3s ease;
-    border: 6px solid transparent;
+    border: 3px solid transparent;
 
     &:hover {
-      border: 6px solid var(--contrast-primary-color);
+      border: 3px solid var(--contrast-primary-color);
     }
   }
 `;

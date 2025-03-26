@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import Stage from "./Stage";
 import MenuMobile from "./MenuMobile";
-import { moveStage } from "../store/slices/boardStateSlice";
+import { moveStage, moveTask } from "../store/slices/boardStateSlice";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { tablet } from "../devicesWidthStandard.tsx";
 import NewStagePanel from "./NewStagePanel.tsx";
-import { DndContext, useDroppable, DragOverlay } from "@dnd-kit/core";
-import { createPortal } from "react-dom";
+import { DndContext, useDroppable } from "@dnd-kit/core";
 
 const BoardStyled = styled.ul`
   display: flex;
@@ -30,23 +29,17 @@ const BoardStyled = styled.ul`
 BoardStyled.displayName = "BoardStyled";
 
 export default function Board({ boardData = [] }) {
-  const dispatch = useDispatch();
-  const boardRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [stageDataState, setStageDataState] = useState();
+  const boardRef = useRef();
+  const dispatch = useDispatch();
 
   const { setNodeRef } = useDroppable({
     id: "Board",
   });
 
   const stages = boardData.map((data) => (
-    <Stage key={data.id} stageData={data} className="stage" />
+    <Stage key={data.id} stageData={data} />
   ));
-
-  function onStageDragOver(evt) {
-    const { stageData } = evt.active.data.current;
-    setStageDataState(stageData);
-  }
 
   function onStageDrop(evt) {
     const { stageId } = evt.active.data.current;
@@ -66,21 +59,23 @@ export default function Board({ boardData = [] }) {
   }
 
   function onTaskDrop(evt) {
-    const { stageId, taskData } = evt.active.data.current;
+    const { currentStageId, taskId } = evt.active.data.current;
+    const { stageRef } = evt.over.data.current;
+    const newStageId = evt.over.id;
 
-    console.log(evt.over);
+    console.log(evt);
 
-    /*         const closestEleIndex = getClosestTaskIndex(mousePosition, stageRef);
-    
-        dispatch(
-          moveTask({
-            taskId: taskData.id,
-            currentStageId: stageId,
-            newStageId: stageData.id,
-            closestEleIndex,
-          })
-        );
-        console.log(`Stage moved!`); */
+    const closestEleIndex = getClosestTaskIndex(mousePosition, stageRef);
+
+    dispatch(
+      moveTask({
+        taskId,
+        currentStageId,
+        newStageId,
+        closestEleIndex,
+      })
+    );
+    console.log(`Stage moved!`);
   }
 
   const combineRefs = (node) => {
@@ -88,8 +83,19 @@ export default function Board({ boardData = [] }) {
     boardRef.current = node;
   };
 
+  function handleOnStageDrop(evt) {
+    const { itemType } = evt.active.data.current;
+    if (itemType === "task") {
+      onTaskDrop(evt);
+    }
+
+    if (itemType === "stage") {
+      onStageDrop(evt);
+    }
+  }
+
   return (
-    <DndContext onDragMove={onStageDragOver} onDragEnd={onStageDrop}>
+    <DndContext onDragEnd={handleOnStageDrop}>
       <BoardStyled
         /*    onDragOver={scrollPage(mousePosition.y)} */
         onMouseMove={(evt) =>
@@ -98,21 +104,7 @@ export default function Board({ boardData = [] }) {
         className="Board"
         ref={combineRefs}
       >
-        <DndContext onDragEnd={onTaskDrop}>
-          {stages}
-          {createPortal(
-            <DragOverlay>
-              {stageDataState ? (
-                <Stage
-                  key={stageDataState.id}
-                  stageData={stageDataState}
-                  isPreviewed={true}
-                />
-              ) : null}
-            </DragOverlay>,
-            document.body
-          )}
-        </DndContext>
+        {stages}
         <NewStagePanel />
         <MenuMobile />
       </BoardStyled>
@@ -166,4 +158,46 @@ export function scrollPage(y) {
   if (y < 200) {
     window.scrollBy(0, -scrollSpeed);
   }
+}
+
+function getMiddleYofTasks() {
+  const tasksListDOM = Array.from(document.querySelectorAll(".task"));
+  console.log("tasksListDOM");
+  console.log(tasksListDOM);
+  return tasksListDOM.map((task) => {
+    const taskPosition = task.getBoundingClientRect();
+    console.log(taskPosition.top);
+    const taskMiddleY = taskPosition.top + taskPosition.height / 2;
+    return taskMiddleY;
+  });
+}
+
+function getClosestTaskIndex(mousePosition) {
+  const draggedItemY = mousePosition.y;
+  console.log(draggedItemY);
+
+  const tasksListRect = document
+    .querySelector(".tasks-list")
+    ?.getBoundingClientRect();
+
+  const distanceList = [
+    ...getMiddleYofTasks(),
+    tasksListRect.top,
+    tasksListRect.bottom,
+  ];
+  console.log(distanceList);
+  for (let i = 0; i < distanceList.length; i++) {
+    distanceList[i] = Math.abs(distanceList[i] - draggedItemY);
+  }
+  console.log(distanceList);
+  const closestEleValue = Math.min(...distanceList);
+  const closestEleIndex = distanceList.indexOf(closestEleValue);
+  console.log(closestEleIndex);
+  // when container's top is the closest element
+  if (closestEleIndex === distanceList.length - 2) return 0;
+  // when container's bottom is the closest element
+  if (closestEleIndex === distanceList.length - 1)
+    return distanceList.length - 1;
+
+  return closestEleIndex;
 }

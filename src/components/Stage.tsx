@@ -2,20 +2,11 @@ import styled from "styled-components";
 import Task from "./Task";
 import StageDetails from "./StageDetails";
 import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { moveTask } from "../store/slices/boardStateSlice";
-import { useDrop } from "react-dnd";
 import StageOverview from "./StageOverview";
 import NewTaskPanel from "./NewTaskPanel";
 import { tablet } from "../devicesWidthStandard";
-import {
-  useDraggable,
-  useDroppable,
-  useDndMonitor,
-  DndContext,
-  DragOverlay,
-} from "@dnd-kit/core";
-import { createPortal } from "react-dom";
+import { useDraggable, useDroppable, useDndMonitor } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 
 export const StageStyled = styled.li`
   display: flex;
@@ -24,12 +15,11 @@ export const StageStyled = styled.li`
   padding: 10px;
   min-width: 250px;
   background-color: var(--secondary-color);
-  height: ${(props) => (props.$isPreviewed ? "100%" : "initial")};
   border: ${(props) =>
-    props.$isPreviewed
-      ? "6px solid var(--contrast-primary-color)"
-      : "6px solid transparent"};
-  opacity: ${(props) => (props.$isDragging ? 0 : 1)};
+    props.$isDragging
+      ? "3px solid var(--contrast-primary-color)"
+      : "3px solid transparent"};
+  transform: ${(props) => props.$transform};
 
   @media (min-width: ${`${tablet}px`}) {
     max-width: 33vw;
@@ -46,21 +36,22 @@ const TasksList = styled.ul`
 `;
 TasksList.displayName = "TasksList";
 
-export default function Stage({ stageData, className, isPreviewed = false }) {
+export default function Stage({ stageData, isPreviewed = false }) {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [stageTasksShown, setStageTasksShown] = useState(false);
-  const [closestToDraggedTaskIndex, setClosestToDraggedTaskIndex] = useState();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [taskDataState, setTaskDataState] = useState();
   const stageRef = useRef();
-  const dispatch = useDispatch();
 
-  const { attributes, listeners, setNodeRef } = useDraggable({
+  const {
+    attributes,
+    listeners,
+    setNodeRef: dragRef,
+    transform,
+  } = useDraggable({
     id: stageData.id,
     data: {
+      itemType: "stage",
       stageId: stageData.id,
-      stageData,
     },
   });
 
@@ -78,57 +69,15 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
 
   const { setNodeRef: dropRef } = useDroppable({
     id: stageData.id,
+    data: {
+      stageRef,
+    },
   });
-
-  /*   const [{ isOver, draggedItem }, drop] = useDrop(
-    () => ({
-      accept: "task",
-      drop: (draggedItem, monitor) => {
-        const closestEleIndex = getClosestTaskIndex(stageRef, monitor);
-
-        dispatch(
-          moveTask({
-            taskId: draggedItem.taskId,
-            currentStageId: draggedItem.stageId,
-            newStageId: stageData.id,
-            closestEleIndex,
-          })
-        );
-        console.log(`Task moved!`);
-      },
-      hover: (_, monitor) => {
-        setClosestToDraggedTaskIndex(getClosestTaskIndex(stageRef, monitor));
-        setStageTasksShown(true);
-      },
-      collect: (monitor) => ({
-        isOver: !!monitor.isOver(),
-        draggedItem: monitor.getItem(),
-      }),
-    }),
-    []
-  ); */
-
-  function onDrop(evt) {
-    const { stageId, taskData } = evt.active.data.current;
-
-    const closestEleIndex = getClosestTaskIndex(mousePosition, stageRef);
-
-    dispatch(
-      moveTask({
-        taskId: taskData.id,
-        currentStageId: stageId,
-        newStageId: stageData.id,
-        closestEleIndex,
-      })
-    );
-    console.log(`Stage moved!`);
-  }
 
   const combineRefs = (node) => {
     stageRef.current = node;
-    setNodeRef(node);
+    dragRef(node);
     dropRef(node);
-    /*     drop(node); */
   };
 
   const { title, tasksLimit, tasksList = [], id: stageId } = stageData;
@@ -137,97 +86,36 @@ export default function Stage({ stageData, className, isPreviewed = false }) {
     <Task key={task.id} stageId={stageId} taskData={task} />
   ));
 
-  function onDragOver(evt) {
-    const { taskData } = evt.active.data.current;
-    setTaskDataState(taskData);
-  }
-
   return (
-    <DndContext onDragMove={onDragOver} onDragEnd={onDrop}>
-      <StageStyled
-        onMouseMove={(evt) =>
-          setMousePosition({ x: evt.clientX, y: evt.clientY })
-        }
-        ref={combineRefs}
-        className={className}
-        $isDragging={isDragging}
-        $isPreviewed={isPreviewed}
-      >
-        {stageDetailsShown ? (
-          <StageDetails
-            stageData={stageData}
-            hideStageDetails={() => setStageDetailsShown(false)}
-          />
-        ) : null}
-
-        <StageOverview
-          stageTasksShown={stageTasksShown}
-          setStageTasksShown={setStageTasksShown}
-          showStageDetails={() => setStageDetailsShown(true)}
-          tasksList={tasksList}
-          tasksLimit={tasksLimit}
-          title={title}
-          dragListeners={listeners}
-          dragAttributes={attributes}
+    <StageStyled
+      ref={combineRefs}
+      $transform={CSS.Translate.toString(transform)}
+      className="stage"
+      $isDragging={isDragging}
+      $isPreviewed={isPreviewed}
+    >
+      {stageDetailsShown ? (
+        <StageDetails
+          stageData={stageData}
+          hideStageDetails={() => setStageDetailsShown(false)}
         />
+      ) : null}
 
-        {tasks.length > 0 ? (
-          <TasksList $isShown={stageTasksShown} className="stage__tasks">
-            {tasks}
-            {createPortal(
-              <DragOverlay>
-                {taskDataState ? (
-                  <Task
-                    key={taskDataState.id}
-                    taskData={taskDataState}
-                    isPreviewed={true}
-                  />
-                ) : null}
-              </DragOverlay>,
-              document.body
-            )}
-            {stageData.id === "firstStage" ? <NewTaskPanel /> : null}
-          </TasksList>
-        ) : null}
-      </StageStyled>
-    </DndContext>
+      <StageOverview
+        stageTasksShown={stageTasksShown}
+        setStageTasksShown={setStageTasksShown}
+        showStageDetails={() => setStageDetailsShown(true)}
+        tasksList={tasksList}
+        tasksLimit={tasksLimit}
+        title={title}
+        dragListeners={listeners}
+        dragAttributes={attributes}
+      />
+
+      <TasksList className="tasks-list" $isShown={stageTasksShown}>
+        {tasks.length > 0 ? tasks : null}
+        {stageData.id === "firstStage" ? <NewTaskPanel /> : null}
+      </TasksList>
+    </StageStyled>
   );
-}
-
-function getMiddleYCoordinatesOfTasks(stageRef) {
-  const tasksDOMList = Array.from(stageRef.current.querySelectorAll("li"));
-
-  return tasksDOMList.map((task) => {
-    const taskPosition = task.getBoundingClientRect();
-    const taskMiddleY = taskPosition.top + taskPosition.height / 2;
-    return taskMiddleY;
-  });
-}
-
-function getClosestTaskIndex(mousePosition, stageRef) {
-  const draggedItemY = mousePosition.y;
-
-  const tasksContainerDOM = stageRef.current.querySelector(".stage__tasks");
-  const tasksContainerPosition = tasksContainerDOM.getBoundingClientRect();
-
-  const distanceList = [
-    ...getMiddleYCoordinatesOfTasks(stageRef),
-    tasksContainerPosition.top,
-    tasksContainerPosition.bottom,
-  ];
-
-  for (let i = 0; i < distanceList.length; i++) {
-    distanceList[i] = Math.abs(distanceList[i] - draggedItemY);
-  }
-
-  const closestEleValue = Math.min(...distanceList);
-  const closestEleIndex = distanceList.indexOf(closestEleValue);
-
-  // when container's top is the closest element
-  if (closestEleIndex === distanceList.length - 2) return 0;
-  // when container's bottom is the closest element
-  if (closestEleIndex === distanceList.length - 1)
-    return distanceList.length - 1;
-
-  return closestEleIndex;
 }
