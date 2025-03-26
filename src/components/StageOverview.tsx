@@ -71,6 +71,7 @@ const Drag = styled(ButtonStyled)`
   margin-left: auto;
   min-width: 50px;
   justify-self: flex-end;
+  touch-action: none !important;
 
   &:hover {
     color: unset;

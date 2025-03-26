@@ -24,9 +24,6 @@ export const StageStyled = styled.li`
       return "3px solid transparent";
     }
   }};
-
-  touch-action: none !important;
-
   @media (min-width: ${`${tablet}px`}) {
     max-width: 33vw;
   }
@@ -64,7 +61,10 @@ export default function Stage({ stageData, isPreviewed = false }) {
 
   useDndMonitor({
     onDragStart: (event) => {
-      if (event.active.id === stageData.id) setIsDragging(true);
+      if (event.active.id === stageData.id) {
+        setStageTasksShown(false);
+        setIsDragging(true);
+      }
     },
     onDragEnd: (event) => {
       setInDropZone(false);
@@ -93,6 +93,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
       stageRef,
       setInDropZone,
       showTasks: () => setStageTasksShown(true),
+      hideTasks: () => setStageTasksShown(false),
     },
   });
 

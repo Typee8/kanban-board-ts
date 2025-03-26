@@ -7,6 +7,7 @@ import { useDraggable, useDndMonitor } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 
 export const TaskStyled = styled.li`
+  touch-action: none !important;
   &:not(:first-child) {
     border-top: 2px solid var(--primary-color);
   }
