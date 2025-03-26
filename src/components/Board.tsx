@@ -88,17 +88,8 @@ export default function Board({ boardData = [] }) {
     }
   }
 
-  function handleOnDragOver(evt) {
-    if (!evt.over) return;
-    const { itemType } = evt.active.data.current;
-    if (itemType === "stage") return;
-
-    const { showTasks } = evt.over.data.current;
-    showTasks();
-  }
-
   return (
-    <DndContext onDragOver={handleOnDragOver} onDragEnd={handleOnDrop}>
+    <DndContext onDragEnd={handleOnDrop}>
       <BoardStyled
         onPointerMove={(evt) =>
           setMousePosition({ x: evt.clientX, y: evt.clientY })

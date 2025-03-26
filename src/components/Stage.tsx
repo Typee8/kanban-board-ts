@@ -15,10 +15,16 @@ export const StageStyled = styled.li`
   padding: 10px;
   min-width: 250px;
   background-color: var(--secondary-color);
-  border: ${(props) =>
-    props.$isDragging
-      ? "3px solid var(--contrast-primary-color)"
-      : "3px solid transparent"};
+  border: ${(props) => {
+    if (props.$isDragging) {
+      return "3px solid var(--contrast-primary-color)";
+    } else if (props.$inDropZone) {
+      return "3px solid var(--highlight-secondary-color)";
+    } else {
+      return "3px solid transparent";
+    }
+  }};
+
   touch-action: none !important;
 
   @media (min-width: ${`${tablet}px`}) {
@@ -39,6 +45,7 @@ TasksList.displayName = "TasksList";
 export default function Stage({ stageData, isPreviewed = false }) {
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [stageTasksShown, setStageTasksShown] = useState(false);
+  const [inDropZone, setInDropZone] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const stageRef = useRef();
 
@@ -60,18 +67,22 @@ export default function Stage({ stageData, isPreviewed = false }) {
       if (event.active.id === stageData.id) setIsDragging(true);
     },
     onDragEnd: (event) => {
+      setInDropZone(false);
       if (event.active.id === stageData.id) setIsDragging(false);
     },
     onDragCancel: (event) => {
+      setInDropZone(false);
       if (event.active.id === stageData.id) setIsDragging(false);
     },
-    onDragMove: ({ active, over }) => {
+    onDragOver: ({ active, over }) => {
       if (
         over &&
-        over.id !== stageData.id &&
-        active.data.current.currentStageId !== stageData.id
+        over.id === stageData.id &&
+        active.data.current.itemType === "task"
       ) {
-        setStageTasksShown(false);
+        setInDropZone(true);
+      } else {
+        setInDropZone(false);
       }
     },
   });
@@ -80,6 +91,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
     id: stageData.id,
     data: {
       stageRef,
+      setInDropZone,
       showTasks: () => setStageTasksShown(true),
     },
   });
@@ -103,6 +115,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
       className={isDragging ? "stage--dragged" : "stage"}
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
+      $inDropZone={inDropZone}
     >
       {stageDetailsShown ? (
         <StageDetails
