@@ -44,7 +44,7 @@ export default function NewTaskPanel() {
         <IconContainer>{taskAddIcon}</IconContainer>
       </Btn>
       {taskDetailsShown ? (
-        <TaskDetails setTaskDetailsShown={setTaskDetailsShown} />
+        <TaskDetails hideTaskDetails={() => setTaskDetailsShown()} />
       ) : null}
     </NewTaskPanelStyled>
   );

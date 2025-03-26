@@ -47,7 +47,7 @@ export default function MenuMobile() {
       ) : null}
 
       {taskDetailsShown ? (
-        <TaskDetails setTaskDetailsShown={setTaskDetailsShown} />
+        <TaskDetails hideTaskDetails={() => setTaskDetailsShown(false)} />
       ) : null}
     </MenuMobileStyled>
   );

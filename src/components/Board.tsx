@@ -43,12 +43,12 @@ export default function Board({ boardData = [] }) {
     <Stage key={data.id} stageData={data} className="stage" />
   ));
 
-  function onDragOver(evt) {
+  function onStageDragOver(evt) {
     const { stageData } = evt.active.data.current;
     setStageDataState(stageData);
   }
 
-  function onDrop(evt) {
+  function onStageDrop(evt) {
     const { stageId } = evt.active.data.current;
 
     const closestStageIndex = getClosestStageIndex(
@@ -65,13 +65,31 @@ export default function Board({ boardData = [] }) {
     console.log(`Stage moved!`);
   }
 
+  function onTaskDrop(evt) {
+    const { stageId, taskData } = evt.active.data.current;
+
+    console.log(evt.over);
+
+    /*         const closestEleIndex = getClosestTaskIndex(mousePosition, stageRef);
+    
+        dispatch(
+          moveTask({
+            taskId: taskData.id,
+            currentStageId: stageId,
+            newStageId: stageData.id,
+            closestEleIndex,
+          })
+        );
+        console.log(`Stage moved!`); */
+  }
+
   const combineRefs = (node) => {
     setNodeRef(node);
     boardRef.current = node;
   };
 
   return (
-    <DndContext onDragMove={onDragOver} onDragEnd={onDrop}>
+    <DndContext onDragMove={onStageDragOver} onDragEnd={onStageDrop}>
       <BoardStyled
         /*    onDragOver={scrollPage(mousePosition.y)} */
         onMouseMove={(evt) =>
@@ -80,19 +98,21 @@ export default function Board({ boardData = [] }) {
         className="Board"
         ref={combineRefs}
       >
-        {stages}
-        {createPortal(
-          <DragOverlay>
-            {stageDataState ? (
-              <Stage
-                key={stageDataState.id}
-                stageData={stageDataState}
-                isPreviewed={true}
-              />
-            ) : null}
-          </DragOverlay>,
-          document.body
-        )}
+        <DndContext onDragEnd={onTaskDrop}>
+          {stages}
+          {createPortal(
+            <DragOverlay>
+              {stageDataState ? (
+                <Stage
+                  key={stageDataState.id}
+                  stageData={stageDataState}
+                  isPreviewed={true}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
         <NewStagePanel />
         <MenuMobile />
       </BoardStyled>
