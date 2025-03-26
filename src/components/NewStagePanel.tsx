@@ -51,7 +51,7 @@ export default function NewStagePanel() {
       </Btn>
 
       {stageDetailsShown ? (
-        <StageDetails setStageDetailsShown={setStageDetailsShown} />
+        <StageDetails hideStageDetails={() => setStageDetailsShown(false)} />
       ) : null}
     </NewStagePanelStyled>
   );

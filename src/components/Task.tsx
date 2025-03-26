@@ -25,7 +25,6 @@ const Container = styled.ul`
       : "3px solid transparent"};
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
-  transform: ${(props) => props.$transform};
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: column;
@@ -99,7 +98,7 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
     <TaskStyled ref={taskRef} className={isPreviewed ? null : "task"}>
       <Container
         ref={dragRef}
-        $transform={CSS.Translate.toString(transform)}
+        style={{ transform: CSS.Translate.toString(transform) }}
         $isDragging={isDragging}
         $isPreviewed={isPreviewed}
         {...attributes}

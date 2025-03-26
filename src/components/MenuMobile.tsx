@@ -43,7 +43,7 @@ export default function MenuMobile() {
       </MenuBtn>
 
       {stageDetailsShown ? (
-        <StageDetails setStageDetailsShown={setStageDetailsShown} />
+        <StageDetails hideStageDetails={() => setStageDetailsShown(false)} />
       ) : null}
 
       {taskDetailsShown ? (

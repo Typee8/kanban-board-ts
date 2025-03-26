@@ -14,13 +14,15 @@ const BoardStyled = styled.ul`
   padding: 40px 20px;
   padding-bottom: 120px;
   gap: 30px;
+  min-height: fit-content;
+  min-width: fit-content;
   height: 100%;
   width: 100%;
   background-color: var(--primary-color);
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: row;
-    min-width: fit-content;
+
     gap: 10px;
     padding: 40px;
   }
@@ -42,7 +44,6 @@ export default function Board({ boardData = [] }) {
 
   function onStageDrop(evt) {
     const { stageId } = evt.active.data.current;
-    console.log(evt.active);
     const closestStageIndex = getClosestStageIndex(
       mousePosition,
       getStagesPositions()
@@ -62,8 +63,6 @@ export default function Board({ boardData = [] }) {
     const { stageRef } = evt.over.data.current;
     const newStageId = evt.over.id;
 
-    console.log(evt);
-
     const closestEleIndex = getClosestTaskIndex(mousePosition, stageRef);
 
     dispatch(
@@ -74,11 +73,12 @@ export default function Board({ boardData = [] }) {
         closestEleIndex,
       })
     );
-    console.log(`Stage moved!`);
+    console.log(`Task moved!`);
   }
 
-  function handleOnStageDrop(evt) {
+  function handleOnDrop(evt) {
     const { itemType } = evt.active.data.current;
+
     if (itemType === "task") {
       onTaskDrop(evt);
     }
@@ -88,11 +88,19 @@ export default function Board({ boardData = [] }) {
     }
   }
 
+  function handleOnDragOver(evt) {
+    if (!evt.over) return;
+    const { itemType } = evt.active.data.current;
+    if (itemType === "stage") return;
+
+    const { showTasks } = evt.over.data.current;
+    showTasks();
+  }
+
   return (
-    <DndContext onDragEnd={handleOnStageDrop}>
+    <DndContext onDragOver={handleOnDragOver} onDragEnd={handleOnDrop}>
       <BoardStyled
-        /*    onDragOver={scrollPage(mousePosition.y)} */
-        onMouseMove={(evt) =>
+        onPointerMove={(evt) =>
           setMousePosition({ x: evt.clientX, y: evt.clientY })
         }
         className="Board"
@@ -122,14 +130,10 @@ function getClosestStageIndex(mousePosition) {
     return (isColumn ? mousePosition.y : mousePosition.x) - stageMiddle;
   });
 
-  console.log(distanceList);
-
   if (distanceList.every((item) => item < 0)) return 0;
   if (distanceList.every((item) => item > 0)) return distanceList.length;
 
   const closestStageIndex = distanceList.indexOf(Math.max(...distanceList)) + 1;
-
-  console.log(closestStageIndex);
 
   return closestStageIndex;
 }
@@ -140,7 +144,6 @@ function getStagesPositions() {
   const stagesPositions = stagesDOMList.map((stage) =>
     stage.getBoundingClientRect()
   );
-  console.log(stagesPositions);
   return stagesPositions;
 }
 
@@ -162,11 +165,9 @@ export function scrollPage(y) {
 
 function getMiddleYofTasks() {
   const tasksListDOM = Array.from(document.querySelectorAll(".task"));
-  console.log("tasksListDOM");
-  console.log(tasksListDOM);
+
   return tasksListDOM.map((task) => {
     const taskPosition = task.getBoundingClientRect();
-    console.log(taskPosition.top);
     const taskMiddleY = taskPosition.top + taskPosition.height / 2;
     return taskMiddleY;
   });
@@ -174,7 +175,6 @@ function getMiddleYofTasks() {
 
 function getClosestTaskIndex(mousePosition) {
   const draggedItemY = mousePosition.y;
-  console.log(draggedItemY);
 
   const tasksListRect = document
     .querySelector(".tasks-list")
@@ -185,14 +185,13 @@ function getClosestTaskIndex(mousePosition) {
     tasksListRect.top,
     tasksListRect.bottom,
   ];
-  console.log(distanceList);
+
   for (let i = 0; i < distanceList.length; i++) {
     distanceList[i] = Math.abs(distanceList[i] - draggedItemY);
   }
-  console.log(distanceList);
   const closestEleValue = Math.min(...distanceList);
   const closestEleIndex = distanceList.indexOf(closestEleValue);
-  console.log(closestEleIndex);
+
   // when container's top is the closest element
   if (closestEleIndex === distanceList.length - 2) return 0;
   // when container's bottom is the closest element

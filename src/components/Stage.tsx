@@ -19,7 +19,7 @@ export const StageStyled = styled.li`
     props.$isDragging
       ? "3px solid var(--contrast-primary-color)"
       : "3px solid transparent"};
-  transform: ${(props) => props.$transform};
+  touch-action: none !important;
 
   @media (min-width: ${`${tablet}px`}) {
     max-width: 33vw;
@@ -65,12 +65,22 @@ export default function Stage({ stageData, isPreviewed = false }) {
     onDragCancel: (event) => {
       if (event.active.id === stageData.id) setIsDragging(false);
     },
+    onDragMove: ({ active, over }) => {
+      if (
+        over &&
+        over.id !== stageData.id &&
+        active.data.current.currentStageId !== stageData.id
+      ) {
+        setStageTasksShown(false);
+      }
+    },
   });
 
   const { setNodeRef: dropRef } = useDroppable({
     id: stageData.id,
     data: {
       stageRef,
+      showTasks: () => setStageTasksShown(true),
     },
   });
 
@@ -89,7 +99,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
   return (
     <StageStyled
       ref={combineRefs}
-      $transform={CSS.Translate.toString(transform)}
+      style={{ transform: CSS.Translate.toString(transform) }}
       className={isDragging ? "stage--dragged" : "stage"}
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
