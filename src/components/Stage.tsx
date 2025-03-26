@@ -90,7 +90,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
     <StageStyled
       ref={combineRefs}
       $transform={CSS.Translate.toString(transform)}
-      className="stage"
+      className={isDragging ? "stage--dragged" : "stage"}
       $isDragging={isDragging}
       $isPreviewed={isPreviewed}
     >

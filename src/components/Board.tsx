@@ -30,10 +30,9 @@ BoardStyled.displayName = "BoardStyled";
 
 export default function Board({ boardData = [] }) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const boardRef = useRef();
   const dispatch = useDispatch();
 
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef: dropRef } = useDroppable({
     id: "Board",
   });
 
@@ -43,10 +42,10 @@ export default function Board({ boardData = [] }) {
 
   function onStageDrop(evt) {
     const { stageId } = evt.active.data.current;
-
+    console.log(evt.active);
     const closestStageIndex = getClosestStageIndex(
       mousePosition,
-      getStagesPositions(boardRef)
+      getStagesPositions()
     );
 
     dispatch(
@@ -78,11 +77,6 @@ export default function Board({ boardData = [] }) {
     console.log(`Stage moved!`);
   }
 
-  const combineRefs = (node) => {
-    setNodeRef(node);
-    boardRef.current = node;
-  };
-
   function handleOnStageDrop(evt) {
     const { itemType } = evt.active.data.current;
     if (itemType === "task") {
@@ -102,7 +96,7 @@ export default function Board({ boardData = [] }) {
           setMousePosition({ x: evt.clientX, y: evt.clientY })
         }
         className="Board"
-        ref={combineRefs}
+        ref={dropRef}
       >
         {stages}
         <NewStagePanel />
@@ -112,30 +106,36 @@ export default function Board({ boardData = [] }) {
   );
 }
 
-function getClosestStageIndex(mousePosition, stagesPositions) {
+function getClosestStageIndex(mousePosition) {
   const Board = document.querySelector(".Board");
-  let distanceList;
+  if (!Board) return -1;
 
-  if (window.getComputedStyle(Board).flexDirection === "column") {
-    distanceList = stagesPositions.map((y) =>
-      Math.abs(y.top - mousePosition.y)
-    );
-    console.log(mousePosition.y);
-  } else {
-    distanceList = stagesPositions.map((x) =>
-      Math.abs(x.right - mousePosition.x)
-    );
-    console.log(distanceList);
-  }
+  const stagesDOMList = Array.from(document.querySelectorAll(".stage"));
+  const isColumn = window.getComputedStyle(Board).flexDirection === "column";
 
-  const closestStageIndex = distanceList.indexOf(Math.min(...distanceList));
+  const distanceList = stagesDOMList.map((stage) => {
+    const rect = stage.getBoundingClientRect();
+    const stageMiddle = isColumn
+      ? rect.top + rect.height / 2
+      : rect.left + rect.width / 2;
+
+    return (isColumn ? mousePosition.y : mousePosition.x) - stageMiddle;
+  });
+
   console.log(distanceList);
+
+  if (distanceList.every((item) => item < 0)) return 0;
+  if (distanceList.every((item) => item > 0)) return distanceList.length;
+
+  const closestStageIndex = distanceList.indexOf(Math.max(...distanceList)) + 1;
+
+  console.log(closestStageIndex);
 
   return closestStageIndex;
 }
 
-function getStagesPositions(ref) {
-  const stagesDOMList = Array.from(ref.current.querySelectorAll(".stage"));
+function getStagesPositions() {
+  const stagesDOMList = Array.from(document.querySelectorAll(".stage"));
 
   const stagesPositions = stagesDOMList.map((stage) =>
     stage.getBoundingClientRect()
