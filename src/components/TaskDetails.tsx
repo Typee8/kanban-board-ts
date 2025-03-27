@@ -172,7 +172,11 @@ function TaskDetails({
           hideTaskDetails={hideTaskDetails}
           taskStatusRegister={register("status")}
         />
-        <Title register={register("title")} placeholder="Task title" />
+        <Title
+          register={register("title")}
+          maxLength={40}
+          placeholder="Task title"
+        />
         <VerticalBreak />
         <TaskDeadline
           getDate={() => getValues("deadline")}

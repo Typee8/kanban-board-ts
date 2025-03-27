@@ -5,6 +5,7 @@ type InputProps = {
   id?: string;
   type?: string;
   placeholder?: string;
+  maxLength?: number;
   register: any;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -18,6 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       id,
       type,
       placeholder,
+      maxLength,
       register,
       onFocus,
       onBlur,
@@ -36,6 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         onFocus={onFocus}
         onBlur={onBlur}
         placeholder={placeholder}
+        maxLength={maxLength}
       />
     );
   }

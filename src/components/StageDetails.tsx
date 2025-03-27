@@ -155,7 +155,11 @@ function StageDetails({ stageData, hideStageDetails }) {
           hideStageDetails={hideStageDetails}
         />
 
-        <TaskTitle register={register("title")} placeholder="Stage title" />
+        <TaskTitle
+          register={register("title")}
+          maxLength={40}
+          placeholder="Stage title"
+        />
         <VerticalBreak />
         <DetailsSelect
           register={register("tasksLimit")}
