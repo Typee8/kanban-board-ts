@@ -125,7 +125,7 @@ function getClosestStageIndex(mousePosition) {
   if (distanceList.every((item) => item > 0)) return distanceList.length;
 
   const closestStageIndex = distanceList.indexOf(Math.max(...distanceList)) + 1;
-
+  console.log(distanceList);
   return closestStageIndex;
 }
 
