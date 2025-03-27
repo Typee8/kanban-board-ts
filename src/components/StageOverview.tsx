@@ -71,8 +71,7 @@ TaskLimitContainer.displayName = "TaskLimitContainer";
 
 const Drag = styled(ButtonStyled)`
   position: absolute;
-  top: 0px;
-  right: 0px;
+  right: 5px;
   padding: 0;
   margin-left: auto;
   justify-self: flex-end;
@@ -81,6 +80,11 @@ const Drag = styled(ButtonStyled)`
   &:hover {
     color: unset;
     background-color: unset;
+  }
+
+  @media (min-width: ${`${tablet}px`}) {
+    top: 0px;
+    right: 0px;
   }
 `;
 Drag.displayName = "Drag";

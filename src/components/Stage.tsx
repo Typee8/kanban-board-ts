@@ -12,7 +12,6 @@ export const StageStyled = styled.li`
   display: flex;
   flex-direction: column;
   border-radius: 20px;
-  padding: 10px;
   min-width: 250px;
   background-color: var(--secondary-color);
   border: ${(props) => {
@@ -25,6 +24,7 @@ export const StageStyled = styled.li`
     }
   }};
   @media (min-width: ${`${tablet}px`}) {
+    padding: 10px;
     max-width: calc(300px + 5vw);
   }
 `;
@@ -103,6 +103,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
     id: stageData.id,
     data: {
       stageRef,
+      exceedsTaskLimit: stageData.tasksList?.length >= stageData.tasksLimit,
       setInDropZone,
       showTasks: () => setStageTasksShown(true),
       hideTasks: () => setStageTasksShown(false),

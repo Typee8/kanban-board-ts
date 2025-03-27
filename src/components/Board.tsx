@@ -78,8 +78,12 @@ export default function Board({ boardData = [] }) {
   function handleOnDrop(evt) {
     const { itemType } = evt.active.data.current;
 
-    if (itemType === "task") {
-      onTaskDrop(evt);
+    if (evt.over && itemType === "task") {
+      const { exceedsTaskLimit } = evt.over.data.current;
+      console.log(exceedsTaskLimit);
+      if (!exceedsTaskLimit) {
+        onTaskDrop(evt);
+      }
     }
 
     if (itemType === "stage") {
