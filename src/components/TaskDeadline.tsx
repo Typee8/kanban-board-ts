@@ -80,6 +80,7 @@ InputStyled.displayName = "Deadline";
 export default function TaskDeadline({ getDate, setDate, register }) {
   const [calendarShown, setCalendarShown] = useState(false);
   const [vh, setVh] = useState(window.innerHeight * 0.01);
+  const today = new Date();
 
   useEffect(() => {
     window.addEventListener("resize", () => setVh(window.innerHeight * 0.01));
@@ -106,6 +107,7 @@ export default function TaskDeadline({ getDate, setDate, register }) {
               mode="single"
               required={true}
               selected={getDate()}
+              disabled={{ before: today }}
               onSelect={(date) => {
                 setDate(moment(date).format("L"));
                 setCalendarShown(false);
