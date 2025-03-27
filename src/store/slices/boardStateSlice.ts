@@ -17,10 +17,13 @@ export const fetchState = createAsyncThunk(
   async (boardId, { getState }) => {
     const result = await fetchData(boardId);
     const state = getState();
+    const stateData = state.boardState.data;
 
-    if (!isEqual(state, result)) {
+    if (!isEqual(stateData, result)) {
       return result;
     }
+
+    return stateData;
   }
 );
 

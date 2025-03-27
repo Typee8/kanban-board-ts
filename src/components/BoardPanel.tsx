@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { fetchInitialState, fetchState } from "../store/slices/boardStateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { reactIcon } from "../assets/svg_icons";
+import { useNavigate } from "react-router";
 
 const options = {
   backends: HTML5toTouch.backends,
@@ -50,7 +51,12 @@ LoadingIconContainer.displayName = "LoadingIconContainer";
 
 export default function BoardPanel() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loading, boardId, data } = useSelector((state) => state.boardState);
+
+  if (!boardId) {
+    navigate("/");
+  }
 
   useEffect(() => {
     dispatch(fetchInitialState(boardId));

@@ -4,7 +4,7 @@ import "./css/reset.css";
 import "./css/global.css";
 import "./css/fonts.css";
 import { HashRouter as Router, Routes, Route } from "react-router";
-import { fetchData, setData, removeEverything } from "./server/FirebaseAPI";
+import { fetchData, setData, removeBoard } from "./server/FirebaseAPI";
 
 deleteDeprecatedData();
 
@@ -30,7 +30,7 @@ async function deleteDeprecatedData() {
   const oneHour = 3600000;
 
   if (timeDifference >= oneHour) {
-    await removeEverything();
+    await removeBoard();
   }
 
   setData(currentTime, "appLastConnectionToTheServer");

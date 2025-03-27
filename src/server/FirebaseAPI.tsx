@@ -1,4 +1,4 @@
-import { getDatabase, ref, get, push, remove, set } from "firebase/database";
+import { getDatabase, ref, get, remove, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import firebaseConfig from "./firebaseConfig";
 
@@ -15,18 +15,6 @@ export const fetchData = async (boardId) => {
     return result;
   } catch (error) {
     throw new Error(`FETCH - failed, status: ${error}`);
-  }
-};
-
-export const pushData = async (data) => {
-  const db = getDatabase(app);
-  const dbRef = ref(db);
-
-  try {
-    await push(dbRef, data);
-    console.log("Data pushed successfully!");
-  } catch (error) {
-    throw new Error(`PUSH - failed, status: ${error}`);
   }
 };
 
@@ -54,19 +42,7 @@ export const removeData = async (boardId, path) => {
   }
 };
 
-export const updateData = async (id, obj) => {
-  const db = getDatabase(app);
-  const dbRef = ref(db, `${dataLocation}/${id}`);
-
-  try {
-    await set(dbRef, obj);
-    console.log("Data updated successfully!");
-  } catch (error) {
-    throw new Error(`UPDATE - failed, status: ${error}`);
-  }
-};
-
-export const removeEverything = async () => {
+export const removeBoard = async () => {
   const db = getDatabase(app);
   const dbRef = ref(db);
 
