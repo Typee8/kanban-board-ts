@@ -152,7 +152,9 @@ export default function Stage({ stageData, isPreviewed = false }) {
 
       <TasksList className="tasks-list" $isShown={stageTasksShown}>
         {tasks.length > 0 ? tasks : null}
-        {stageData.id === "firstStage" ? <NewTaskPanel /> : null}
+        {stageData.id === "firstStage" ? (
+          <NewTaskPanel disabled={tasksList.length >= tasksLimit} />
+        ) : null}
       </TasksList>
     </StageStyled>
   );

@@ -1,5 +1,6 @@
 import Button from "../buttons/Button";
 import styled from "styled-components";
+import { tablet } from "../../devicesWidthStandard";
 
 const ButtonStyled = styled(Button)`
   border: none;
@@ -15,9 +16,16 @@ const ButtonStyled = styled(Button)`
       : "none"};
 
   color: var(--contrast-primary-color);
-  &:hover {
-    color: var(--secondary-color);
-    background-color: var(--contrast-primary-color);
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  @media (min-width: ${`${tablet}px`}) {
+    &:hover:not(:disabled) {
+      color: var(--secondary-color);
+      background-color: var(--contrast-primary-color);
+    }
   }
 `;
 

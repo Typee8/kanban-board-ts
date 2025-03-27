@@ -6,6 +6,7 @@ import { logOffIcon, stageAddIcon, taskAddIcon } from "../assets/svg_icons";
 import { useNavigate } from "react-router";
 import ButtonStyled from "./styled/ButtonStyled";
 import { tablet } from "../devicesWidthStandard.tsx";
+import { useSelector } from "react-redux";
 
 const MenuMobileStyled = styled.li`
   display: flex;
@@ -30,14 +31,30 @@ const MenuBtn = styled(ButtonStyled)`
 MenuBtn.displayName = "MenuBtn";
 
 export default function MenuMobile() {
+  const { data: boardData } = useSelector((state) => state.boardState);
   const [stageDetailsShown, setStageDetailsShown] = useState(false);
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
   const navigate = useNavigate();
 
+  const doesTasksLimitExceed = boardData.find((stage) => {
+    if (stage.id === "firstStage") {
+      const tasksNumber = stage?.tasksList ? stage.tasksList.length : 0;
+      const { tasksLimit } = stage;
+      console.log(tasksLimit);
+      return tasksNumber >= tasksLimit;
+    }
+    return false;
+  });
+
   return (
     <MenuMobileStyled>
       <MenuBtn onClick={() => navigate("/")}>{logOffIcon}</MenuBtn>
-      <MenuBtn onClick={() => setTaskDetailsShown(true)}>{taskAddIcon}</MenuBtn>
+      <MenuBtn
+        disabled={doesTasksLimitExceed}
+        onClick={() => setTaskDetailsShown(true)}
+      >
+        {taskAddIcon}
+      </MenuBtn>
       <MenuBtn onClick={() => setStageDetailsShown(true)}>
         {stageAddIcon}
       </MenuBtn>

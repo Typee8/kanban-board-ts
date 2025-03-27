@@ -35,12 +35,12 @@ const IconContainer = styled.div`
 `;
 IconContainer.displayName = "IconContainer";
 
-export default function NewTaskPanel() {
+export default function NewTaskPanel({ disabled = false }) {
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
 
   return (
     <NewTaskPanelStyled>
-      <Btn onClick={() => setTaskDetailsShown(true)}>
+      <Btn disabled={disabled} onClick={() => setTaskDetailsShown(true)}>
         <IconContainer>{taskAddIcon}</IconContainer>
       </Btn>
       {taskDetailsShown ? (

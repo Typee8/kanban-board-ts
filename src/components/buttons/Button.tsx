@@ -2,13 +2,24 @@ import { ReactNode, forwardRef } from "react";
 type ButtonProps = {
   $isShown?: boolean;
   className?: string;
+  disabled?: boolean;
   type?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children?: ReactNode;
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, type = "button", onClick, children, ...props }, ref) => {
+  (
+    {
+      className,
+      type = "button",
+      disabled = false,
+      onClick,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     return (
       <button
         ref={ref}
@@ -16,6 +27,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={className}
         onClick={onClick}
         {...props}
+        disabled={disabled}
       >
         {children}
       </button>
