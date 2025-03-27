@@ -38,8 +38,9 @@ const Title = styled.h2`
   font-weight: 600;
   color: var(--contrast-primary-color);
   font-size: var(--font-size);
+  padding-right: 30px;
   overflow: hidden;
-  margin-right: 25px;
+  word-wrap: break-word;
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
@@ -70,6 +71,7 @@ TaskLimitContainer.displayName = "TaskLimitContainer";
 
 const Drag = styled(ButtonStyled)`
   position: absolute;
+  top: 0px;
   right: 0px;
   padding: 0;
   margin-left: auto;

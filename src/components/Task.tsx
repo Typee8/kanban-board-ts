@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import { calendarEventIcon, personIcon, taskIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard";
 import { useDraggable, useDndMonitor } from "@dnd-kit/core";
+import ButtonStyled from "./styled/ButtonStyled";
+import { dragIndicatorIcon } from "../assets/svg_icons";
 import { CSS } from "@dnd-kit/utilities";
 
 export const TaskStyled = styled.li`
@@ -16,6 +18,7 @@ export const TaskStyled = styled.li`
 TaskStyled.displayName = "TaskStyled";
 
 const Container = styled.ul`
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -36,7 +39,9 @@ Container.displayName = "Container";
 
 const Title = styled.li`
   width: 100%;
+  padding-right: 20px;
   font-weight: 600;
+  word-wrap: break-word;
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-default-size) * var(--font-tablet-scale));
   }
@@ -58,6 +63,25 @@ const TaskData = styled.li`
   }
 `;
 TaskData.displayName = "TaskData";
+
+const Drag = styled(ButtonStyled)`
+  position: absolute;
+  right: 0;
+  padding: 0;
+  margin-left: auto;
+  justify-self: flex-end;
+  touch-action: none !important;
+
+  &:hover {
+    color: unset;
+    background-color: unset;
+  }
+
+  > * {
+    width: 30px;
+  }
+`;
+Drag.displayName = "Drag";
 
 export default function Task({ stageId, taskData, isPreviewed = false }) {
   const [taskDetailsShown, setTaskDetailsShown] = useState(false);
@@ -101,8 +125,6 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
         style={{ transform: CSS.Translate.toString(transform) }}
         $isDragging={isDragging}
         $isPreviewed={isPreviewed}
-        {...attributes}
-        {...listeners}
         onClick={() => setTaskDetailsShown(true)}
       >
         <Title>{title}</Title>
@@ -123,7 +145,11 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
             {taskIcon} {status}
           </TaskData>
         ) : null}
+        <Drag {...attributes} {...listeners}>
+          {dragIndicatorIcon}
+        </Drag>
       </Container>
+
       {taskDetailsShown ? (
         <TaskDetails
           stageId={stageId}
