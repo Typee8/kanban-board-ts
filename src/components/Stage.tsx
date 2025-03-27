@@ -25,7 +25,7 @@ export const StageStyled = styled.li`
     }
   }};
   @media (min-width: ${`${tablet}px`}) {
-    max-width: 33vw;
+    max-width: calc(300px + 5vw);
   }
 `;
 StageStyled.displayName = "StageStyled";
@@ -60,19 +60,31 @@ export default function Stage({ stageData, isPreviewed = false }) {
   });
 
   useDndMonitor({
-    onDragStart: (event) => {
-      if (event.active.id === stageData.id) {
+    onDragStart: (evt) => {
+      if (
+        evt.over &&
+        evt.over.id === stageData.id &&
+        evt.active.data.current.itemType === "task"
+      ) {
+        setStageTasksShown(false);
+      }
+
+      if (evt.active.id === stageData.id) {
         setStageTasksShown(false);
         setIsDragging(true);
       }
     },
-    onDragEnd: (event) => {
+    onDragEnd: (evt) => {
       setInDropZone(false);
-      if (event.active.id === stageData.id) setIsDragging(false);
+      if (evt.active.id === stageData.id) setIsDragging(false);
+      if (evt.over && evt.active.data.current.itemType === "task") {
+        const { showTasks } = evt.over.data.current;
+        showTasks();
+      }
     },
-    onDragCancel: (event) => {
+    onDragCancel: (evt) => {
       setInDropZone(false);
-      if (event.active.id === stageData.id) setIsDragging(false);
+      if (evt.active.id === stageData.id) setIsDragging(false);
     },
     onDragOver: ({ active, over }) => {
       if (
@@ -126,6 +138,7 @@ export default function Stage({ stageData, isPreviewed = false }) {
       ) : null}
 
       <StageOverview
+        stageId={stageData.id}
         stageTasksShown={stageTasksShown}
         setStageTasksShown={setStageTasksShown}
         showStageDetails={() => setStageDetailsShown(true)}

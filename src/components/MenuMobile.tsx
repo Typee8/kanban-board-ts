@@ -8,7 +8,6 @@ import ButtonStyled from "./styled/ButtonStyled";
 import { tablet } from "../devicesWidthStandard.tsx";
 
 const MenuMobileStyled = styled.li`
-  z-index: 999;
   display: flex;
   position: fixed;
   bottom: 0;

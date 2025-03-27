@@ -10,6 +10,7 @@ const StageOverviewStyled = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 10px;
   color: var(--contrast-primary-color);
 
   @media (min-width: ${`${tablet}px`}) {
@@ -38,6 +39,7 @@ const Title = styled.h2`
   color: var(--contrast-primary-color);
   font-size: var(--font-size);
   overflow: hidden;
+  margin-right: 25px;
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
@@ -52,7 +54,7 @@ const TaskLimit = styled.span`
   gap: 5px;
   min-width: 60px;
   height: var(--height);
-  margin-left: 20px;
+  margin-right: 40px;
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
@@ -62,14 +64,15 @@ const TaskLimit = styled.span`
 TaskLimit.displayName = "TaskLimit";
 
 const TaskLimitContainer = styled.div`
-  /*   display: flex;
-  align-items: center; */
+  min-width: 40px;
 `;
 TaskLimitContainer.displayName = "TaskLimitContainer";
 
 const Drag = styled(ButtonStyled)`
+  position: absolute;
+  right: 0px;
+  padding: 0;
   margin-left: auto;
-  min-width: 50px;
   justify-self: flex-end;
   touch-action: none !important;
 
@@ -81,6 +84,7 @@ const Drag = styled(ButtonStyled)`
 Drag.displayName = "Drag";
 
 export default function StageOverview({
+  stageId,
   stageTasksShown,
   setStageTasksShown,
   showStageDetails,
@@ -113,9 +117,11 @@ export default function StageOverview({
           </TaskLimitContainer>
         </TaskLimit>
       ) : null}
-      <Drag {...dragAttributes} {...dragListeners}>
-        {dragIndicatorIcon}
-      </Drag>
+      {!(stageId === "firstStage" || stageId === "lastStage") && (
+        <Drag {...dragAttributes} {...dragListeners}>
+          {dragIndicatorIcon}
+        </Drag>
+      )}
     </StageOverviewStyled>
   );
 }

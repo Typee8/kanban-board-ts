@@ -17,7 +17,7 @@ import isEqual from "lodash/isEqual";
 import React from "react";
 import VerticalBreak from "./styled/VerticalBreak";
 import StageDetailsToolbar from "./StageDetailsToolbar";
-import { tablet, desktop } from "../devicesWidthStandard";
+import { tablet } from "../devicesWidthStandard";
 
 const Wrapper = styled.div`
   z-index: 999;
@@ -131,6 +131,11 @@ function StageDetails({ stageData, hideStageDetails }) {
     hideStageDetails();
   };
 
+  const handleRemoveStage =
+    !newStage && stageData.id !== "firstStage" && stageData.id !== "lastStage"
+      ? () => dispatch(removeStage({ stageId: stageData.id }))
+      : false;
+
   return (
     <Wrapper $vh={vh}>
       <StageDetailsStyled onSubmit={handleSubmit(onSubmit)}>
@@ -144,9 +149,7 @@ function StageDetails({ stageData, hideStageDetails }) {
 
         <StageDetailsToolbar
           newStage={newStage}
-          removeStage={() => {
-            dispatch(removeStage({ stageId: stageData.id }));
-          }}
+          removeStage={handleRemoveStage}
           isFromDirty={isDirty}
           showSaveChangesPanel={() => setSaveChangesPanelShown(true)}
           hideStageDetails={hideStageDetails}

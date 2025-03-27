@@ -20,13 +20,16 @@ export default function StageDetailsToolbar({
   showSaveChangesPanel,
   hideStageDetails,
 }) {
+  console.log(removeStage);
   return (
     <StageDetailsToolbarStyled>
       {newStage ? (
         <ToolbarBtn onClick={hideStageDetails}>{crossIcon}</ToolbarBtn>
       ) : (
         <>
-          <ToolbarBtn onClick={removeStage}>{trashIcon}</ToolbarBtn>
+          {removeStage ? (
+            <ToolbarBtn onClick={removeStage}>{trashIcon}</ToolbarBtn>
+          ) : null}
           <ToolbarBtn
             onClick={() =>
               isFromDirty ? showSaveChangesPanel() : hideStageDetails()

@@ -15,14 +15,13 @@ const BoardStyled = styled.ul`
   padding-bottom: 120px;
   gap: 30px;
   min-height: fit-content;
-  min-width: fit-content;
   height: 100%;
-  width: 100%;
+  max-width: 100vw;
   background-color: var(--primary-color);
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: row;
-
+    min-width: fit-content;
     gap: 10px;
     padding: 40px;
   }
@@ -121,10 +120,16 @@ function getClosestStageIndex(mousePosition) {
     return (isColumn ? mousePosition.y : mousePosition.x) - stageMiddle;
   });
 
-  if (distanceList.every((item) => item < 0)) return 0;
-  if (distanceList.every((item) => item > 0)) return distanceList.length;
+  // for corners
+  if (distanceList.every((item) => item < 0)) return 1;
+  if (distanceList.every((item) => item > 0)) return distanceList.length - 1;
 
-  const closestStageIndex = distanceList.indexOf(Math.max(...distanceList)) + 1;
+  const closestStageValue = closestToZero(distanceList);
+  const closestStageIndex =
+    closestStageValue > 0
+      ? distanceList.indexOf(closestStageValue) + 1
+      : distanceList.indexOf(closestStageValue);
+
   console.log(distanceList);
   return closestStageIndex;
 }
@@ -190,4 +195,16 @@ function getClosestTaskIndex(mousePosition) {
     return distanceList.length - 1;
 
   return closestEleIndex;
+}
+
+function closestToZero(arr) {
+  return arr.reduce((closest, num) => {
+    if (
+      Math.abs(num) < Math.abs(closest) ||
+      (Math.abs(num) === Math.abs(closest) && num > closest)
+    ) {
+      return num;
+    }
+    return closest;
+  }, arr[0]);
 }
