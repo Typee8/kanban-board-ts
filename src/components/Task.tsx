@@ -18,6 +18,7 @@ TaskStyled.displayName = "TaskStyled";
 const Container = styled.ul`
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   padding: 10px 20px;
   border-radius: 10px;
   border: ${(props) =>
@@ -36,8 +37,6 @@ Container.displayName = "Container";
 const Title = styled.li`
   width: 100%;
   font-weight: 600;
-  margin-bottom: 10px;
-
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-default-size) * var(--font-tablet-scale));
   }
