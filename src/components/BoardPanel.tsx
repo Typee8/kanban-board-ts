@@ -54,9 +54,10 @@ export default function BoardPanel() {
   const navigate = useNavigate();
   const { loading, boardId, data } = useSelector((state) => state.boardState);
 
-  if (!boardId) {
+  if (!boardId || !data) {
     navigate("/");
   }
+  console.log(data);
 
   useEffect(() => {
     dispatch(fetchInitialState(boardId));
