@@ -81,7 +81,6 @@ const SubmitStyled = styled.input`
 SubmitStyled.displayName = "SubmitStyled";
 
 function StageDetails({ stageData, hideStageDetails }) {
-  console.log("StageDetails renders");
   const [vh, setVh] = useState(window.innerHeight * 0.01);
 
   useEffect(() => {

@@ -8,6 +8,7 @@ export const fetchInitialState = createAsyncThunk(
   "boardState/fetchInitialState",
   async (boardId) => {
     const result = await fetchData(boardId);
+    console.log(result);
     return result;
   }
 );

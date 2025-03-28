@@ -5,28 +5,48 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { setBoardId } from "../store/slices/boardStateSlice";
 import { useDispatch } from "react-redux";
-import Form from "./forms/Form";
+import ButtonStyled from "./styled/ButtonStyled";
+import { tablet } from "../devicesWidthStandard";
+import OpenBoardForm from "./forms/OpenBoardForm";
 
 const SetupPanelStyled = styled.main`
   display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100vh;
-  justify-content: center;
   align-items: center;
 `;
 
 SetupPanelStyled.displayName = "SetupPanelStyled";
 
-const ButtonStyled = styled.button`
+const Title = styled.h2`
+  --font-size: calc(24px + 5vw);
+  font-size: var(--font-size);
+  font-weight: 600;
+  margin-top: 100px;
+  color: var(--contrast-primary-color);
+
+  @media (min-width: ${{ tablet }}) {
+    font-size: calc(var(--font-size) * var(--font-tablet-scale));
+  }
+`;
+Title.displayName = "Title";
+
+const SetupPanelButton = styled(ButtonStyled)`
+  --font-size: calc(16px + 1vw);
+  min-width: 150px;
+  min-height: 60px;
+  padding: 30px;
+  font-size: var(--font-size);
+  background-color: var(--secondary-color);
+`;
+SetupPanelButton.displayName = "SetupPanelButton";
+
+const Container = styled.div`
+  margin-top: 100px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 3px black;
-  background-color: gray;
-  border-radius: 20px;
-  width: 120px;
-  height: 120px;
-  font-size: 64px;
+  flex-direction: column;
+  gap: 60px;
 `;
 
 const BoardId = styled.div`
@@ -70,9 +90,28 @@ export default function SetupPanel() {
 
   return (
     <SetupPanelStyled>
-      <ButtonStyled onClick={() => setFormShown(true)}>*</ButtonStyled>
+      <Title>Kanban Board</Title>
+      <Container>
+        <SetupPanelButton onClick={() => setFormShown(true)}>
+          Open your board
+        </SetupPanelButton>
+        <SetupPanelButton
+          onClick={async () => {
+            const id = uuidv4();
+            await setData(newKanbanBoard, id);
+            dispatch(setBoardId(id));
+            setCurrentBoardId(id);
+            sessionStorage.setItem("boardId", id);
+            setBoardIdShown(true);
+          }}
+        >
+          Create new board
+        </SetupPanelButton>
+      </Container>
+
       {formShown ? (
-        <Form
+        <OpenBoardForm closeForm={() => setFormShown(false)} />
+      ) : /*         <Form
           onSubmit={(evt) => {
             evt.preventDefault();
             dispatch(setBoardId(providedBoardId));
@@ -85,21 +124,9 @@ export default function SetupPanel() {
             value={providedBoardId}
             onChange={(evt) => setProvidedBoardId(evt.target.value)}
           />
-        </Form>
-      ) : null}
+        </Form> */
+      null}
 
-      <ButtonStyled
-        onClick={async () => {
-          const id = uuidv4();
-          await setData(newKanbanBoard, id);
-          dispatch(setBoardId(id));
-          setCurrentBoardId(id);
-          sessionStorage.setItem("boardId", id);
-          setBoardIdShown(true);
-        }}
-      >
-        +
-      </ButtonStyled>
       {boardIdShown ? (
         <BoardId>
           {currentBoardId}
