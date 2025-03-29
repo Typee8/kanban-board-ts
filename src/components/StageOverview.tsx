@@ -66,8 +66,7 @@ const TaskLimit = styled.span`
   min-width: 60px;
   height: var(--height);
   margin-right: 40px;
-  color: ${(props) =>
-    props.$exceedsTaskLimit && "var(--highlight-primary-color)"};
+  color: ${(props) => props.$maxTasks && "var(--highlight-secondary-color)"};
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
@@ -126,7 +125,7 @@ export default function StageOverview({
       </DropDownBtnStyled>
       <Title className="stage__title">{title}</Title>
       {tasksList.length > 0 ? (
-        <TaskLimit $exceedsTaskLimit={tasksList.length >= tasksLimit}>
+        <TaskLimit $maxTasks={tasksList.length >= tasksLimit}>
           {taskAltIcon}
           <TaskLimitContainer>
             {tasksList.length}

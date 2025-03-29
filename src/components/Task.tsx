@@ -156,7 +156,7 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
         ) : null}
         {assigneesList ? (
           <TaskData
-            $exceedsAssigneesLimit={assigneesList.length >= assigneesLimit}
+            $exceedsAssigneesLimit={assigneesList.length > assigneesLimit}
           >
             {personIcon}
             {assigneesList.length}
