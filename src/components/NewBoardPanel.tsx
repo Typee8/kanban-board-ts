@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Form from "./forms/Form";
 import { tablet } from "../devicesWidthStandard";
 import ButtonStyled from "./styled/ButtonStyled";
 import {
@@ -16,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { setBoardId } from "../store/slices/boardStateSlice";
 import { useNavigate } from "react-router";
+import { motion } from "motion/react";
 
 const Wrapper = styled.div`
   z-index: 999;
@@ -161,49 +161,55 @@ export default function NewBoardPanel({ close }) {
   };
 
   return (
-    <Wrapper>
-      <NewBoardPanelStyled>
-        <CloseBtn onClick={close}>{crossIcon}</CloseBtn>
-        {state === "create" && (
-          <>
-            <Description>Click below to create new board</Description>
-            <FunctionalBtn onClick={createBoard}>{addIcon}</FunctionalBtn>
-          </>
-        )}
-        {state === "copyId" && (
-          <>
-            <Description>
-              Below is your <strong>BOARD ID.</strong> <br />
-              Save it somewhere safe.
-            </Description>
-            <BoardIdContainer>
-              <BoardIdView>
-                {boardIdShown ? currentBoardId : "********"}
-              </BoardIdView>
-              <BoardIdShowBtn
-                onClick={() => setBoardIdShown(boardIdShown ? false : true)}
-              >
-                {boardIdShown ? visibilityOffIcon : visibilityIcon}
-              </BoardIdShowBtn>
-            </BoardIdContainer>
+    <motion.div
+      key={"stage-details"}
+      animate={{ opacity: [0, 1] }}
+      transition={{ duration: 0.2 }}
+    >
+      <Wrapper>
+        <NewBoardPanelStyled>
+          <CloseBtn onClick={close}>{crossIcon}</CloseBtn>
+          {state === "create" && (
+            <>
+              <Description>Click below to create new board</Description>
+              <FunctionalBtn onClick={createBoard}>{addIcon}</FunctionalBtn>
+            </>
+          )}
+          {state === "copyId" && (
+            <>
+              <Description>
+                Below is your <strong>BOARD ID.</strong> <br />
+                Save it somewhere safe.
+              </Description>
+              <BoardIdContainer>
+                <BoardIdView>
+                  {boardIdShown ? currentBoardId : "********"}
+                </BoardIdView>
+                <BoardIdShowBtn
+                  onClick={() => setBoardIdShown(boardIdShown ? false : true)}
+                >
+                  {boardIdShown ? visibilityOffIcon : visibilityIcon}
+                </BoardIdShowBtn>
+              </BoardIdContainer>
 
-            <FunctionalBtn onClick={copyBoardIdToClipboard}>
-              {contentCopyIcon}
-            </FunctionalBtn>
-          </>
-        )}
-        {state === "proceed" && (
-          <>
-            <Description>
-              Your board is ready.
-              <br /> Click below to proceed.
-            </Description>
-            <FunctionalBtn onClick={() => navigate("/board-panel")}>
-              {arrowForwardIcon}
-            </FunctionalBtn>
-          </>
-        )}
-      </NewBoardPanelStyled>
-    </Wrapper>
+              <FunctionalBtn onClick={copyBoardIdToClipboard}>
+                {contentCopyIcon}
+              </FunctionalBtn>
+            </>
+          )}
+          {state === "proceed" && (
+            <>
+              <Description>
+                Your board is ready.
+                <br /> Click below to proceed.
+              </Description>
+              <FunctionalBtn onClick={() => navigate("/board-panel")}>
+                {arrowForwardIcon}
+              </FunctionalBtn>
+            </>
+          )}
+        </NewBoardPanelStyled>
+      </Wrapper>
+    </motion.div>
   );
 }

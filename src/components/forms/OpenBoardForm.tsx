@@ -10,6 +10,7 @@ import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { fetchData } from "../../server/FirebaseAPI";
 import { tablet } from "../../devicesWidthStandard";
+import { motion } from "motion/react";
 
 const Wrapper = styled.section`
   z-index: 999;
@@ -121,23 +122,31 @@ export default function OpenBoardForm({ closeForm }) {
   };
 
   return (
-    <Wrapper $vh={vh}>
-      <OpenBoardFormStyled onSubmit={handleSubmit(onSubmit)}>
-        <CloseBtn onClick={closeForm}>{crossIcon}</CloseBtn>
-        <BoardIdInput
-          register={register("boardId", {
-            validate: async (value) => {
-              if (value.length === 0) return false;
-              const doesBoardExist = await fetchData(value);
+    <motion.div
+      key={"stage-details"}
+      animate={{ opacity: [0, 1] }}
+      transition={{ duration: 0.2 }}
+    >
+      <Wrapper $vh={vh}>
+        <OpenBoardFormStyled onSubmit={handleSubmit(onSubmit)}>
+          <CloseBtn onClick={closeForm}>{crossIcon}</CloseBtn>
+          <BoardIdInput
+            register={register("boardId", {
+              validate: async (value) => {
+                if (value.length === 0) return false;
+                const doesBoardExist = await fetchData(value);
 
-              return doesBoardExist ? true : false;
-            },
-          })}
-          placeholder="board id..."
-        />
-        {errors.boardId && <ErrorInfo role="alert">invaild board id</ErrorInfo>}
-        <SubmitStyled type="submit" disabled={isSubmitting} value="Add" />
-      </OpenBoardFormStyled>
-    </Wrapper>
+                return doesBoardExist ? true : false;
+              },
+            })}
+            placeholder="board id..."
+          />
+          {errors.boardId && (
+            <ErrorInfo role="alert">invaild board id</ErrorInfo>
+          )}
+          <SubmitStyled type="submit" disabled={isSubmitting} value="Add" />
+        </OpenBoardFormStyled>
+      </Wrapper>
+    </motion.div>
   );
 }

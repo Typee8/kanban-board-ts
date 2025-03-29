@@ -18,6 +18,7 @@ import React from "react";
 import VerticalBreak from "./styled/VerticalBreak";
 import StageDetailsToolbar from "./StageDetailsToolbar";
 import { tablet } from "../devicesWidthStandard";
+import { AnimatePresence, motion } from "motion/react";
 
 const Wrapper = styled.section`
   z-index: 999;
@@ -136,42 +137,48 @@ function StageDetails({ stageData, hideStageDetails }) {
       : false;
 
   return (
-    <Wrapper $vh={vh}>
-      <StageDetailsStyled onSubmit={handleSubmit(onSubmit)}>
-        {saveChangesPanelShown ? (
-          <SaveChangesPanel
-            setIsShown={setSaveChangesPanelShown}
-            closeEditingPanel={hideStageDetails}
-            discardChanges={() => reset()}
+    <motion.div
+      key={"stage-details"}
+      animate={{ opacity: [0, 1] }}
+      transition={{ duration: 0.2 }}
+    >
+      <Wrapper $vh={vh}>
+        <StageDetailsStyled onSubmit={handleSubmit(onSubmit)}>
+          {saveChangesPanelShown ? (
+            <SaveChangesPanel
+              setIsShown={setSaveChangesPanelShown}
+              closeEditingPanel={hideStageDetails}
+              discardChanges={() => reset()}
+            />
+          ) : null}
+
+          <StageDetailsToolbar
+            newStage={newStage}
+            removeStage={handleRemoveStage}
+            isFromDirty={isDirty}
+            showSaveChangesPanel={() => setSaveChangesPanelShown(true)}
+            hideStageDetails={hideStageDetails}
           />
-        ) : null}
 
-        <StageDetailsToolbar
-          newStage={newStage}
-          removeStage={handleRemoveStage}
-          isFromDirty={isDirty}
-          showSaveChangesPanel={() => setSaveChangesPanelShown(true)}
-          hideStageDetails={hideStageDetails}
-        />
-
-        <TaskTitle
-          register={register("title")}
-          maxLength={40}
-          placeholder="Stage title"
-        />
-        <VerticalBreak />
-        <DetailsSelect
-          register={register("tasksLimit")}
-          options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
-          title={<>{taskAltIcon} Limit:</>}
-        />
-        {newStage ? (
-          <SubmitStyled type="submit" value="Add" />
-        ) : (
-          <SubmitStyled type="submit" value="Commit" />
-        )}
-      </StageDetailsStyled>
-    </Wrapper>
+          <TaskTitle
+            register={register("title")}
+            maxLength={40}
+            placeholder="Stage title"
+          />
+          <VerticalBreak />
+          <DetailsSelect
+            register={register("tasksLimit")}
+            options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
+            title={<>{taskAltIcon} Limit:</>}
+          />
+          {newStage ? (
+            <SubmitStyled type="submit" value="Add" />
+          ) : (
+            <SubmitStyled type="submit" value="Commit" />
+          )}
+        </StageDetailsStyled>
+      </Wrapper>
+    </motion.div>
   );
 }
 

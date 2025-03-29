@@ -24,6 +24,7 @@ import DetailsSelect from "./inputs/DetailsSelect";
 import { personIcon, priorityIcon } from "../assets/svg_icons";
 import VerticalBreak from "./styled/VerticalBreak";
 import { tablet } from "../devicesWidthStandard";
+import { motion } from "motion/react";
 
 type TaskDetailsProps = {
   stageId?: string;
@@ -152,62 +153,66 @@ function TaskDetails({
   };
 
   return (
-    <Wrapper>
-      <TaskDetailsStyled onSubmit={handleSubmit(onSubmit)}>
-        {taskDetailsLeavePanelShown ? (
-          <SaveChangesPanel
-            setIsShown={setTaskDetailsLeavePanelShown}
-            closeEditingPanel={hideTaskDetails}
-            discardChanges={() => reset(formDefaultValues)}
-          />
-        ) : null}
+    <motion.div key={"stage-details"} animate={{ opacity: [0, 1] }}>
+      <Wrapper>
+        <TaskDetailsStyled onSubmit={handleSubmit(onSubmit)}>
+          {taskDetailsLeavePanelShown ? (
+            <SaveChangesPanel
+              setIsShown={setTaskDetailsLeavePanelShown}
+              closeEditingPanel={hideTaskDetails}
+              discardChanges={() => reset(formDefaultValues)}
+            />
+          ) : null}
 
-        <TaskDetailsToolbar
-          newTask={newTask}
-          isTaskFormDirty={isDirty}
-          removeTask={() =>
-            dispatch(removeTask({ taskId: taskData.id, stageId }))
-          }
-          showTaskDetailsLeavePanel={() => setTaskDetailsLeavePanelShown(true)}
-          hideTaskDetails={hideTaskDetails}
-          taskStatusRegister={register("status")}
-        />
-        <Title
-          register={register("title")}
-          maxLength={40}
-          placeholder="Task title"
-        />
-        <VerticalBreak />
-        <TaskDeadline
-          getDate={() => getValues("deadline")}
-          setDate={(newValue) =>
-            setValue("deadline", newValue, { shouldDirty: true })
-          }
-          register={register("deadline")}
-        />
-        <VerticalBreak />
-        <DetailsSelect
-          register={register("priority")}
-          options={["low", "medium", "high"]}
-          title={<>{priorityIcon} Priority:</>}
-        />
-        <VerticalBreak />
-        <DetailsSelect
-          options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
-          register={register("assigneesLimit")}
-          title={<>{personIcon} Assignees limit:</>}
-        />
-        <VerticalBreak />
-        <TaskAssigneePanel taskFormControl={control} />
-        <VerticalBreak />
-        <TaskDescription register={register("description")} />
-        <VerticalBreak />
-        <TaskLinksPanel taskFormControl={control} />
-        <VerticalBreak />
-        {!newTask && <TaskCommentsPanel taskFormControl={control} />}
-        {newTask ? <SubmitStyled type="submit">Add</SubmitStyled> : null}
-      </TaskDetailsStyled>
-    </Wrapper>
+          <TaskDetailsToolbar
+            newTask={newTask}
+            isTaskFormDirty={isDirty}
+            removeTask={() =>
+              dispatch(removeTask({ taskId: taskData.id, stageId }))
+            }
+            showTaskDetailsLeavePanel={() =>
+              setTaskDetailsLeavePanelShown(true)
+            }
+            hideTaskDetails={hideTaskDetails}
+            taskStatusRegister={register("status")}
+          />
+          <Title
+            register={register("title")}
+            maxLength={40}
+            placeholder="Task title"
+          />
+          <VerticalBreak />
+          <TaskDeadline
+            getDate={() => getValues("deadline")}
+            setDate={(newValue) =>
+              setValue("deadline", newValue, { shouldDirty: true })
+            }
+            register={register("deadline")}
+          />
+          <VerticalBreak />
+          <DetailsSelect
+            register={register("priority")}
+            options={["low", "medium", "high"]}
+            title={<>{priorityIcon} Priority:</>}
+          />
+          <VerticalBreak />
+          <DetailsSelect
+            options={Array.from({ length: 10 }, (_, i) => (i + 1).toString())}
+            register={register("assigneesLimit")}
+            title={<>{personIcon} Assignees limit:</>}
+          />
+          <VerticalBreak />
+          <TaskAssigneePanel taskFormControl={control} />
+          <VerticalBreak />
+          <TaskDescription register={register("description")} />
+          <VerticalBreak />
+          <TaskLinksPanel taskFormControl={control} />
+          <VerticalBreak />
+          {!newTask && <TaskCommentsPanel taskFormControl={control} />}
+          {newTask ? <SubmitStyled type="submit">Add</SubmitStyled> : null}
+        </TaskDetailsStyled>
+      </Wrapper>
+    </motion.div>
   );
 }
 

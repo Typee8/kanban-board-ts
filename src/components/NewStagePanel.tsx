@@ -38,6 +38,7 @@ const Btn = styled(ButtonStyled)`
 Btn.displayName = "Btn";
 
 const IconContainer = styled.div`
+  color: var(--contrast-primary-color);
   width: 40px;
 `;
 IconContainer.displayName = "IconContainer";

@@ -9,6 +9,7 @@ import ToolbarBtn from "./styled/ToolbarBtn";
 import { crossIcon } from "../assets/svg_icons";
 import { tablet } from "../devicesWidthStandard.tsx";
 import DetailsLabelStyled from "./styled/DetailsLabelStyled";
+import { motion } from "motion/react";
 
 const TaskDeadlineStyled = styled.div`
   padding-left: 20px;
@@ -96,25 +97,31 @@ export default function TaskDeadline({ getDate, setDate, register }) {
         {calendarEventIcon} Deadline:
       </DetailsLabelStyled>
       {calendarShown ? (
-        <CalendarWrapper $vh={vh}>
-          <CalendarContainer>
-            <CalendarToolbar>
-              <ToolbarBtn onClick={() => setCalendarShown(false)}>
-                {crossIcon}
-              </ToolbarBtn>
-            </CalendarToolbar>
-            <CalendarStyled
-              mode="single"
-              required={true}
-              selected={getDate()}
-              disabled={{ before: today }}
-              onSelect={(date) => {
-                setDate(moment(date).format("L"));
-                setCalendarShown(false);
-              }}
-            />
-          </CalendarContainer>
-        </CalendarWrapper>
+        <motion.div
+          key={"stage-details"}
+          animate={{ opacity: [0, 1] }}
+          transition={{ duration: 0.2 }}
+        >
+          <CalendarWrapper $vh={vh}>
+            <CalendarContainer>
+              <CalendarToolbar>
+                <ToolbarBtn onClick={() => setCalendarShown(false)}>
+                  {crossIcon}
+                </ToolbarBtn>
+              </CalendarToolbar>
+              <CalendarStyled
+                mode="single"
+                required={true}
+                selected={getDate()}
+                disabled={{ before: today }}
+                onSelect={(date) => {
+                  setDate(moment(date).format("L"));
+                  setCalendarShown(false);
+                }}
+              />
+            </CalendarContainer>
+          </CalendarWrapper>
+        </motion.div>
       ) : null}
 
       <InputStyled

@@ -8,6 +8,7 @@ import { useState, useRef, useEffect } from "react";
 import TaskComment from "./TaskComment";
 import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 import { tablet } from "../devicesWidthStandard";
+import { motion } from "motion/react";
 
 const TaskCommentsPanelStyled = styled.div`
   display: flex;
@@ -145,7 +146,11 @@ export default function TaskCommentsPanel({
         </CommentFieldPlaceholder>
       )}
       {commentFieldShown ? (
-        <>
+        <motion.div
+          key={"stage-details"}
+          animate={{ opacity: [0, 1] }}
+          transition={{ duration: 0.2 }}
+        >
           <CommentFieldWrapper onClick={() => setCommentFieldShown(false)} />
           <CommentField onChange={adjustHeight}>
             <CommentTextArea
@@ -172,7 +177,7 @@ export default function TaskCommentsPanel({
               {sendIcon}
             </CommentSendBtn>
           </CommentField>
-        </>
+        </motion.div>
       ) : null}
     </TaskCommentsPanelStyled>
   );
