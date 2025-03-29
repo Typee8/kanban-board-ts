@@ -50,7 +50,7 @@ const SetupPanelBtn = styled(ButtonStyled)`
 `;
 SetupPanelBtn.displayName = "SetupPanelBtn";
 
-const Container = styled.div`
+const Container = styled.section`
   margin-top: 100px;
   display: flex;
   flex-direction: column;

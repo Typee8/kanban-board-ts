@@ -8,6 +8,7 @@ import { useState } from "react";
 
 const NewStagePanelStyled = styled(StageStyled)`
   display: none;
+  padding: unset;
 
   @media (min-width: ${`${tablet}px`}) {
     display: flex;
@@ -30,8 +31,8 @@ const Btn = styled(ButtonStyled)`
   font-size: 24px;
 
   &:hover {
-    color: unset;
-    background: none;
+    color: initial;
+    background-color: initial;
   }
 `;
 Btn.displayName = "Btn";

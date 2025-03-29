@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { fetchData } from "../../server/FirebaseAPI";
 import { tablet } from "../../devicesWidthStandard";
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   z-index: 999;
   position: fixed;
   top: 0;
@@ -87,7 +87,7 @@ const BoardIdInput = styled(InputStyled)`
 `;
 BoardIdInput.displayName = "BoardIdInput";
 
-const ErrorInfo = styled.div`
+const ErrorInfo = styled.p`
   margin-top: 5px;
   margin-left: 20px;
   color: var(--highlight-primary-color);
@@ -135,7 +135,7 @@ export default function OpenBoardForm({ closeForm }) {
           })}
           placeholder="board id..."
         />
-        {errors.boardId && <ErrorInfo>invaild board id</ErrorInfo>}
+        {errors.boardId && <ErrorInfo role="alert">invaild board id</ErrorInfo>}
         <SubmitStyled type="submit" disabled={isSubmitting} value="Add" />
       </OpenBoardFormStyled>
     </Wrapper>

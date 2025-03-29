@@ -16,7 +16,6 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { setBoardId } from "../store/slices/boardStateSlice";
 import { useNavigate } from "react-router";
-import DetailsLabelStyled from "./styled/DetailsLabelStyled";
 
 const Wrapper = styled.div`
   z-index: 999;
@@ -36,7 +35,7 @@ const Wrapper = styled.div`
 `;
 Wrapper.displayName = "Wrapper";
 
-const NewBoardPanelStyled = styled(Form)`
+const NewBoardPanelStyled = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -106,7 +105,7 @@ const FunctionalBtn = styled(ButtonStyled)`
 `;
 FunctionalBtn.displayName = "FunctionalBtn";
 
-const BoardIdView = styled.div`
+const BoardIdView = styled.p`
   text-align: center;
   font-size: 20px;
   font-weight: 600;

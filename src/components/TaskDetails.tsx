@@ -37,7 +37,7 @@ const CloseBtnStyled = styled(ButtonStyled)`
 `;
 CloseBtnStyled.displayName = "CloseBtnStyled";
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   z-index: 999;
   position: fixed;
   top: 0px;
@@ -140,7 +140,6 @@ function TaskDetails({
 
     if (newTask) {
       inputData.id = uuidv4();
-      console.log(inputData.description);
       dispatch(addNewTask(inputData));
     } else {
       if (!isDirty) return;

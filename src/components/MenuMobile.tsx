@@ -8,7 +8,7 @@ import ButtonStyled from "./styled/ButtonStyled";
 import { tablet } from "../devicesWidthStandard.tsx";
 import { useSelector } from "react-redux";
 
-const MenuMobileStyled = styled.li`
+const MenuMobileStyled = styled.section`
   display: flex;
   position: fixed;
   bottom: 0;
@@ -47,7 +47,9 @@ export default function MenuMobile() {
 
   return (
     <MenuMobileStyled>
-      <MenuBtn onClick={() => navigate("/")}>{logOffIcon}</MenuBtn>
+      <nav>
+        <MenuBtn onClick={() => navigate("/")}>{logOffIcon}</MenuBtn>
+      </nav>
       <MenuBtn
         disabled={doesTasksLimitExceed}
         onClick={() => setTaskDetailsShown(true)}

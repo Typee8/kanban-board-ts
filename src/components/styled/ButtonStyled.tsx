@@ -22,7 +22,7 @@ const ButtonStyled = styled(Button)`
     cursor: not-allowed;
   }
   @media (min-width: ${`${tablet}px`}) {
-    &:hover:not(:disabled) {
+    &:hover {
       color: var(--secondary-color);
       background-color: var(--contrast-primary-color);
     }

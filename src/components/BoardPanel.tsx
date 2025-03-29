@@ -1,20 +1,13 @@
 import styled from "styled-components";
-import Board from "./Board";
-import { DndProvider } from "react-dnd-multi-backend";
-import { HTML5toTouch } from "rdndmb-html5-to-touch";
 import { useEffect } from "react";
 import { fetchInitialState, fetchState } from "../store/slices/boardStateSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { reactIcon } from "../assets/svg_icons";
 import { useNavigate } from "react-router";
+import MenuMobile from "./MenuMobile";
+import Board from "./Board";
 
-const options = {
-  backends: HTML5toTouch.backends,
-};
-options.backends[1]["options"]["delay"] = 400;
-options.backends[1]["options"]["ignoreContextMenu"] = true;
-
-const BoardPanelStyled = styled.div`
+const BoardPanelStyled = styled.main`
   width: 100vw;
   height: 100vh;
 `;
@@ -71,16 +64,17 @@ export default function BoardPanel() {
   }, [dispatch]);
 
   return (
-    <DndProvider options={options}>
-      <BoardPanelStyled>
-        {loading ? (
-          <LoadingScreen>
-            <LoadingIconContainer>{reactIcon}</LoadingIconContainer>
-          </LoadingScreen>
-        ) : (
+    <BoardPanelStyled>
+      {loading ? (
+        <LoadingScreen>
+          <LoadingIconContainer>{reactIcon}</LoadingIconContainer>
+        </LoadingScreen>
+      ) : (
+        <>
           <Board boardData={data} />
-        )}
-      </BoardPanelStyled>
-    </DndProvider>
+          <MenuMobile />
+        </>
+      )}
+    </BoardPanelStyled>
   );
 }

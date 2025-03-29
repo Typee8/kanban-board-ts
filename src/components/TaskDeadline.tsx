@@ -61,7 +61,7 @@ const CalendarStyled = styled(DayPicker)`
   color: var(--contrast-primary-color);
   background-color: var(--secondary-color);
 
-  --rdp-accent-color: var(--highlight-primary-color);
+  --rdp-accent-color: var(--highlight-secondary-color);
 `;
 
 const CalendarToolbar = styled.div`

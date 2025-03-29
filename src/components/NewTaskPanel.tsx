@@ -27,6 +27,13 @@ const Btn = styled(ButtonStyled)`
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
   font-size: 24px;
+  border: 3px solid var(--primary-color);
+
+  &:hover {
+    border: 3px solid var(--contrast-primary-color);
+    color: initial;
+    background-color: var(--primary-color);
+  }
 `;
 Btn.displayName = "Btn";
 

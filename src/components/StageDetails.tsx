@@ -19,7 +19,7 @@ import VerticalBreak from "./styled/VerticalBreak";
 import StageDetailsToolbar from "./StageDetailsToolbar";
 import { tablet } from "../devicesWidthStandard";
 
-const Wrapper = styled.div`
+const Wrapper = styled.section`
   z-index: 999;
   position: fixed;
   top: 0;

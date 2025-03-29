@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Stage from "./Stage";
 import MenuMobile from "./MenuMobile";
 import { moveStage, moveTask } from "../store/slices/boardStateSlice";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { tablet } from "../devicesWidthStandard.tsx";
 import NewStagePanel from "./NewStagePanel.tsx";
@@ -101,7 +101,6 @@ export default function Board({ boardData = [] }) {
       >
         {stages}
         <NewStagePanel />
-        <MenuMobile />
       </BoardStyled>
     </DndContext>
   );
