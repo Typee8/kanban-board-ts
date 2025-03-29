@@ -20,7 +20,6 @@ export default function StageDetailsToolbar({
   showSaveChangesPanel,
   hideStageDetails,
 }) {
-  console.log(removeStage);
   return (
     <StageDetailsToolbarStyled>
       {newStage ? (

@@ -80,7 +80,6 @@ export default function Board({ boardData = [] }) {
 
     if (evt.over && itemType === "task") {
       const { exceedsTaskLimit } = evt.over.data.current;
-      console.log(exceedsTaskLimit);
       if (!exceedsTaskLimit) {
         onTaskDrop(evt);
       }
@@ -134,7 +133,6 @@ function getClosestStageIndex(mousePosition) {
       ? distanceList.indexOf(closestStageValue) + 1
       : distanceList.indexOf(closestStageValue);
 
-  console.log(distanceList);
   return closestStageIndex;
 }
 

@@ -123,8 +123,6 @@ export default function TaskDeadline({ getDate, setDate, register }) {
         register={register}
         placeholder="pick deadline..."
         onFocus={(evt) => {
-          console.log(tablet);
-          console.log(window.innerWidth);
           if (window.innerWidth < tablet) evt.target.blur();
           setCalendarShown(true);
         }}

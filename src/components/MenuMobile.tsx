@@ -40,7 +40,6 @@ export default function MenuMobile() {
     if (stage.id === "firstStage") {
       const tasksNumber = stage?.tasksList ? stage.tasksList.length : 0;
       const { tasksLimit } = stage;
-      console.log(tasksLimit);
       return tasksNumber >= tasksLimit;
     }
     return false;

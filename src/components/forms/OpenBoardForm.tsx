@@ -53,6 +53,8 @@ const CloseBtn = styled(ButtonStyled)`
   top: 0px;
   right: 0px;
   padding: 10px 20px;
+  border: 0px solid var(--primary-color);
+  border-width: 2px 0px 2px 2px;
   border-radius: 0 0 0 20px;
   background-color: var(--secondary-color);
 
