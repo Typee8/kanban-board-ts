@@ -5,6 +5,7 @@
   --contrast-primary-color: #1b1b1b;
   --highlight-primary-color: #d01e1f;
   --highlight-secondary-color: #ffc800;
+  --highlight-tertiary-color: #4caf50;
   --transparent-primary-color: linear-gradient(
     rgba(255, 255, 255, 0.6),
     rgba(255, 255, 255, 0.6)
@@ -22,6 +23,7 @@
     --contrast-primary-color: #b4b4b4;
     --highlight-primary-color: #9a1616;
     --highlight-secondary-color: #c49a00;
+    --highlight-tertiary-color: #1f7a1f;
     --transparent-primary-color: linear-gradient(
       rgba(0, 0, 0, 0.3),
       rgba(0, 0, 0, 0.6)

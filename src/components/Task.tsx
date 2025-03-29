@@ -33,6 +33,11 @@ const Container = styled.ul`
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
   transition: all 0.3s ease;
+  border-color: ${(props) =>
+    props.$taskStatus === "done"
+      ? "var(--highlight-tertiary-color)"
+      : props.$taskStatus === "needs review" &&
+        "var(--highlight-secondary-color)"};
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: column;
@@ -135,6 +140,7 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
     <TaskStyled ref={taskRef} className={isPreviewed ? null : "task"}>
       <Container
         ref={dragRef}
+        $taskStatus={taskData.status}
         style={{ transform: CSS.Translate.toString(transform) }}
         $isDragging={isDragging}
         $isPreviewed={isPreviewed}
