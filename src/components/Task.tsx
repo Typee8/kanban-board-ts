@@ -10,10 +10,12 @@ import { CSS } from "@dnd-kit/utilities";
 
 export const TaskStyled = styled.li`
   touch-action: none !important;
+  cursor: pointer;
+  padding: 10px 20px;
+
   &:not(:first-child) {
     border-top: 2px solid var(--primary-color);
   }
-  padding: 10px;
 `;
 TaskStyled.displayName = "TaskStyled";
 
@@ -30,9 +32,18 @@ const Container = styled.ul`
       : "3px solid transparent"};
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
+  transition: all 0.3s ease;
 
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: column;
+
+    &:hover {
+      & * {
+        color: var(--secondary-color);
+      }
+
+      background-color: var(--contrast-primary-color);
+    }
   }
 `;
 Container.displayName = "Container";
@@ -72,13 +83,15 @@ const Drag = styled(ButtonStyled)`
   justify-self: flex-end;
   touch-action: none !important;
 
-  &:hover {
-    color: unset;
-    background-color: unset;
-  }
-
   > * {
     width: 30px;
+  }
+
+  @media (min-width: ${`${tablet}px`}) {
+    &:hover {
+      color: unset;
+      background-color: unset;
+    }
   }
 `;
 Drag.displayName = "Drag";
@@ -145,7 +158,7 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
             {taskIcon} {status}
           </TaskData>
         ) : null}
-        <Drag {...attributes} {...listeners}>
+        <Drag className="stage__drag" {...attributes} {...listeners}>
           {dragIndicatorIcon}
         </Drag>
       </Container>

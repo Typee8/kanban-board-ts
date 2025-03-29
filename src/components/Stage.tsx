@@ -24,7 +24,6 @@ export const StageStyled = styled.li`
     }
   }};
   @media (min-width: ${`${tablet}px`}) {
-    padding: 10px;
     max-width: calc(300px + 5vw);
   }
 `;

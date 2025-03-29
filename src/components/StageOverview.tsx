@@ -10,11 +10,21 @@ const StageOverviewStyled = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 10px;
+  padding: 20px 30px;
+  border-radius: 20px 0px;
+  margin: -3px -3px 0px -3px;
+  cursor: pointer;
   color: var(--contrast-primary-color);
+  transition: all 0.3s ease;
 
   @media (min-width: ${`${tablet}px`}) {
-    padding-left: 20px;
+    &:hover {
+      > * {
+        color: var(--primary-color);
+      }
+
+      background-color: var(--contrast-primary-color);
+    }
   }
 `;
 StageOverviewStyled.displayName = "StageOverviewStyled";
@@ -71,19 +81,18 @@ TaskLimitContainer.displayName = "TaskLimitContainer";
 
 const Drag = styled(ButtonStyled)`
   position: absolute;
+  top: auto;
   right: 5px;
-  padding: 0;
+  padding: 0px;
   margin-left: auto;
   justify-self: flex-end;
   touch-action: none !important;
 
   &:hover {
-    color: unset;
     background-color: unset;
   }
 
   @media (min-width: ${`${tablet}px`}) {
-    top: 0px;
     right: 0px;
   }
 `;

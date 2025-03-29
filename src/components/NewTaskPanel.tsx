@@ -8,7 +8,7 @@ import { tablet } from "../devicesWidthStandard";
 
 const NewTaskPanelStyled = styled(TaskStyled)`
   display: none;
-
+  padding: 10px 20px;
   &:not(:first-child) {
     border-top: 2px solid var(--primary-color);
   }
