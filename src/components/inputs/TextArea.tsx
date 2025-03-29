@@ -10,14 +10,15 @@ type TextAreaProps = {
 };
 const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, id, placeholder, register, onFocus }, ref) => {
+    console.log(register);
     return (
       <textarea
         id={id}
         className={className}
         placeholder={placeholder}
         onFocus={onFocus}
-        {...register}
         ref={ref}
+        {...register}
       />
     );
   }

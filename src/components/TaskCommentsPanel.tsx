@@ -14,9 +14,6 @@ const TaskCommentsPanelStyled = styled.div`
   width: 100%;
 
   color: var(--contrast-primary-color);
-  @media (min-width: ${`${tablet}px`}) {
-    display: none;
-  }
 `;
 TaskCommentsPanelStyled.displayName = "TaskCommentsPanelStyled";
 
@@ -44,7 +41,7 @@ CommentFieldWrapper.displayName = "CommentFieldWrapper";
 const CommentField = styled.div`
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -53,6 +50,10 @@ const CommentField = styled.div`
   border: 1px solid var(--secondary-color);
   border-radius: 0px 0px 30px 30px;
   background-color: var(--tertiary-color);
+
+  @media (min-width: ${`${tablet}px`}) {
+    max-width: calc(600px + 5vw);
+  }
 `;
 CommentField.displayName = "CommentField";
 

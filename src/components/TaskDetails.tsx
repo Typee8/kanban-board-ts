@@ -40,8 +40,8 @@ CloseBtnStyled.displayName = "CloseBtnStyled";
 const Wrapper = styled.div`
   z-index: 999;
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 0px;
+  right: 0px;
   width: 100%;
   height: 100vh;
   background: var(--transparent-primary-color);
@@ -140,6 +140,7 @@ function TaskDetails({
 
     if (newTask) {
       inputData.id = uuidv4();
+      console.log(inputData.description);
       dispatch(addNewTask(inputData));
     } else {
       if (!isDirty) return;
@@ -204,7 +205,7 @@ function TaskDetails({
         <VerticalBreak />
         <TaskLinksPanel taskFormControl={control} />
         <VerticalBreak />
-        {newTask ? null : <TaskCommentsPanel taskFormControl={control} />}
+        {!newTask && <TaskCommentsPanel taskFormControl={control} />}
         {newTask ? <SubmitStyled type="submit">Add</SubmitStyled> : null}
       </TaskDetailsStyled>
     </Wrapper>
