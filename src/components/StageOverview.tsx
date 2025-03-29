@@ -18,7 +18,7 @@ const StageOverviewStyled = styled.div`
   transition: all 0.3s ease;
 
   @media (min-width: ${`${tablet}px`}) {
-    &:hover {
+    &:hover:not(:active) {
       > * {
         color: var(--primary-color);
       }

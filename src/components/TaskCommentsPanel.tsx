@@ -24,30 +24,30 @@ const Container = styled.div`
   width: 100%;
   gap: 20px;
   padding: 20px;
-  margin-bottom: 100px;
+  margin-bottom: 120px;
   border-radius: 10px;
 `;
 Container.displayName = "Container";
 
 const CommentFieldWrapper = styled.div`
+  touch-action: none;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   background: var(--transparent-primary-color);
 `;
 CommentFieldWrapper.displayName = "CommentFieldWrapper";
 
 const CommentField = styled.div`
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 0px;
+  right: 0px;
   display: flex;
   justify-content: center;
   width: 100%;
   padding: 20px 20px 20px 40px;
-  gap: 20px;
   border: 1px solid var(--secondary-color);
   border-radius: 0px 0px 30px 30px;
   background-color: var(--tertiary-color);

@@ -32,7 +32,7 @@ const Container = styled.ul`
       : "3px solid transparent"};
   color: var(--contrast-primary-color);
   background-color: var(--primary-color);
-  transition: all 0.3s ease;
+  transition: border 0.3s ease, background 0.3s ease;
   border-color: ${(props) =>
     props.$taskStatus === "done"
       ? "var(--highlight-tertiary-color)"
@@ -42,7 +42,7 @@ const Container = styled.ul`
   @media (min-width: ${`${tablet}px`}) {
     flex-direction: column;
 
-    &:hover {
+    &:hover:not(:active) {
       & * {
         color: var(--secondary-color);
       }
