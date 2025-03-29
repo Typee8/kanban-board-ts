@@ -72,6 +72,8 @@ const TaskData = styled.li`
   font-size: var(--font-size);
   display: flex;
   gap: 5px;
+  color: ${(props) =>
+    props.$exceedsAssigneesLimit && "var(--highlight-primary-color)"};
 
   @media (min-width: ${`${tablet}px`}) {
     font-size: calc(var(--font-size) * var(--font-tablet-scale));
@@ -153,7 +155,9 @@ export default function Task({ stageId, taskData, isPreviewed = false }) {
           </TaskData>
         ) : null}
         {assigneesList ? (
-          <TaskData>
+          <TaskData
+            $exceedsAssigneesLimit={assigneesList.length >= assigneesLimit}
+          >
             {personIcon}
             {assigneesList.length}
             {assigneesLimit ? `/ ${assigneesLimit}` : ""}
