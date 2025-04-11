@@ -4,7 +4,13 @@
 
 It enables oversight of the product development process, helping to identify bottlenecks and optimize production and employee efficiency.
 
-### 🚀 **Check it here** 👉 https://kanban-board-34b1c.web.app/
+---
+
+### 🚀 **Check the website here** 👉 https://kanban-board-34b1c.web.app/
+
+#### 🎥 **Check walkthrough video** 👉 https://youtu.be/Td0l7wSs03A
+
+#### 🤝 👥 **Check video about cooperation** 👉 https://youtu.be/_B07oDhNlwY
 
 ---
 
